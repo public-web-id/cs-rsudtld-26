@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Outsouring Kebersihan 2026 RSUD Talaud</title>
+    <title>Outsourching Kebersihan 2026 RSUD Talaud</title>
     
     <!-- Menggunakan Font Google: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -44,7 +44,7 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.8s ease-out, visibility 0.8s;
         }
-        #intro-overlay.hidden { opacity: 0; visibility: hidden; }
+        #intro-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         
         .intro-logo {
             width: 100px; height: 100px; background: var(--primary-gradient); border-radius: 25px;
@@ -53,7 +53,8 @@
             animation: pulseLogo 2s infinite;
         }
         .intro-logo i { color: white; font-size: 3rem; }
-        .intro-text { margin-top: 20px; font-weight: 700; color: var(--text-main); font-size: 1.2rem; opacity: 0; animation: slideUpText 0.8s forwards 0.3s; }
+        .intro-text { margin-top: 20px; font-weight: 700; color: var(--text-main); font-size: 1.2rem; opacity: 0; animation: slideUpText 0.8s forwards 0.3s; text-align: center; }
+        .intro-subtext { margin-top: 5px; font-weight: 400; color: var(--text-muted); font-size: 0.9rem; opacity: 0; animation: slideUpText 0.8s forwards 0.4s; }
         
         @keyframes pulseLogo {
             0% { transform: scale(1); box-shadow: 0 10px 30px rgba(5, 150, 105, 0.3); }
@@ -61,6 +62,21 @@
             100% { transform: scale(1); box-shadow: 0 10px 30px rgba(5, 150, 105, 0.3); }
         }
         @keyframes slideUpText { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* --- LOGIN SECTION --- */
+        .login-container {
+            padding: 2rem; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;
+        }
+        .login-card {
+            background: white; padding: 2rem; border-radius: 20px; box-shadow: var(--shadow);
+            animation: slideUpFade 0.5s ease-out;
+        }
+        .pin-input { 
+            font-size: 2rem; letter-spacing: 10px; text-align: center; margin: 1.5rem 0; 
+            border: none; border-bottom: 2px solid var(--border); outline: none; width: 100%;
+            background: transparent; color: var(--text-main); font-weight: bold;
+        }
+        .pin-input:focus { border-bottom-color: #059669; }
 
         /* --- HEADER --- */
         header {
@@ -294,25 +310,54 @@
         <div class="intro-logo">
             <i class="ph ph-sparkle"></i>
         </div>
-        <div class="intro-text">RSUD TALAUD</div>
+        <div class="intro-text">Outsourching Kebersihan 2026 RSUD Talaud</div>
+        <div class="intro-subtext">Sistem Pelaporan Digital Terintegrasi</div>
     </div>
 
     <div class="app-container">
-        <!-- Header -->
-        <header>
+        
+        <!-- HEADER (Hanya muncul setelah login) -->
+        <header id="main-header" style="display:none;">
             <div class="header-top">
                 <div class="brand">
-                    <h1>Outsouring Kebersihan 2026 RSUD Talaud</h1>
+                    <h1>Outsourching Kebersihan 2026 RSUD Talaud</h1>
                     <span>Sistem Pelaporan Digital Terintegrasi</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;" onclick="logout()" title="Keluar">
+                    <i class="ph ph-sign-out" style="font-size:1.5rem; cursor:pointer;"></i>
                 </div>
             </div>
         </header>
 
-        <!-- Main Content -->
+        <!-- MAIN CONTENT -->
         <main class="main-content">
             
+            <!-- LOGIN SECTION -->
+            <section id="view-login" class="view-section">
+                <div class="login-container">
+                    <div class="login-card">
+                        <h2 style="justify-content:center; font-size:1.5rem; margin-bottom: 0.5rem;">Login Petugas</h2>
+                        <p style="color:var(--text-muted); margin-bottom:2rem;">Silakan masuk untuk melanjutkan</p>
+                        
+                        <div class="form-group">
+                            <label style="text-align:left;">Nama Lengkap</label>
+                            <input type="text" id="login-name" class="form-control" placeholder="NAMA LENGKAP" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label style="text-align:left;">PIN Keamanan (4 Digit)</label>
+                            <input type="tel" id="login-pin" class="pin-input" placeholder="****" maxlength="4" pattern="\d*" inputmode="numeric" required>
+                        </div>
+
+                        <button type="button" class="btn-submit" onclick="performLogin()">
+                            Masuk Aplikasi
+                        </button>
+                    </div>
+                </div>
+            </section>
+
             <!-- DASHBOARD SECTION -->
-            <section id="view-dashboard" class="view-section active">
+            <section id="view-dashboard" class="view-section">
                 
                 <!-- Info Bar: Date & Battery -->
                 <div class="info-bar">
@@ -471,8 +516,8 @@
             </section>
         </main>
 
-        <!-- BOTTOM NAV -->
-        <nav class="bottom-nav">
+        <!-- BOTTOM NAV (Hidden on Login) -->
+        <nav class="bottom-nav" id="main-nav" style="display:none;">
             <div class="nav-item active" onclick="navigate('dashboard')">
                 <i class="ph ph-house"></i>
                 <span>Beranda</span>
@@ -576,7 +621,7 @@
             "fisioterapi", "pendaftaran", "apotek", "keuangan", "kantor", 
             "laboratorium", "anggrek", "crysant", "OK/IBS", "ipal", "ipsrs", 
             "binatu", "gizi/dapur", "halaman", "koridor", "nicu", "bougenville", 
-            "poliklinik", "icu", "ruang jenazah", "gudang apotek", "limbah", "radiologi" // DITAMBAHKAN RADIOLOGI
+            "poliklinik", "icu", "ruang jenazah", "gudang apotek", "limbah", "radiologi"
         ];
         const sortedAreas = rawAreas.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
@@ -588,12 +633,10 @@
             { label: "Menunggu Stok Alat/Bahan", value: "Stok Kosong", class: "status-stok" }
         ];
 
+        // State Aplikasi
         let reports = []; 
-        const savedReports = localStorage.getItem('rsudTalaudReports');
-        if (savedReports) reports = JSON.parse(savedReports);
-
-        // Variabel untuk menyimpan nama petugas terakhir
-        let lastOfficerName = localStorage.getItem('lastOfficerName') || '';
+        let currentUser = { name: '', pin: '' };
+        let isLoggedIn = false;
 
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -601,31 +644,81 @@
             populateStatus();
             updateDate();
             updateBattery();
-            
-            // Pre-fill nama petugas terakhir
-            if(lastOfficerName) {
-                document.getElementById('petugas').value = lastOfficerName;
+
+            // Cek apakah ada data login tersimpan
+            const savedUser = localStorage.getItem('rsudUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                document.getElementById('login-name').value = currentUser.name;
             }
 
-            // Update teks header riwayat
-            updateHistoryHeader();
-
-            renderDashboard();
-            renderHistory();
+            // Load Data Laporan Permanen
+            const savedReports = localStorage.getItem('rsudTalaudReports');
+            if (savedReports) reports = JSON.parse(savedReports);
 
             // Intro Animation
             setTimeout(() => {
                 document.getElementById('intro-overlay').classList.add('hidden');
-            }, 2000);
+                // Jika sudah login sebelumnya, masuk dashboard. Jika tidak, tampilkan login.
+                if (currentUser.name && currentUser.pin) {
+                    performLogin(true); // Auto login
+                } else {
+                    document.getElementById('view-login').classList.add('active');
+                }
+            }, 2500);
 
             setInterval(updateDate, 60000);
         });
 
+        // --- LOGIN LOGIC ---
+        function performLogin(isAuto = false) {
+            const nameInput = document.getElementById('login-name').value.toUpperCase();
+            const pinInput = document.getElementById('login-pin').value;
+
+            if (!nameInput || pinInput.length !== 4) {
+                if(!isAuto) showToast("Nama dan 4 Digit PIN wajib diisi!", "error");
+                return;
+            }
+
+            // Simple Validation (Default PIN: 1234)
+            // Anda bisa mengubah PIN default di sini
+            if (pinInput !== '1234' && pinInput !== currentUser.pin) {
+                if(!isAuto) showToast("PIN Salah!", "error");
+                return;
+            }
+
+            // Save User Session
+            currentUser = { name: nameInput, pin: pinInput };
+            localStorage.setItem('rsudUser', JSON.stringify(currentUser));
+            isLoggedIn = true;
+
+            // Setup UI after login
+            document.getElementById('main-header').style.display = 'block';
+            document.getElementById('main-nav').style.display = 'flex';
+            
+            // Pre-fill petugas di form
+            document.getElementById('petugas').value = currentUser.name;
+            updateHistoryHeader();
+
+            navigate('dashboard');
+            if(!isAuto) showToast("Login Berhasil", "success");
+        }
+
+        function logout() {
+            if(confirm("Keluar dari aplikasi?")) {
+                // Hapus sesi user (opsional, atau biarkan agar tidak perlu ulang PIN)
+                // localStorage.removeItem('rsudUser'); 
+                location.reload();
+            }
+        }
+
         // --- NAVIGATION ---
         function navigate(viewId) {
+            if (!isLoggedIn && viewId !== 'login') return;
+
             const icons = { 'dashboard': 0, 'report': 1, 'history': 2 };
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item')[icons[viewId]].classList.add('active');
+            document.querySelectorAll('.nav-item')[icons[viewId]]?.classList.add('active');
 
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById(`view-${viewId}`).classList.add('active');
@@ -665,10 +758,7 @@
         // --- AUTO CAPITALIZE ---
         function autoCapitalize(input) {
             input.value = input.value.toUpperCase();
-            // Jika input nama petugas berubah, update header riwayat
-            if(input.id === 'petugas') {
-                updateHistoryHeader();
-            }
+            if(input.id === 'petugas') updateHistoryHeader();
         }
 
         function updateHistoryHeader() {
@@ -679,7 +769,7 @@
                 header.style.color = '#059669';
                 header.style.fontWeight = 'bold';
             } else {
-                header.innerText = 'Isi Nama Petugas';
+                header.innerText = '...';
                 header.style.color = '#9ca3af';
                 header.style.fontWeight = 'normal';
             }
@@ -770,15 +860,7 @@
             const emptyState = document.getElementById('history-empty');
             const tableEl = document.getElementById('history-table');
 
-            // Filter berdasarkan nama yang sedang aktif di input petugas
-            // atau nama terakhir yang tersimpan
-            const activeName = (document.getElementById('petugas').value || lastOfficerName).toUpperCase().trim();
-            
-            // Update localStorage jika nama di form diubah user tapi belum submit (agar history update realtime)
-            if(activeName !== lastOfficerName) {
-               lastOfficerName = activeName;
-               updateHistoryHeader();
-            }
+            const activeName = (document.getElementById('petugas').value || currentUser.name || '').toUpperCase().trim();
 
             const filteredReports = reports.filter(r => r.petugas === activeName);
 
@@ -794,7 +876,6 @@
                 const sortedReports = [...filteredReports].reverse();
                 sortedReports.forEach(r => {
                     const row = document.createElement('tr');
-                    // Tambahkan event klik untuk membuka popup
                     row.onclick = () => viewReport(r.id);
                     
                     row.innerHTML = `
@@ -810,7 +891,30 @@
         // --- FORM & TELEGRAM INTEGRATION ---
         let currentPhotoFile = null;
 
-        function handleFileSelect(input) {
+        // Resize gambar agar tidak penuh LocalStorage
+        function resizeImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        // Resize max lebar 800px (cukup jelas untuk dokumen tapi hemat memori)
+                        const maxWidth = 800;
+                        const scaleSize = maxWidth / img.width;
+                        canvas.width = maxWidth;
+                        canvas.height = img.height * scaleSize;
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.8));
+                    };
+                };
+            });
+        }
+
+        async function handleFileSelect(input) {
             if (input.files && input.files[0]) {
                 currentPhotoFile = input.files[0];
                 
@@ -818,6 +922,7 @@
                 const previewImg = document.getElementById('preview-img');
                 const label = document.getElementById('file-label');
 
+                // Tampilkan preview dari file asli (tidak perlu resize cepat untuk UI)
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     previewImg.src = e.target.result;
@@ -870,10 +975,6 @@
             const desc = document.getElementById('description').value;
             const now = new Date();
 
-            // Simpan nama petugas terakhir
-            localStorage.setItem('lastOfficerName', petugas);
-            lastOfficerName = petugas;
-
             const loadingOverlay = document.getElementById('loading-overlay');
             const loadingText = document.getElementById('loading-text');
             const btnSubmit = document.getElementById('btn-submit');
@@ -882,47 +983,60 @@
             btnSubmit.disabled = true;
 
             try {
+                // Resize image untuk penyimpanan permanen
+                loadingText.innerText = "Mengolah Gambar...";
+                const resizedPhotoBase64 = await resizeImage(currentPhotoFile);
+
                 const fullTimeStr = getFullDateTimeString(now);
                 const reportData = {
                     id: Date.now(),
                     timestamp: now.toISOString(),
-                    petugas, jenisPetugas, area, status, desc
+                    petugas, jenisPetugas, area, status, desc,
+                    // Simpan Base64 foto agar muncul di popup history nanti
+                    photoBase64: resizedPhotoBase64 
                 };
 
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    fillTemplate(reportData, e.target.result);
+                // Gunakan foto resize untuk template form
+                fillTemplate(reportData, resizedPhotoBase64);
+                
+                loadingText.innerText = "Membuat gambar laporan...";
+                const canvas = await html2canvas(document.getElementById('report-template-container'), {
+                    scale: 1.5, logging: false, useCORS: true, backgroundColor: "#ffffff"
+                });
+
+                canvas.toBlob(async (formBlob) => {
+                    loadingText.innerText = "Mengirim ke Telegram...";
                     
-                    loadingText.innerText = "Membuat gambar laporan...";
-                    const canvas = await html2canvas(document.getElementById('report-template-container'), {
-                        scale: 1.5, logging: false, useCORS: true, backgroundColor: "#ffffff"
-                    });
-
-                    canvas.toBlob(async (formBlob) => {
-                        loadingText.innerText = "Mengirim ke Telegram...";
-                        await sendToTelegram(formBlob, currentPhotoFile, petugas, jenisPetugas, area, status, fullTimeStr);
-                        
-                        reports.push(reportData);
-                        localStorage.setItem('rsudTalaudReports', JSON.stringify(reports));
-                        
-                        document.getElementById('cleaning-form').reset();
-                        // Reset nama petugas ke nama terakhir, jangan dikosongkan
-                        document.getElementById('petugas').value = petugas;
-                        clearPhoto(); 
-                        btnSubmit.disabled = false;
-                        loadingOverlay.style.display = 'none';
-                        
-                        showToast("Laporan & Gambar Terkirim!", "success");
-                        navigate('dashboard');
-                    }, 'image/png', 0.9);
-                };
-                reader.readAsDataURL(currentPhotoFile);
+                    // Kirim file asli ke telegram (kualitas terbaik)
+                    await sendToTelegram(formBlob, currentPhotoFile, petugas, jenisPetugas, area, status, fullTimeStr);
+                    
+                    // Simpan Data Permanen (Local Storage)
+                    reports.push(reportData);
+                    saveDataToStorage();
+                    
+                    document.getElementById('cleaning-form').reset();
+                    document.getElementById('petugas').value = petugas;
+                    clearPhoto(); 
+                    btnSubmit.disabled = false;
+                    loadingOverlay.style.display = 'none';
+                    
+                    showToast("Laporan & Gambar Terkirim & Disimpan!", "success");
+                    navigate('dashboard');
+                }, 'image/png', 0.9);
 
             } catch (error) {
                 console.error(error);
                 loadingOverlay.style.display = 'none';
                 btnSubmit.disabled = false;
                 showToast("Terjadi kesalahan sistem.", "error");
+            }
+        }
+
+        function saveDataToStorage() {
+            try {
+                localStorage.setItem('rsudTalaudReports', JSON.stringify(reports));
+            } catch (e) {
+                showToast("Memori Penuh! Hapus riwayat lama.", "error");
             }
         }
 
@@ -964,8 +1078,9 @@
             canvasArea.innerHTML = '<div class="spinner" style="width:30px; height:30px; border-width:3px;"></div>';
 
             const reportData = { ...report, fullTimeStr: getFullDateTimeString(report.timestamp) };
-            // Gunakan placeholder jika foto asli tidak ada di memori (karena hemat storage)
-            fillTemplate(reportData, null); 
+            
+            // Gunakan Base64 foto yang tersimpan di LocalStorage
+            fillTemplate(reportData, report.photoBase64); 
 
             html2canvas(document.getElementById('report-template-container'), {
                 scale: 1.5, logging: false, useCORS: true, backgroundColor: "#ffffff"
