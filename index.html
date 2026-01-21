@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Outsourching Kebersihan 2026 RSUD Talaud</title>
+    <title>Outsouring Kebersihan 2026 RSUD Talaud</title>
     
     <!-- Menggunakan Font Google: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -40,43 +40,70 @@
         /* --- INTRO ANIMATION OVERLAY --- */
         #intro-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #ffffff; z-index: 9999;
+            background: #ffffff; z-index: 10000; /* Paling Atas */
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.8s ease-out, visibility 0.8s;
         }
-        #intro-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #intro-overlay.hidden { opacity: 0; visibility: hidden; }
         
+        .intro-content { text-align: center; animation: slideUpFade 1s forwards; }
         .intro-logo {
-            width: 100px; height: 100px; background: var(--primary-gradient); border-radius: 25px;
+            width: 120px; height: 120px; background: var(--primary-gradient); border-radius: 30px;
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(5, 150, 105, 0.3);
+            box-shadow: 0 15px 40px rgba(5, 150, 105, 0.4);
+            margin: 0 auto 25px auto;
             animation: pulseLogo 2s infinite;
         }
-        .intro-logo i { color: white; font-size: 3rem; }
-        .intro-text { margin-top: 20px; font-weight: 700; color: var(--text-main); font-size: 1.2rem; opacity: 0; animation: slideUpText 0.8s forwards 0.3s; text-align: center; }
-        .intro-subtext { margin-top: 5px; font-weight: 400; color: var(--text-muted); font-size: 0.9rem; opacity: 0; animation: slideUpText 0.8s forwards 0.4s; }
-        
-        @keyframes pulseLogo {
-            0% { transform: scale(1); box-shadow: 0 10px 30px rgba(5, 150, 105, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 20px 50px rgba(5, 150, 105, 0.5); }
-            100% { transform: scale(1); box-shadow: 0 10px 30px rgba(5, 150, 105, 0.3); }
-        }
-        @keyframes slideUpText { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .intro-logo i { color: white; font-size: 3.5rem; }
+        .intro-title { font-weight: 700; color: var(--text-main); font-size: 1.4rem; margin-bottom: 8px; line-height: 1.2; }
+        .intro-subtitle { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
 
-        /* --- LOGIN SECTION --- */
-        .login-container {
-            padding: 2rem; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;
+        @keyframes pulseLogo {
+            0% { transform: scale(1); box-shadow: 0 15px 40px rgba(5, 150, 105, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 25px 60px rgba(5, 150, 105, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 15px 40px rgba(5, 150, 105, 0.4); }
+        }
+        @keyframes slideUpFade { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* --- LOGIN MODAL --- */
+        #login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.98); z-index: 9500;
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px;
+            /* Animasi Masuk */
+            animation: slideUpFade 0.5s forwards;
         }
         .login-card {
-            background: white; padding: 2rem; border-radius: 20px; box-shadow: var(--shadow);
-            animation: slideUpFade 0.5s ease-out;
+            background: white; width: 100%; max-width: 350px;
+            padding: 2.5rem; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 2px solid var(--border);
         }
-        .pin-input { 
-            font-size: 2rem; letter-spacing: 10px; text-align: center; margin: 1.5rem 0; 
-            border: none; border-bottom: 2px solid var(--border); outline: none; width: 100%;
-            background: transparent; color: var(--text-main); font-weight: bold;
+        /* Style Info Login */
+        .login-info {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
-        .pin-input:focus { border-bottom-color: #059669; }
+
+        .login-input {
+            width: 100%; padding: 14px; margin-bottom: 18px; border: 2px solid var(--border);
+            border-radius: 10px; text-align: center; font-size: 1.2rem; font-weight: 600; outline: none;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        .login-input:focus { border-color: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+        .pin-input { letter-spacing: 10px; font-size: 1.6rem; }
 
         /* --- HEADER --- */
         header {
@@ -120,7 +147,7 @@
         .nav-item.active::after {
             content: ''; position: absolute; bottom: 0; width: 30%; height: 4px;
             background: rgba(255, 255, 255, 0.9); border-radius: 4px 4px 0 0;
-            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         /* --- SECTIONS --- */
@@ -149,7 +176,7 @@
         /* Table */
         .table-wrapper { width: 100%; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 400px; }
-        thead { background: #f0fdf4; }
+        /*ad { background: #f0fdf4; }
         th { padding: 1rem; text-align: left; font-weight: 600; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 1rem; border-bottom: 1px solid #f3f4f6; color: #4b5563; cursor: pointer; }
         tr:hover td { background-color: #f0fdf4; }
@@ -176,9 +203,19 @@
         .select-wrapper { position: relative; }
         .select-wrapper::after { content: '\e9c5'; font-family: "Phosphor"; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #9ca3af; pointer-events: none; }
 
+        /* Read Only Input Style (Untuk Nama Petugas) */
+        .locked-input-display {
+            width: 100%; padding: 0.9rem; border: 2px solid #e5e7eb; border-radius: var(--radius-btn);
+            background: #f3f4f6; color: var(--text-muted);
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.05);
+        }
+        .locked-input-text { color: var(--text-main); font-weight: 700; }
+
         .btn-submit {
             width: 100%; background: var(--primary-gradient); color: white; padding: 1rem; border: none;
-            border-radius: var(--radius-btn); font-size:1rem; font-weight: 600; cursor: pointer;
+            border-radius: var(--radius-btn); font-size: 1rem; font-weight: 600; cursor: pointer;
             box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3); transition: transform 0.2s;
             display: flex; justify-content: center; align-items: center; gap: 8px;
         }
@@ -256,7 +293,7 @@
             color: #ef4444;
         }
         .popup-canvas-container {
-            width: 100%; border:1px solid #eee; border-radius: 8px;
+            width: 100%; border: 1px solid #eee; border-radius: 8px;
             display: flex; justify-content: center; background: #fafafa;
         }
         .popup-canvas-container canvas { max-width: 100%; height: auto; }
@@ -266,7 +303,7 @@
             margin-top: 10px; padding-top: 15px; border-top: 1px solid #eee;
         }
         .btn-download {
-            flex:1; min-width: 100px; padding: 10px; border: none; border-radius: 8px;
+            flex: 1; min-width: 100px; padding: 10px; border: none; border-radius: 8px;
             font-weight: 600; cursor: pointer; font-size: 0.85rem;
             display: flex; align-items: center; justify-content: center; gap: 5px;
         }
@@ -307,57 +344,48 @@
 
     <!-- INTRO ANIMATION OVERLAY -->
     <div id="intro-overlay">
-        <div class="intro-logo">
-            <i class="ph ph-sparkle"></i>
+        <div class="intro-content">
+            <div class="intro-logo">
+                <i class="ph ph-sparkle"></i>
+            </div>
+            <div class="intro-title">Outsouring Kebersihan 2026 RSUD Talaud</div>
+            <div class="intro-subtitle">Sistem Pelaporan Digital Terintegrasi</div>
         </div>
-        <div class="intro-text">Outsourching Kebersihan 2026 RSUD Talaud</div>
-        <div class="intro-subtext">Sistem Pelaporan Digital Terintegrasi</div>
+    </div>
+
+    <!-- LOGIN OVERLAY -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <h2 style="margin-bottom: 20px; color: #059669;">Login Petugas</h2>
+            
+            <!-- INFO LOGIN -->
+            <div class="login-info">
+                <i class="ph-fill ph-info"></i> Default PIN: <strong>1234</strong>
+            </div>
+            
+            <input type="text" id="login-name" class="login-input" placeholder="NAMA LENGKAP">
+            <input type="number" id="login-pin" class="login-input pin-input" placeholder="PIN" maxlength="4" inputmode="numeric">
+            <button class="btn-submit" onclick="handleLogin()">MASUK</button>
+            <p id="login-error" style="color: #ef4444; margin-top: 10px; font-size: 0.8rem; display: none;">Nama atau PIN Salah!</p>
+        </div>
     </div>
 
     <div class="app-container">
-        
-        <!-- HEADER (Hanya muncul setelah login) -->
-        <header id="main-header" style="display:none;">
+        <!-- Header -->
+        <header>
             <div class="header-top">
                 <div class="brand">
-                    <h1>Outsourching Kebersihan 2026 RSUD Talaud</h1>
+                    <h1>Outsouring Kebersihan 2026 RSUD Talaud</h1>
                     <span>Sistem Pelaporan Digital Terintegrasi</span>
-                </div>
-                <div style="display:flex; align-items:center; gap:10px;" onclick="logout()" title="Keluar">
-                    <i class="ph ph-sign-out" style="font-size:1.5rem; cursor:pointer;"></i>
                 </div>
             </div>
         </header>
 
-        <!-- MAIN CONTENT -->
+        <!-- Main Content -->
         <main class="main-content">
             
-            <!-- LOGIN SECTION -->
-            <section id="view-login" class="view-section">
-                <div class="login-container">
-                    <div class="login-card">
-                        <h2 style="justify-content:center; font-size:1.5rem; margin-bottom: 0.5rem;">Login Petugas</h2>
-                        <p style="color:var(--text-muted); margin-bottom:2rem;">Silakan masuk untuk melanjutkan</p>
-                        
-                        <div class="form-group">
-                            <label style="text-align:left;">Nama Lengkap</label>
-                            <input type="text" id="login-name" class="form-control" placeholder="NAMA LENGKAP" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label style="text-align:left;">PIN Keamanan (4 Digit)</label>
-                            <input type="tel" id="login-pin" class="pin-input" placeholder="****" maxlength="4" pattern="\d*" inputmode="numeric" required>
-                        </div>
-
-                        <button type="button" class="btn-submit" onclick="performLogin()">
-                            Masuk Aplikasi
-                        </button>
-                    </div>
-                </div>
-            </section>
-
             <!-- DASHBOARD SECTION -->
-            <section id="view-dashboard" class="view-section">
+            <section id="view-dashboard" class="view-section active">
                 
                 <!-- Info Bar: Date & Battery -->
                 <div class="info-bar">
@@ -415,13 +443,18 @@
                 <div class="card-container" style="padding: 1.5rem;">
                     <form id="cleaning-form" onsubmit="handleReportSubmit(event)">
                         
-                        <!-- Nama Petugas (Auto Uppercase & Auto Fill) -->
+                        <!-- Nama Petugas (DIKUNCI/PERMANEN) -->
                         <div class="form-group">
-                            <label>Nama Petugas</label>
-                            <input type="text" id="petugas" class="form-control" placeholder="NAMA LENGKAP" oninput="autoCapitalize(this)" required autocomplete="off">
+                            <label>Nama Petugas (Terkunci)</label>
+                            <div class="locked-input-display">
+                                <i class="ph-fill ph-lock-key" style="color: #059669; font-size: 1.2rem;"></i>
+                                <span id="petugas-text-display" class="locked-input-text">BELUM LOGIN</span>
+                            </div>
+                            <!-- Input Tersembunyi untuk menyimpan value form -->
+                            <input type="hidden" id="petugas" required>
                         </div>
 
-                        <!-- Jenis Petugas (Baru) -->
+                        <!-- Jenis Petugas -->
                         <div class="form-group">
                             <label>Jenis Petugas</label>
                             <div class="select-wrapper">
@@ -516,8 +549,8 @@
             </section>
         </main>
 
-        <!-- BOTTOM NAV (Hidden on Login) -->
-        <nav class="bottom-nav" id="main-nav" style="display:none;">
+        <!-- BOTTOM NAV -->
+        <nav class="bottom-nav">
             <div class="nav-item active" onclick="navigate('dashboard')">
                 <i class="ph ph-house"></i>
                 <span>Beranda</span>
@@ -546,7 +579,7 @@
             <h3 style="text-align: center; margin-bottom: 10px; color: #059669;">Detail Laporan</h3>
             
             <div class="popup-canvas-container" id="popup-canvas-area">
-                <div class="spinner" style="width:30px; height:30px; border-width:3px;"></div>
+                <div class="spinner" style="width:30px; height: 30px; border-width: 3px;"></div>
             </div>
 
             <div class="download-actions" id="popup-download-btns" style="display:none;">
@@ -633,10 +666,31 @@
             { label: "Menunggu Stok Alat/Bahan", value: "Stok Kosong", class: "status-stok" }
         ];
 
-        // State Aplikasi
-        let reports = []; 
-        let currentUser = { name: '', pin: '' };
-        let isLoggedIn = false;
+        // --- PERMANENT STORAGE SYSTEM ---
+        let reports = [];
+        
+        const getStorage = (key) => {
+            try {
+                return localStorage.getItem(key);
+            } catch(e) { return null; }
+        };
+        const setStorage = (key, val) => {
+            try {
+                localStorage.setItem(key, val);
+            } catch(e) { console.error("Storage full or disabled", e); }
+        };
+
+        const savedReports = getStorage('rsudTalaudReports');
+        if (savedReports) {
+            try {
+                reports = JSON.parse(savedReports);
+            } catch(e) {
+                reports = []; 
+            }
+        }
+
+        let lastOfficerName = getStorage('lastOfficerName') || '';
+        const ADMIN_PIN = "1234"; 
 
         // --- INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -644,81 +698,62 @@
             populateStatus();
             updateDate();
             updateBattery();
+            
+            // LOGIKA UPDATE
+            // 1. Kosongkan nama saat dimuat
+            document.getElementById('login-name').value = '';
+            
+            // 2. Tampilan Default
+            document.getElementById('petugas-text-display').innerText = 'BELUM LOGIN';
+            
+            renderDashboard();
+            renderHistory();
 
-            // Cek apakah ada data login tersimpan
-            const savedUser = localStorage.getItem('rsudUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                document.getElementById('login-name').value = currentUser.name;
-            }
-
-            // Load Data Laporan Permanen
-            const savedReports = localStorage.getItem('rsudTalaudReports');
-            if (savedReports) reports = JSON.parse(savedReports);
-
-            // Intro Animation
+            // LOGIKA ANIMATION (3 Detik) -> LOGIN
             setTimeout(() => {
                 document.getElementById('intro-overlay').classList.add('hidden');
-                // Jika sudah login sebelumnya, masuk dashboard. Jika tidak, tampilkan login.
-                if (currentUser.name && currentUser.pin) {
-                    performLogin(true); // Auto login
-                } else {
-                    document.getElementById('view-login').classList.add('active');
-                }
-            }, 2500);
+                
+                // Selalu tampilkan login (User harus mengetik ulang nama setiap kali dibuka)
+                document.getElementById('login-overlay').style.display = 'flex';
+            }, 3000);
 
             setInterval(updateDate, 60000);
         });
 
-        // --- LOGIN LOGIC ---
-        function performLogin(isAuto = false) {
-            const nameInput = document.getElementById('login-name').value.toUpperCase();
-            const pinInput = document.getElementById('login-pin').value;
+        // --- LOGIN SYSTEM ---
+        function handleLogin() {
+            const name = document.getElementById('login-name').value.trim().toUpperCase();
+            const pin = document.getElementById('login-pin').value;
+            const errorMsg = document.getElementById('login-error');
 
-            if (!nameInput || pinInput.length !== 4) {
-                if(!isAuto) showToast("Nama dan 4 Digit PIN wajib diisi!", "error");
+            if (!name || pin.length !== 4) {
+                errorMsg.style.display = 'block';
                 return;
             }
 
-            // Simple Validation (Default PIN: 1234)
-            // Anda bisa mengubah PIN default di sini
-            if (pinInput !== '1234' && pinInput !== currentUser.pin) {
-                if(!isAuto) showToast("PIN Salah!", "error");
-                return;
-            }
-
-            // Save User Session
-            currentUser = { name: nameInput, pin: pinInput };
-            localStorage.setItem('rsudUser', JSON.stringify(currentUser));
-            isLoggedIn = true;
-
-            // Setup UI after login
-            document.getElementById('main-header').style.display = 'block';
-            document.getElementById('main-nav').style.display = 'flex';
-            
-            // Pre-fill petugas di form
-            document.getElementById('petugas').value = currentUser.name;
-            updateHistoryHeader();
-
-            navigate('dashboard');
-            if(!isAuto) showToast("Login Berhasil", "success");
-        }
-
-        function logout() {
-            if(confirm("Keluar dari aplikasi?")) {
-                // Hapus sesi user (opsional, atau biarkan agar tidak perlu ulang PIN)
-                // localStorage.removeItem('rsudUser'); 
-                location.reload();
+            if (pin === ADMIN_PIN) {
+                document.getElementById('login-overlay').style.display = 'none';
+                
+                setStorage('lastOfficerName', name);
+                lastOfficerName = name;
+                
+                document.getElementById('petugas').value = name;
+                document.getElementById('petugas-text-display').innerText = name;
+                
+                populateHistoryHeader();
+                renderHistory(); 
+                
+                errorMsg.style.display = 'none';
+            } else {
+                errorMsg.style.display = 'block';
             }
         }
 
         // --- NAVIGATION ---
         function navigate(viewId) {
-            if (!isLoggedIn && viewId !== 'login') return;
-
             const icons = { 'dashboard': 0, 'report': 1, 'history': 2 };
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item')[icons[viewId]]?.classList.add('active');
+            document.querySelectorAll('.nav-item')[icons[viewId]].classList.add('active');
 
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.getElementById(`view-${viewId}`).classList.add('active');
@@ -758,10 +793,10 @@
         // --- AUTO CAPITALIZE ---
         function autoCapitalize(input) {
             input.value = input.value.toUpperCase();
-            if(input.id === 'petugas') updateHistoryHeader();
         }
 
-        function updateHistoryHeader() {
+        function populateHistoryHeader() {
+            // Ambil nama dari input hidden (Login)
             const name = document.getElementById('petugas').value.trim();
             const header = document.getElementById('history-petugas-name');
             if(name) {
@@ -769,7 +804,7 @@
                 header.style.color = '#059669';
                 header.style.fontWeight = 'bold';
             } else {
-                header.innerText = '...';
+                header.innerText = 'Isi Nama Petugas';
                 header.style.color = '#9ca3af';
                 header.style.fontWeight = 'normal';
             }
@@ -860,7 +895,15 @@
             const emptyState = document.getElementById('history-empty');
             const tableEl = document.getElementById('history-table');
 
-            const activeName = (document.getElementById('petugas').value || currentUser.name || '').toUpperCase().trim();
+            // Gunakan nama dari input hidden (Login)
+            const activeName = (document.getElementById('petugas').value || lastOfficerName).toUpperCase().trim();
+            
+            // Jika nama diubah saat di form report (login), update storage tapi tidak login ulang ulang
+            if(activeName && activeName !== lastOfficerName) {
+                // Ini handle perubahan nama di form report, tapi jangan kacau dashboard
+                setStorage('lastOfficerName', activeName);
+                lastOfficerName = activeName;
+            }
 
             const filteredReports = reports.filter(r => r.petugas === activeName);
 
@@ -880,7 +923,7 @@
                     
                     row.innerHTML = `
                         <td style="font-size: 0.75rem; color: #6b7280;">${getFullDateTimeString(r.timestamp)}</td>
-                        <td style="font-weight:600; color:#064e3b;">${r.area}</td>
+                        <td style="font-weight: 600; color:#064e3b;">${r.area}</td>
                         <td><span class="status-badge ${getStatusClass(r.status)}">${r.status}</span></td>
                     `;
                     tbody.appendChild(row);
@@ -891,30 +934,7 @@
         // --- FORM & TELEGRAM INTEGRATION ---
         let currentPhotoFile = null;
 
-        // Resize gambar agar tidak penuh LocalStorage
-        function resizeImage(file) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        // Resize max lebar 800px (cukup jelas untuk dokumen tapi hemat memori)
-                        const maxWidth = 800;
-                        const scaleSize = maxWidth / img.width;
-                        canvas.width = maxWidth;
-                        canvas.height = img.height * scaleSize;
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.8));
-                    };
-                };
-            });
-        }
-
-        async function handleFileSelect(input) {
+        function handleFileSelect(input) {
             if (input.files && input.files[0]) {
                 currentPhotoFile = input.files[0];
                 
@@ -922,7 +942,6 @@
                 const previewImg = document.getElementById('preview-img');
                 const label = document.getElementById('file-label');
 
-                // Tampilkan preview dari file asli (tidak perlu resize cepat untuk UI)
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     previewImg.src = e.target.result;
@@ -968,12 +987,16 @@
                 return;
             }
 
-            const petugas = document.getElementById('petugas').value;
+            // Mengambil nilai dari input hidden (Read-only logic)
+            const petugas = document.getElementById('petugas').value; 
             const jenisPetugas = document.getElementById('jenis-petugas').value;
             const area = document.getElementById('area').value;
             const status = document.getElementById('status').value;
             const desc = document.getElementById('description').value;
             const now = new Date();
+
+            setStorage('lastOfficerName', petugas);
+            lastOfficerName = petugas;
 
             const loadingOverlay = document.getElementById('loading-overlay');
             const loadingText = document.getElementById('loading-text');
@@ -983,60 +1006,50 @@
             btnSubmit.disabled = true;
 
             try {
-                // Resize image untuk penyimpanan permanen
-                loadingText.innerText = "Mengolah Gambar...";
-                const resizedPhotoBase64 = await resizeImage(currentPhotoFile);
-
                 const fullTimeStr = getFullDateTimeString(now);
                 const reportData = {
                     id: Date.now(),
                     timestamp: now.toISOString(),
                     petugas, jenisPetugas, area, status, desc,
-                    // Simpan Base64 foto agar muncul di popup history nanti
-                    photoBase64: resizedPhotoBase64 
+                    photoBase64: null 
                 };
 
-                // Gunakan foto resize untuk template form
-                fillTemplate(reportData, resizedPhotoBase64);
-                
-                loadingText.innerText = "Membuat gambar laporan...";
-                const canvas = await html2canvas(document.getElementById('report-template-container'), {
-                    scale: 1.5, logging: false, useCORS: true, backgroundColor: "#ffffff"
-                });
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    reportData.photoBase64 = e.target.result; 
+                    fillTemplate(reportData, e.target.result);
+                    
+                    loadingText.innerText = "Membuat gambar laporan...";
+                    const canvas = await html2canvas(document.getElementById('report-template-container'), {
+                        scale: 1.5, logging: false, useCORS: true, backgroundColor: "#ffffff"
+                    });
 
-                canvas.toBlob(async (formBlob) => {
-                    loadingText.innerText = "Mengirim ke Telegram...";
-                    
-                    // Kirim file asli ke telegram (kualitas terbaik)
-                    await sendToTelegram(formBlob, currentPhotoFile, petugas, jenisPetugas, area, status, fullTimeStr);
-                    
-                    // Simpan Data Permanen (Local Storage)
-                    reports.push(reportData);
-                    saveDataToStorage();
-                    
-                    document.getElementById('cleaning-form').reset();
-                    document.getElementById('petugas').value = petugas;
-                    clearPhoto(); 
-                    btnSubmit.disabled = false;
-                    loadingOverlay.style.display = 'none';
-                    
-                    showToast("Laporan & Gambar Terkirim & Disimpan!", "success");
-                    navigate('dashboard');
-                }, 'image/png', 0.9);
+                    canvas.toBlob(async (formBlob) => {
+                        loadingText.innerText = "Mengirim ke Telegram...";
+                        await sendToTelegram(formBlob, currentPhotoFile, petugas, jenisPetugas, area, status, fullTimeStr);
+                        
+                        reports.push(reportData);
+                        setStorage('rsudTalaudReports', JSON.stringify(reports));
+                        
+                        document.getElementById('cleaning-form').reset();
+                        // Reset nama petugas kembali ke nilai login (karena input hidden)
+                        document.getElementById('petugas').value = petugas;
+                        document.getElementById('petugas-text-display').innerText = petugas;
+                        clearPhoto(); 
+                        btnSubmit.disabled = false;
+                        loadingOverlay.style.display = 'none';
+                        
+                        showToast("Laporan & Gambar Terkirim!", "success");
+                        navigate('dashboard');
+                    }, 'image/png', 0.9);
+                };
+                reader.readAsDataURL(currentPhotoFile);
 
             } catch (error) {
                 console.error(error);
                 loadingOverlay.style.display = 'none';
                 btnSubmit.disabled = false;
                 showToast("Terjadi kesalahan sistem.", "error");
-            }
-        }
-
-        function saveDataToStorage() {
-            try {
-                localStorage.setItem('rsudTalaudReports', JSON.stringify(reports));
-            } catch (e) {
-                showToast("Memori Penuh! Hapus riwayat lama.", "error");
             }
         }
 
@@ -1079,7 +1092,6 @@
 
             const reportData = { ...report, fullTimeStr: getFullDateTimeString(report.timestamp) };
             
-            // Gunakan Base64 foto yang tersimpan di LocalStorage
             fillTemplate(reportData, report.photoBase64); 
 
             html2canvas(document.getElementById('report-template-container'), {
@@ -1100,8 +1112,12 @@
             if (!currentReportCanvas) return;
             const link = document.createElement('a');
             link.download = `Laporan_RSUD_${Date.now()}.${format}`;
-            link.href = currentReportCanvas.toDataURL(`image/${format}`);
+            // Perbaikan MIME Type untuk hasil yang lebih baik
+            const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
+            link.href = currentReportCanvas.toDataURL(mimeType, 0.9);
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
         }
 
         function downloadPDF() {
