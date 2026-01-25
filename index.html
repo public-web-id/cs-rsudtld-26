@@ -31,6 +31,7 @@
             flex-direction: column;
             margin: 0;
             padding: 0;
+            padding-bottom: 70px; /* Ruang untuk bottom navigation */
             overflow-x: hidden;
         }
 
@@ -57,19 +58,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .logo {
-            width: 35px;
-            height: 35px;
-            background-color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-red);
-            font-size: 18px;
-            font-weight: bold;
         }
 
         .hospital-info {
@@ -99,242 +87,115 @@
             display: none; /* Sembunyikan nama user di mobile */
         }
 
-        /* Navigation Styles */
-        .sidebar {
-            background-color: var(--white);
-            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
-            padding: 10px 0;
-            position: fixed;
-            top: 60px;
-            left: -250px;
-            bottom: 0;
-            width: 250px;
-            z-index: 900;
-            transition: all 0.3s ease;
-            overflow-y: auto;
-        }
-
-        .sidebar.active {
-            left: 0;
-        }
-
-        .nav-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .nav-item {
-            margin-bottom: 2px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            color: var(--dark-gray);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-radius: 0 20px 20px 0;
-            margin-right: 10px;
-            font-size: 14px;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background-color: var(--primary-red);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .nav-link i {
-            margin-right: 10px;
-            font-size: 18px;
-        }
-
         /* Main Content */
         .main-content {
             margin-left: 0;
             padding: 15px;
             flex: 1;
             transition: all 0.3s ease;
-            margin-top: 60px;
+            margin-top: 0; /* Diubah dari 60px menjadi 0 karena header dihapus */
         }
 
-        .content-header {
+        /* Page Title */
+        .page-title {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            color: white;
+            padding: 20px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .page-title p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Beranda Info Terkini */
+        .info-terkini {
             background-color: var(--white);
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary-red);
         }
 
-        .content-header h2 {
+        .info-terkini h3 {
             color: var(--primary-red);
-            font-weight: 700;
-            margin-bottom: 8px;
-            font-size: 20px;
-        }
-
-        .breadcrumb {
-            background-color: transparent;
-            padding: 0;
-            margin: 0;
-            font-size: 12px;
-        }
-
-        .breadcrumb-item a {
-            color: var(--medium-gray);
-            text-decoration: none;
-        }
-
-        .breadcrumb-item.active {
-            color: var(--primary-red);
-        }
-
-        /* Cards */
-        .stat-card {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            height: 100%;
-            border-left: 3px solid var(--primary-red);
-            margin-bottom: 15px;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .stat-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .stat-icon.primary {
-            background-color: rgba(220, 20, 60, 0.1);
-            color: var(--primary-red);
-        }
-
-        .stat-icon.secondary {
-            background-color: rgba(0, 86, 179, 0.1);
-            color: var(--medical-blue);
-        }
-
-        .stat-number {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .stat-label {
-            color: var(--medium-gray);
-            font-size: 12px;
-        }
-
-        /* Info Card */
-        .info-card {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-left: 3px solid var(--medical-blue);
-        }
-
-        .info-card h5 {
-            color: var(--medical-blue);
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .info-item {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-        }
-
-        .info-card p {
-            font-size: 12px;
-            margin: 0;
-        }
-
-        /* Activity List */
-        .activity-list {
-            background-color: var(--white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .activity-item {
-            display: flex;
-            padding: 12px 15px;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
             border-bottom: 1px solid var(--light-gray);
-            transition: background-color 0.3s ease;
         }
 
-        .activity-item:hover {
-            background-color: var(--light-gray);
-        }
-
-        .activity-item:last-child {
+        .info-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
             border-bottom: none;
         }
 
-        .activity-icon {
-            width: 32px;
-            height: 32px;
+        .info-icon {
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
+            background-color: rgba(220, 20, 60, 0.1);
+            color: var(--primary-red);
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 12px;
             flex-shrink: 0;
-            font-size: 16px;
         }
 
-        .activity-icon.medical {
-            background-color: rgba(220, 20, 60, 0.1);
-            color: var(--primary-red);
-        }
-
-        .activity-icon.cleaning {
-            background-color: rgba(0, 86, 179, 0.1);
-            color: var(--medical-blue);
-        }
-
-        .activity-icon.maintenance {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success-green);
-        }
-
-        .activity-content {
+        .info-content {
             flex: 1;
         }
 
-        .activity-title {
+        .info-title {
             font-weight: 600;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
             font-size: 14px;
+            color: var(--dark-gray);
         }
 
-        .activity-desc {
-            color: var(--medium-gray);
+        .info-desc {
             font-size: 12px;
+            color: var(--medium-gray);
+            line-height: 1.4;
         }
 
-        .activity-time {
-            color: var(--medium-gray);
+        .info-time {
             font-size: 11px;
-            margin-left: 8px;
-            padding-left: 8px;
+            color: var(--medium-gray);
+            margin-top: 5px;
         }
 
         /* Form Styles */
@@ -444,74 +305,10 @@
             opacity: 0.9;
         }
 
-        /* Footer */
-        .main-footer {
-            background-color: var(--dark-gray);
-            color: white;
-            padding: 20px 15px;
-            margin-top: 30px;
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .footer-section h5 {
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .footer-section p, .footer-section a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            line-height: 1.5;
-            font-size: 12px;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .social-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-
-        .social-icon:hover {
-            background-color: var(--primary-red);
-            transform: translateY(-2px);
-        }
-
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
         /* Notification */
         .notification {
             position: fixed;
-            top: 70px;
+            top: 10px; /* Diubah dari 70px menjadi 10px karena header dihapus */
             right: 15px;
             background-color: var(--success-green);
             color: white;
@@ -673,171 +470,136 @@
             color: var(--medium-gray);
             font-size: 12px;
         }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px 15px;
+            text-decoration: none;
+            color: var(--medium-gray);
+            transition: all 0.3s ease;
+            font-size: 11px;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--primary-red);
+        }
+
+        .bottom-nav-item i {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .bottom-nav-item:hover {
+            color: var(--primary-red);
+        }
+
+        /* Sticky filter section for riwayat page */
+        .sticky-filter {
+            position: sticky;
+            top: 0; /* Diubah dari 60px menjadi 0 karena header dihapus */
+            z-index: 900;
+            background-color: var(--white);
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="main-header">
-        <div class="header-content">
-            <div class="logo-section">
-                <button class="mobile-menu-toggle" onclick="toggleSidebar()">
-                    <i class="bi bi-list"></i>
-                </button>
-                <div class="logo">RS</div>
-                <div class="hospital-info">
-                    <h1 style="font-size: 14px; margin: 0;">RSUD Talaud 2026</h1>
-                    <p style="font-size: 10px; margin: 0;">Outsourcing</p>
-                </div>
-            </div>
-            <div class="user-info">
-                <div class="user-avatar">PA</div>
-                <div class="user-name">
-                    <div style="font-weight: 600; font-size: 12px;">Pengguna Aplikasi</div>
-                    <div style="font-size: 10px; opacity: 0.8;">Administrator</div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Sidebar Navigation -->
-    <nav class="sidebar" id="sidebar">
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="#" class="nav-link active" onclick="showPage('beranda')">
-                    <i class="bi bi-house-door"></i>
-                    <span>Beranda</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link" onclick="showPage('laporan')">
-                    <i class="bi bi-file-earmark-plus"></i>
-                    <span>Buat Laporan</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link" onclick="showPage('riwayat')">
-                    <i class="bi bi-clock-history"></i>
-                    <span>Riwayat Laporan</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link" onclick="showPage('galeri')">
-                    <i class="bi bi-images"></i>
-                    <span>Galeri Kegiatan</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
     <!-- Main Content -->
     <main class="main-content">
         <!-- Beranda Page -->
         <div id="beranda" class="page active">
-            <div class="content-header">
-                <h2>Dashboard</h2>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </nav>
+            <!-- Page Title -->
+            <div class="page-title">
+                <img src="https://z-cdn-media.chatglm.cn/files/36757c6a-d0a7-4eaf-8d39-a5d7e5c5ff62.png?auth_key=1869368930-8f64b68ec75f44028859a88f6fbd5dd1-0-6aff416fe4d5ae5cca7ce25e93c3ef46" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo">
+                <div>
+                    <h1>Outsourcing RSUD Talaud 2026</h1>
+                    <p>Sistem Pelaporan Karyawan</p>
+                </div>
+                <img src="https://z-cdn-media.chatglm.cn/files/1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5g6h.png?auth_key=1234567890-abcdefghij-0-1234567890abcdef" alt="RSUD Talaud" class="page-logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
             </div>
-
-            <!-- Statistics Cards -->
-            <div class="row">
-                <div class="col-6">
-                    <div class="stat-card">
-                        <div class="stat-icon primary">
-                            <i class="bi bi-people-fill"></i>
-                        </div>
-                        <div class="stat-number" id="totalKaryawan">156</div>
-                        <div class="stat-label">Total Karyawan</div>
+            
+            <!-- Info Terkini Section -->
+            <div class="info-terkini">
+                <h3><i class="bi bi-megaphone"></i> Informasi Terkini</h3>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-calendar-event"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-title">Jadwal Pelatihan Karyawan</div>
+                        <div class="info-desc">Pelatihan kebersihan ruangan akan diadakan pada tanggal 15-17 Mei 2026 di ruang konferensi lantai 3. Semua karyawan wajib mengikuti.</div>
+                        <div class="info-time">2 jam yang lalu</div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="stat-card">
-                        <div class="stat-icon secondary">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <div class="stat-number" id="totalArea">27</div>
-                        <div class="stat-label">Area Kerja</div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-title">Pemberitahuan Maintenance</div>
+                        <div class="info-desc">Sistem IPSRS akan maintenance pada tanggal 20 Mei 2026 pukul 00:00-06:00. Siapkan alternatif selama maintenance berlangsung.</div>
+                        <div class="info-time">1 hari yang lalu</div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="stat-card">
-                        <div class="stat-icon primary">
-                            <i class="bi bi-file-text"></i>
-                        </div>
-                        <div class="stat-number" id="totalLaporan">42</div>
-                        <div class="stat-label">Total Laporan</div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-title">Kenaikan Shift Kerja</div>
+                        <div class="info-desc">Tim Cleaning Service Area Bedah Sentral akan mengalami perubahan shift mulai 1 Juni 2026. Detail akan dikirim melalui email.</div>
+                        <div class="info-time">3 hari yang lalu</div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="stat-card">
-                        <div class="stat-icon secondary">
-                            <i class="bi bi-check-circle-fill"></i>
-                        </div>
-                        <div class="stat-number" id="aktif">138</div>
-                        <div class="stat-label">Karyawan Aktif</div>
+                
+                <div class="info-item">
+                    <div class="info-icon">
+                        <i class="bi bi-trophy"></i>
                     </div>
-                </div>
-            </div>
-
-            <!-- Contract Info Card -->
-            <div class="info-card">
-                <h5><i class="bi bi-calendar-check"></i> Penandatangan Kontrak</h5>
-                <p>26 Januari 2026 - Penandatangan kontrak kerjasama outsourcing tenaga kerja RSUD Talaud</p>
-            </div>
-
-            <!-- Recent Activities -->
-            <div class="activity-list">
-                <div class="activity-item">
-                    <div class="activity-icon medical">
-                        <i class="bi bi-heart-pulse"></i>
+                    <div class="info-content">
+                        <div class="info-title">Penghargaan Karyawan Terbaik</div>
+                        <div class="info-desc">Tim Laundry meraih penghargaan "Tim Terbaik Bulan Ini" karena pencapaian 99% kepuasan pasien. Selamat kepada seluruh tim!</div>
+                        <div class="info-time">5 hari yang lalu</div>
                     </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Pemeriksaan Kesehatan</div>
-                        <div class="activity-desc">Tim medis melakukan pemeriksaan rutin di ruang IGD</div>
-                    </div>
-                    <div class="activity-time">2 jam</div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon cleaning">
-                        <i class="bi bi-broom"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Pembersihan Ruangan</div>
-                        <div class="activity-desc">Tim cleaning service membersihkan ruang bedah sentral</div>
-                    </div>
-                    <div class="activity-time">4 jam</div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon maintenance">
-                        <i class="bi bi-gear"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Maintenance IPAL</div>
-                        <div class="activity-desc">Teknisi IPSRS melakukan maintenance sistem IPAL</div>
-                    </div>
-                    <div class="activity-time">6 jam</div>
                 </div>
             </div>
         </div>
 
         <!-- Buat Laporan Page -->
         <div id="laporan" class="page" style="display: none;">
-            <div class="content-header">
-                <h2>Buat Laporan</h2>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-                        <li class="breadcrumb-item active">Buat Laporan</li>
-                    </ol>
-                </nav>
+            <div class="page-title">
+                <img src="https://z-cdn-media.chatglm.cn/files/36757c6a-d0a7-4eaf-8d39-a5d7e5c5ff62.png?auth_key=1869368930-8f64b68ec75f44028859a88f6bd5dd1-0-6aff416fe4d5ae5cca7ce25e93c3ef46" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo">
+                <div>
+                    <h1>Form Laporan Karyawan</h1>
+                    <p>Buat laporan kegiatan harian Anda</p>
+                </div>
+                <img src="https://z-cdn-media.chatglm.cn/files/2g3h4i5j-k6l7m8n-o9p0q1r-s2t3u4v-w5x6y7z.png?auth_key=0987654321-fedcba098-0-abcdef0987654321" alt="Form Laporan" class="page-logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
             </div>
-
+            
             <div class="form-container">
-                <h3 class="form-title">Form Laporan Karyawan</h3>
                 <form id="formLaporan">
                     <div class="form-group">
                         <label class="form-label">Nama Karyawan</label>
@@ -916,17 +678,16 @@
 
         <!-- Riwayat Laporan Page -->
         <div id="riwayat" class="page" style="display: none;">
-            <div class="content-header">
-                <h2>Riwayat Laporan</h2>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-                        <li class="breadcrumb-item active">Riwayat Laporan</li>
-                    </ol>
-                </nav>
+            <div class="page-title">
+                <img src="https://z-cdn-media.chatglm.cn/files/36757c6a-d0a7-4eaf-8d39-a5d7e5c5ff62.png?auth_key=1869368930-8f64b68ec75f44028859a88f6fbd5dd1-0-6aff416fe4d5ae5cca7ce25e93c3ef46" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo">
+                <div>
+                    <h1>Riwayat Laporan</h1>
+                    <p>Lihat semua laporan yang telah dibuat</p>
+                </div>
+                <img src="https://z-cdn-media.chatglm.cn/files/3a4b5c6d-7e8f-9a0b-1c2d-3e4f5g6h-7i8j9k0l.png?auth_key=9876543210-01234567-0-0123456789abcdef" alt="Riwayat Laporan" class="page-logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
             </div>
-
-            <div class="filter-section">
+            
+            <div class="sticky-filter">
                 <div class="filter-title">Filter Laporan</div>
                 <div class="filter-row">
                     <div class="filter-group">
@@ -993,63 +754,40 @@
 
         <!-- Galeri Kegiatan Page -->
         <div id="galeri" class="page" style="display: none;">
-            <div class="content-header">
-                <h2>Galeri Kegiatan</h2>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Beranda</a></li>
-                        <li class="breadcrumb-item active">Galeri Kegiatan</li>
-                    </ol>
-                </nav>
+            <div class="page-title">
+                <img src="https://z-cdn-media.chatglm.cn/files/36757c6a-d0a7-4eaf-8d39-a5d7e5c5ff62.png?auth_key=1869368930-8f64b68ec75f44028859a88f6fbd5dd1-0-6aff416fe4d5ae5cca7ce25e93c3ef46" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo">
+                <div>
+                    <h1>Galeri Kegiatan</h1>
+                    <p>Koleksi foto kegiatan karyawan</p>
+                </div>
+                <img src="https://z-cdn-media.chatglm.cn/files/4f5g6h7i-8j9k0l1m-2n3o4p5q-6r7s8t9u-0v1w2x3y.png?auth_key=5678901234-abcde123-0-abcdef1234567890" alt="Galeri Foto" class="page-logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
             </div>
-
+            
             <div class="gallery-container" id="galleryContainer">
                 <!-- Gallery items will be loaded here -->
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container-fluid">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h5>RSUD Talaud 2026</h5>
-                    <p>Sistem Manajemen Outsourcing Tenaga Kerja</p>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon">
-                            <i class="bi bi-facebook"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="bi bi-twitter"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="bi bi-instagram"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="bi bi-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h5>Link Cepat</h5>
-                    <p><a href="#">Beranda</a></p>
-                    <p><a href="#">Tentang Kami</a></p>
-                    <p><a href="#">Kontak</a></p>
-                    <p><a href="#">Bantuan</a></p>
-                </div>
-                <div class="footer-section">
-                    <h5>Kontak</h5>
-                    <p><i class="bi bi-geo-alt"></i> Jl. Raya Talaud, Kabupaten Kepulauan Talaud</p>
-                    <p><i class="bi bi-telephone"></i> (0434) 123456</p>
-                    <p><i class="bi bi-envelope"></i> info@rsudtalaud2026.go.id</p>
-                </div>
-            </div>
-            <div class="text-center mt-3 pt-3 border-top border-secondary">
-                <p>&copy; 2026 RSUD Talaud. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="#" class="bottom-nav-item active" onclick="showPage('beranda')">
+            <i class="bi bi-house-door"></i>
+            <span>Beranda</span>
+        </a>
+        <a href="#" class="bottom-nav-item" onclick="showPage('laporan')">
+            <i class="bi bi-file-earmark-plus"></i>
+            <span>Laporan</span>
+        </a>
+        <a href="#" class="bottom-nav-item" onclick="showPage('riwayat')">
+            <i class="bi bi-clock-history"></i>
+            <span>Riwayat</span>
+        </a>
+        <a href="#" class="bottom-nav-item" onclick="showPage('galeri')">
+            <i class="bi bi-images"></i>
+            <span>Galeri</span>
+        </a>
+    </nav>
 
     <!-- Notification -->
     <div id="notification" class="notification">
@@ -1058,21 +796,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Toggle sidebar for mobile
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
-
-        // Close sidebar when clicking outside
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-            
-            if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
-                sidebar.classList.remove('active');
-            }
-        });
-
         // Show page function
         function showPage(pageId) {
             // Hide all pages
@@ -1083,15 +806,12 @@
             // Show selected page
             document.getElementById(pageId).style.display = 'block';
             
-            // Update active nav link
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
+            // Update active bottom nav
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.classList.remove('active');
             });
             
-            document.querySelector(`.nav-link[onclick="showPage('${pageId}')"]`).classList.add('active');
-            
-            // Close sidebar on mobile after navigation
-            document.getElementById('sidebar').classList.remove('active');
+            document.querySelector(`.bottom-nav-item[onclick="showPage('${pageId}')"]`).classList.add('active');
             
             // Load page content
             if (pageId === 'riwayat') {
