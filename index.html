@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>OUTSOURCING RSUD TALAUD 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
@@ -11,171 +11,365 @@
             --primary-red: #DC143C;
             --dark-red: #8B0000;
             --light-red: #FFB6C1;
-            --batik-pattern: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255, 255, 255, 0.1) 10px,
-                rgba(255, 255, 255, 0.1) 20px
-            );
+            --medical-blue: #0056b3;
+            --light-blue: #e6f2ff;
+            --dark-gray: #2c3e50;
+            --medium-gray: #7f8c8d;
+            --light-gray: #ecf0f1;
+            --white: #ffffff;
+            --success-green: #28a745;
+            --warning-yellow: #ffc107;
+            --danger-red: #dc3545;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 50%, #DC143C 100%);
+            background-color: #f8f9fa;
+            color: #333;
             min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .header {
+        /* Header Styles */
+        .main-header {
             background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
             color: white;
-            padding: 15px 10px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-            z-index: 2;
-        }
-
-        .header h1 {
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 2;
-        }
-
-        .header p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Navigation Footer - permanen di bawah */
-        .footer-nav {
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 10px 0;
-            display: none; /* Sembunyikan secara default */
-        }
-
-        .footer-nav.show {
-            display: block; /* Tampilkan setelah registrasi */
-        }
-
-        .nav-item-footer {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            display: inline-block;
-            transition: all 0.3s ease;
-            border-radius: 10px;
-            margin: 0 3px;
-            position: relative;
-            font-size: 0.9rem;
-        }
-
-        .nav-item-footer:hover, .nav-item-footer.active {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .nav-item-footer i {
-            margin-right: 5px;
-            font-size: 1rem;
-        }
-
-        .main-content {
-            padding: 20px 10px;
-            position: relative;
-            z-index: 2;
-            flex: 1;
-            margin-bottom: 0; /* Tidak ada margin bottom saat footer disembunyikan */
-        }
-
-        .page {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid var(--primary-red);
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
-            color: white;
-            border-radius: 13px 13px 0 0;
             padding: 12px 15px;
-            font-weight: bold;
-            font-size: 1.1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
-            border: none;
-            border-radius: 25px;
-            padding: 8px 25px;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            width: 35px;
+            height: 35px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-red);
+            font-size: 18px;
             font-weight: bold;
+        }
+
+        .hospital-info {
+            display: none; /* Sembunyikan nama rumah sakit di mobile */
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-red);
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .user-name {
+            display: none; /* Sembunyikan nama user di mobile */
+        }
+
+        /* Navigation Styles */
+        .sidebar {
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            padding: 10px 0;
+            position: fixed;
+            top: 60px;
+            left: -250px;
+            bottom: 0;
+            width: 250px;
+            z-index: 900;
             transition: all 0.3s ease;
-            font-size: 0.95rem;
+            overflow-y: auto;
         }
 
-        .btn-primary:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.4);
+        .sidebar.active {
+            left: 0;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 2px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 0 20px 20px 0;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--primary-red);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 0;
+            padding: 15px;
+            flex: 1;
+            transition: all 0.3s ease;
+            margin-top: 60px;
+        }
+
+        .content-header {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .content-header h2 {
+            color: var(--primary-red);
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+            margin: 0;
+            font-size: 12px;
+        }
+
+        .breadcrumb-item a {
+            color: var(--medium-gray);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: var(--primary-red);
+        }
+
+        /* Cards */
+        .stat-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            border-left: 3px solid var(--primary-red);
+            margin-bottom: 15px;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .stat-icon.primary {
+            background-color: rgba(220, 20, 60, 0.1);
+            color: var(--primary-red);
+        }
+
+        .stat-icon.secondary {
+            background-color: rgba(0, 86, 179, 0.1);
+            color: var(--medical-blue);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            color: var(--medium-gray);
+            font-size: 12px;
+        }
+
+        /* Info Card */
+        .info-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--medical-blue);
+        }
+
+        .info-card h5 {
+            color: var(--medical-blue);
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .info-card p {
+            font-size: 12px;
+            margin: 0;
+        }
+
+        /* Activity List */
+        .activity-list {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .activity-item {
+            display: flex;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--light-gray);
+            transition: background-color 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background-color: var(--light-gray);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .activity-icon.medical {
+            background-color: rgba(220, 20, 60, 0.1);
+            color: var(--primary-red);
+        }
+
+        .activity-icon.cleaning {
+            background-color: rgba(0, 86, 179, 0.1);
+            color: var(--medical-blue);
+        }
+
+        .activity-icon.maintenance {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: var(--success-green);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
+
+        .activity-desc {
+            color: var(--medium-gray);
+            font-size: 12px;
+        }
+
+        .activity-time {
+            color: var(--medium-gray);
+            font-size: 11px;
+            margin-left: 8px;
+            padding-left: 8px;
+        }
+
+        /* Form Styles */
+        .form-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .form-title {
+            color: var(--primary-red);
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark-gray);
+            font-size: 13px;
         }
 
         .form-control, .form-select {
-            border: 2px solid var(--light-red);
-            border-radius: 10px;
-            padding: 10px 12px;
-            transition: border-color 0.3s ease;
-            font-size: 0.95rem;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
         }
 
         .form-control:focus, .form-select:focus {
@@ -183,151 +377,44 @@
             box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.25);
         }
 
-        .stat-card {
-            background: linear-gradient(135deg, #FF69B4 0%, #DC143C 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin-bottom: 15px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .btn-primary {
+            background-color: var(--primary-red);
+            border-color: var(--primary-red);
+            padding: 10px 20px;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 14px;
         }
 
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 5px 0;
+        .btn-primary:hover {
+            background-color: var(--dark-red);
+            border-color: var(--dark-red);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);
         }
 
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--primary-red);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            display: none;
-            z-index: 2000;
-            animation: slideIn 0.5s ease;
-            font-size: 0.9rem;
-            max-width: 300px;
+        /* Gallery */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-
-        .chat-notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--primary-red);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            display: none;
-            z-index: 2000;
-            animation: slideIn 0.5s ease;
-            max-width: 300px;
-            cursor: pointer;
-        }
-
-        .chat-notification .chat-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .chat-notification .chat-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            color: var(--primary-red);
-            font-weight: bold;
-        }
-
-        .chat-notification .chat-info {
-            flex: 1;
-        }
-
-        .chat-notification .chat-name {
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-        .chat-notification .chat-preview {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .chat-notification .chat-time {
-            font-size: 0.75rem;
-            opacity: 0.7;
-        }
-
-        .chat-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff4d4d;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-
-        .batik-border {
-            border: 3px solid var(--primary-red);
-            border-image: repeating-linear-gradient(
-                45deg,
-                var(--primary-red),
-                var(--primary-red) 10px,
-                var(--light-red) 10px,
-                var(--light-red) 20px
-            ) 10;
-        }
-
-        /* Nama karyawan tebal dan berwarna */
-        .nama-karyawan {
-            font-weight: bold;
-            color: var(--primary-red);
-            text-transform: uppercase;
-        }
-
-        /* Gallery responsive */
         .gallery-item {
             position: relative;
+            border-radius: 8px;
             overflow: hidden;
-            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
             cursor: pointer;
-            transition: transform 0.3s ease;
-            height: 180px;
-            margin-bottom: 15px;
+            height: 150px;
         }
 
         .gallery-item:hover {
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .gallery-item img {
@@ -336,256 +423,429 @@
             object-fit: cover;
         }
 
-        .gallery-item::after {
-            content: '';
+        .gallery-overlay {
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: linear-gradient(to bottom, transparent 60%, rgba(220, 20, 60, 0.8));
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            padding: 10px;
         }
 
-        .gallery-item:hover::after {
-            opacity: 1;
-        }
-
-        .gallery-item .position-absolute {
-            bottom: 10px;
-            left: 10px;
-            right: 10px;
-        }
-
-        .gallery-item h5 {
-            font-size: 1rem;
-            font-weight: bold;
+        .gallery-title {
+            font-weight: 600;
             margin-bottom: 2px;
+            font-size: 12px;
         }
 
-        .gallery-item small {
-            font-size: 0.8rem;
+        .gallery-subtitle {
+            font-size: 10px;
+            opacity: 0.9;
         }
 
-        /* Penandatangan Kontrak */
-        .kontrak-card {
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+        /* Footer */
+        .main-footer {
+            background-color: var(--dark-gray);
             color: white;
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
+            padding: 20px 15px;
+            margin-top: 30px;
         }
 
-        .kontrak-date {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .kontrak-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-        }
-
-        /* Chat Group */
-        .chat-container {
-            height: 400px;
-            overflow-y: auto;
-            border: 1px solid var(--light-red);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-
-        .chat-message {
-            margin-bottom: 15px;
+        .footer-content {
             display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .chat-message.sent {
-            justify-content: flex-end;
+        .footer-section h5 {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
         }
 
-        .chat-message.received {
-            justify-content: flex-start;
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            line-height: 1.5;
+            font-size: 12px;
         }
 
-        .message-bubble {
-            max-width: 70%;
-            padding: 10px 15px;
-            border-radius: 15px;
-            position: relative;
-        }
-
-        .message-bubble.sent {
-            background-color: var(--primary-red);
+        .footer-section a:hover {
             color: white;
-            border-bottom-right-radius: 5px;
         }
 
-        .message-bubble.received {
-            background-color: #f1f1f1;
-            color: #333;
-            border-bottom-left-radius: 5px;
-        }
-
-        .chat-input {
+        .social-icons {
             display: flex;
+            gap: 10px;
             margin-top: 10px;
         }
 
-        .chat-input input {
-            flex: 1;
-            border: 2px solid var(--light-red);
-            border-radius: 25px 0 0 25px;
-            padding: 10px 15px;
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 14px;
         }
 
-        .chat-input button {
-            background: var(--primary-red);
-            color: white;
+        .social-icon:hover {
+            background-color: var(--primary-red);
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            background: none;
             border: none;
-            border-radius: 0 25px 25px 0;
-            padding: 0 20px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
         }
 
-        /* Login Page */
-        .login-container {
-            max-width: 400px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 70px;
+            right: 15px;
+            background-color: var(--success-green);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+            max-width: 250px;
+            font-size: 12px;
         }
 
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
-        .login-header h2 {
+        .filter-section {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .filter-title {
             color: var(--primary-red);
-            font-weight: bold;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 14px;
         }
 
-        /* Empty chat state */
-        .empty-chat {
+        .filter-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .filter-group .form-control, .filter-group .form-select {
+            font-size: 12px;
+            padding: 6px 10px;
+        }
+
+        .btn-filter {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .report-item {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--medical-blue);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .report-title {
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .report-date {
+            font-size: 11px;
+            color: var(--medium-gray);
+        }
+
+        .report-meta {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .report-tag {
+            background-color: var(--light-red);
+            color: var(--dark-red);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        .report-content {
+            background-color: var(--light-gray);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .report-content strong {
+            color: var(--primary-red);
+        }
+
+        .report-image {
+            margin-top: 10px;
+        }
+
+        .report-image img {
+            max-width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Loading spinner */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+
+        .spinner-border {
+            width: 20px;
+            height: 20px;
+            border-width: 2px;
+        }
+
+        /* Empty state */
+        .empty-state {
             text-align: center;
-            padding: 40px;
-            color: #666;
+            padding: 40px 20px;
         }
 
-        .empty-chat i {
-            font-size: 3rem;
-            color: var(--light-red);
+        .empty-state i {
+            font-size: 48px;
+            color: var(--medium-gray);
             margin-bottom: 15px;
         }
 
-        /* Registration success message */
-        .registration-success {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #c3e6cb;
-            display: none;
+        .empty-state h5 {
+            color: var(--medium-gray);
+            font-size: 16px;
+            margin-bottom: 8px;
         }
 
-        .registration-success.show {
-            display: block;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .stat-card {
-                padding: 12px;
-                margin-bottom: 10px;
-            }
-            
-            .stat-number {
-                font-size: 1.8rem;
-            }
-            
-            .card-header {
-                font-size: 1rem;
-            }
-            
-            .form-control, .form-select {
-                font-size: 0.9rem;
-                padding: 8px 10px;
-            }
-            
-            .btn-primary {
-                font-size: 0.9rem;
-                padding: 6px 20px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .header h1 {
-                font-size: 1.3rem;
-            }
-            
-            .header p {
-                font-size: 0.8rem;
-            }
-            
-            .stat-number {
-                font-size: 1.5rem;
-            }
-            
-            .gallery-item {
-                height: 150px;
-            }
-            
-            .gallery-item h5 {
-                font-size: 0.9rem;
-            }
-            
-            .gallery-item small {
-                font-size: 0.75rem;
-            }
+        .empty-state p {
+            color: var(--medium-gray);
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <!-- Halaman Login -->
-    <div id="login" class="page active">
-        <div class="main-content">
-            <div class="login-container">
-                <div class="login-header">
-                    <i class="bi bi-shield-check" style="font-size: 3rem; color: var(--primary-red);"></i>
-                    <h2>REGISTRASI</h2>
-                    <p>Silakan daftar untuk menggunakan aplikasi</p>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="logo">RS</div>
+                <div class="hospital-info">
+                    <h1 style="font-size: 14px; margin: 0;">RSUD Talaud 2026</h1>
+                    <p style="font-size: 10px; margin: 0;">Outsourcing</p>
                 </div>
-                
-                <!-- Pesan sukses registrasi -->
-                <div class="registration-success" id="registrationSuccess">
-                    <i class="bi bi-check-circle"></i> Registrasi berhasil! Silakan login dengan data yang telah Anda daftar.
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">PA</div>
+                <div class="user-name">
+                    <div style="font-weight: 600; font-size: 12px;">Pengguna Aplikasi</div>
+                    <div style="font-size: 10px; opacity: 0.8;">Administrator</div>
                 </div>
-                
-                <form id="loginForm">
-                    <div class="mb-3">
-                        <label class="form-label">Nomor Telepon</label>
-                        <input type="tel" class="form-control" id="phoneNumber" placeholder="08xxxxxxxxxx" required>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" onclick="showPage('beranda')">
+                    <i class="bi bi-house-door"></i>
+                    <span>Beranda</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showPage('laporan')">
+                    <i class="bi bi-file-earmark-plus"></i>
+                    <span>Buat Laporan</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showPage('riwayat')">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Riwayat Laporan</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showPage('galeri')">
+                    <i class="bi bi-images"></i>
+                    <span>Galeri Kegiatan</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Beranda Page -->
+        <div id="beranda" class="page active">
+            <div class="content-header">
+                <h2>Dashboard</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Beranda</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="row">
+                <div class="col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div class="stat-number" id="totalKaryawan">156</div>
+                        <div class="stat-label">Total Karyawan</div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="fullName" placeholder="Nama Lengkap" required>
+                </div>
+                <div class="col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon secondary">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="stat-number" id="totalArea">27</div>
+                        <div class="stat-label">Area Kerja</div>
                     </div>
-                    <div class="mb-3">
+                </div>
+                <div class="col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="bi bi-file-text"></i>
+                        </div>
+                        <div class="stat-number" id="totalLaporan">42</div>
+                        <div class="stat-label">Total Laporan</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="stat-card">
+                        <div class="stat-icon secondary">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="stat-number" id="aktif">138</div>
+                        <div class="stat-label">Karyawan Aktif</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contract Info Card -->
+            <div class="info-card">
+                <h5><i class="bi bi-calendar-check"></i> Penandatangan Kontrak</h5>
+                <p>26 Januari 2026 - Penandatangan kontrak kerjasama outsourcing tenaga kerja RSUD Talaud</p>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="activity-list">
+                <div class="activity-item">
+                    <div class="activity-icon medical">
+                        <i class="bi bi-heart-pulse"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Pemeriksaan Kesehatan</div>
+                        <div class="activity-desc">Tim medis melakukan pemeriksaan rutin di ruang IGD</div>
+                    </div>
+                    <div class="activity-time">2 jam</div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon cleaning">
+                        <i class="bi bi-broom"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Pembersihan Ruangan</div>
+                        <div class="activity-desc">Tim cleaning service membersihkan ruang bedah sentral</div>
+                    </div>
+                    <div class="activity-time">4 jam</div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon maintenance">
+                        <i class="bi bi-gear"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Maintenance IPAL</div>
+                        <div class="activity-desc">Teknisi IPSRS melakukan maintenance sistem IPAL</div>
+                    </div>
+                    <div class="activity-time">6 jam</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buat Laporan Page -->
+        <div id="laporan" class="page" style="display: none;">
+            <div class="content-header">
+                <h2>Buat Laporan</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Beranda</a></li>
+                        <li class="breadcrumb-item active">Buat Laporan</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="form-container">
+                <h3 class="form-title">Form Laporan Karyawan</h3>
+                <form id="formLaporan">
+                    <div class="form-group">
+                        <label class="form-label">Nama Karyawan</label>
+                        <input type="text" class="form-control" id="namaKaryawan" required placeholder="Masukkan nama karyawan">
+                    </div>
+                    <div class="form-group">
                         <label class="form-label">Jenis Karyawan</label>
-                        <select class="form-select" id="employeeType" required>
+                        <select class="form-select" id="jenisKaryawan" required>
                             <option value="">Pilih Jenis Karyawan</option>
                             <option value="Administrasi">Administrasi</option>
                             <option value="Cleaning Service">Cleaning Service</option>
@@ -597,455 +857,252 @@
                             <option value="Teknisi IPSRS">Teknisi IPSRS</option>
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="agreement" required>
-                            <label class="form-check-label" for="agreement">
-                                Saya setuju dengan syarat dan ketentuan yang berlaku
-                            </label>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Area Kerja/Ruangan</label>
+                        <select class="form-select" id="areaKerja" required>
+                            <option value="">Pilih Area Kerja</option>
+                            <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
+                            <option value="Bedah">Bedah</option>
+                            <option value="Bedah Sentral">Bedah Sentral</option>
+                            <option value="Binatu">Binatu</option>
+                            <option value="Bougenville">Bougenville</option>
+                            <option value="Crysant">Crysant</option>
+                            <option value="Dahlia">Dahlia</option>
+                            <option value="Edelweis VIP">Edelweis VIP</option>
+                            <option value="Fisioterapi">Fisioterapi</option>
+                            <option value="ICU">ICU</option>
+                            <option value="IGD">IGD</option>
+                            <option value="Isolasi">Isolasi</option>
+                            <option value="IPAL">IPAL</option>
+                            <option value="IPSRS">IPSRS</option>
+                            <option value="Kantor/Manajemen">Kantor/Manajemen</option>
+                            <option value="Kasir">Kasir</option>
+                            <option value="NICU">NICU</option>
+                            <option value="Pendaftaran">Pendaftaran</option>
+                            <option value="Poliklinik">Poliklinik</option>
+                            <option value="Radiologi">Radiologi</option>
+                            <option value="Ruang Bersalin">Ruang Bersalin</option>
+                            <option value="Seluruh Ruangan/Koridor RS">Seluruh Ruangan/Koridor RS</option>
+                            <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
+                            <option value="UTD">UTD</option>
+                            <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
+                        </select>
                     </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Daftar</button>
+                    <div class="form-group">
+                        <label class="form-label">Shift Kerja</label>
+                        <select class="form-select" id="shiftKerja" required>
+                            <option value="">Pilih Shift</option>
+                            <option value="Malam">Malam (22:00 - 06:00)</option>
+                            <option value="Pagi">Pagi (06:00 - 14:00)</option>
+                            <option value="Siang">Siang (14:00 - 22:00)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Laporan Kegiatan</label>
+                        <textarea class="form-control" id="laporanKegiatan" rows="3" required placeholder="Deskripsikan kegiatan yang dilakukan"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload Foto (Opsional)</label>
+                        <input type="file" class="form-control" id="fotoLaporan" accept="image/*">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send"></i> Kirim Laporan
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
 
-    <!-- Halaman Beranda -->
-    <div id="beranda" class="page">
-        <div class="header">
-            <h1>OUTSOURCING RSUD TALAUD 2026</h1>
-            <p>Sistem Manajemen Outsourcing Tenaga Kerja</p>
-        </div>
+        <!-- Riwayat Laporan Page -->
+        <div id="riwayat" class="page" style="display: none;">
+            <div class="content-header">
+                <h2>Riwayat Laporan</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Beranda</a></li>
+                        <li class="breadcrumb-item active">Riwayat Laporan</li>
+                    </ol>
+                </nav>
+            </div>
 
-        <div class="main-content">
-            <div class="container-fluid">
-                <div class="row mb-3">
-                    <!-- Total Karyawan (Kiri) -->
-                    <div class="col-6">
-                        <div class="stat-card">
-                            <i class="bi bi-people-fill" style="font-size: 2.5rem;"></i>
-                            <div class="stat-number" id="totalKaryawan">0</div>
-                            <div>Total Karyawan</div>
-                        </div>
+            <div class="filter-section">
+                <div class="filter-title">Filter Laporan</div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <input type="text" class="form-control" id="filterNama" placeholder="Filter berdasarkan nama...">
                     </div>
-                    <!-- Area Kerja (Kanan) -->
-                    <div class="col-6">
-                        <div class="stat-card">
-                            <i class="bi bi-building" style="font-size: 2.5rem;"></i>
-                            <div class="stat-number" id="totalArea">0</div>
-                            <div>Area Kerja</div>
-                        </div>
+                    <div class="filter-group">
+                        <select class="form-select" id="filterJenis">
+                            <option value="">Semua Jenis</option>
+                            <option value="Administrasi">Administrasi</option>
+                            <option value="Cleaning Service">Cleaning Service</option>
+                            <option value="Operator IPAL">Operator IPAL</option>
+                            <option value="Penata Halaman">Penata Halaman</option>
+                            <option value="Juru Masak">Juru Masak</option>
+                            <option value="Limbah RS">Limbah RS</option>
+                            <option value="Laundry">Laundry</option>
+                            <option value="Teknisi IPSRS">Teknisi IPSRS</option>
+                        </select>
                     </div>
-                </div>
-
-                <!-- Penandatangan Kontrak -->
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <div class="kontrak-card">
-                            <i class="bi bi-calendar-check" style="font-size: 3rem;"></i>
-                            <div class="kontrak-date">26 Januari 2026</div>
-                            <div class="kontrak-title">Penandatangan Kontrak</div>
-                            <p>Penandatangan kontrak kerjasama outsourcing tenaga kerja RSUD Talaud</p>
-                        </div>
+                    <div class="filter-group">
+                        <select class="form-select" id="filterArea">
+                            <option value="">Semua Area</option>
+                            <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
+                            <option value="Bedah">Bedah</option>
+                            <option value="Bedah Sentral">Bedah Sentral</option>
+                            <option value="Binatu">Binatu</option>
+                            <option value="Bougenville">Bougenville</option>
+                            <option value="Crysant">Crysant</option>
+                            <option value="Dahlia">Dahlia</option>
+                            <option value="Edelweis VIP">Edelweis VIP</option>
+                            <option value="Fisioterapi">Fisioterapi</option>
+                            <option value="ICU">ICU</option>
+                            <option value="IGD">IGD</option>
+                            <option value="Isolasi">Isolasi</option>
+                            <option value="IPAL">IPAL</option>
+                            <option value="IPSRS">IPSRS</option>
+                            <option value="Kantor/Manajemen">Kantor/Manajemen</option>
+                            <option value="Kasir">Kasir</option>
+                            <option value="NICU">NICU</option>
+                            <option value="Pendaftaran">Pendaftaran</option>
+                            <option value="Poliklinik">Poliklinik</option>
+                            <option value="Radiologi">Radiologi</option>
+                            <option value="Ruang Bersalin">Ruang Bersalin</option>
+                            <option value="Seluruh Ruangan/Koridor RS">Seluruh Ruangan/Koridor RS</option>
+                            <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
+                            <option value="UTD">UTD</option>
+                            <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
+                        </select>
                     </div>
-                </div>
-
-                <!-- Informasi Umum -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="bi bi-info-circle"></i> Informasi Umum
-                            </div>
-                            <div class="card-body">
-                                <div class="list-group">
-                                    <div class="list-group-item list-group-item-action">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1 nama-karyawan">Pemeriksaan Kesehatan</h5>
-                                            <small class="text-muted">2 jam yang lalu</small>
-                                        </div>
-                                        <p class="mb-1">Tim medis melakukan pemeriksaan rutin di ruang IGD</p>
-                                    </div>
-                                    <div class="list-group-item list-group-item-action">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1 nama-karyawan">Pembersihan Ruangan</h5>
-                                            <small class="text-muted">4 jam yang lalu</small>
-                                        </div>
-                                        <p class="mb-1">Tim cleaning service membersihkan ruang bedah sentral</p>
-                                    </div>
-                                    <div class="list-group-item list-group-item-action">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1 nama-karyawan">Maintenance IPAL</h5>
-                                            <small class="text-muted">6 jam yang lalu</small>
-                                        </div>
-                                        <p class="mb-1">Teknisi IPSRS melakukan maintenance sistem IPAL</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="filter-group">
+                        <button class="btn btn-primary btn-filter" onclick="applyFilter()">
+                            <i class="bi bi-search"></i> Filter
+                        </button>
+                        <button class="btn btn-outline-secondary btn-filter" onclick="clearFilter()">
+                            <i class="bi bi-x-circle"></i> Bersihkan
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Halaman Buat Laporan -->
-    <div id="laporan" class="page">
-        <div class="header">
-            <h1>OUTSOURCING RSUD TALAUD 2026</h1>
-            <p>Sistem Manajemen Outsourcing Tenaga Kerja</p>
-        </div>
-
-        <div class="main-content">
-            <div class="container-fluid">
-                <div class="card batik-border">
-                    <div class="card-header">
-                        <i class="bi bi-file-earmark-text"></i> Form Laporan Karyawan
-                    </div>
-                    <div class="card-body">
-                        <form id="formLaporan">
-                            <div class="row">
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Nama Karyawan</label>
-                                    <input type="text" class="form-control" id="namaKaryawan" required>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Jenis Karyawan</label>
-                                    <select class="form-select" id="jenisKaryawan" required>
-                                        <option value="">Pilih Jenis Karyawan</option>
-                                        <option value="Administrasi">Administrasi</option>
-                                        <option value="Cleaning Service">Cleaning Service</option>
-                                        <option value="Operator IPAL">Operator IPAL</option>
-                                        <option value="Penata Halaman">Penata Halaman</option>
-                                        <option value="Juru Masak">Juru Masak</option>
-                                        <option value="Limbah RS">Limbah RS</option>
-                                        <option value="Laundry">Laundry</option>
-                                        <option value="Teknisi IPSRS">Teknisi IPSRS</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Area Kerja/Ruangan</label>
-                                    <select class="form-select" id="areaKerja" required>
-                                        <option value="">Pilih Area Kerja</option>
-                                        <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
-                                        <option value="Bedah">Bedah</option>
-                                        <option value="Bedah Sentral">Bedah Sentral</option>
-                                        <option value="Binatu">Binatu</option>
-                                        <option value="Bougenville">Bougenville</option>
-                                        <option value="Crysant">Crysant</option>
-                                        <option value="Dahlia">Dahlia</option>
-                                        <option value="Edelweis VIP">Edelweis VIP</option>
-                                        <option value="Fisioterapi">Fisioterapi</option>
-                                        <option value="ICU">ICU</option>
-                                        <option value="IGD">IGD</option>
-                                        <option value="Isolasi">Isolasi</option>
-                                        <option value="IPAL">IPAL</option>
-                                        <option value="IPSRS">IPSRS</option>
-                                        <option value="Kantor/Manajemen">Kantor/Manajemen</option>
-                                        <option value="Kasir">Kasir</option>
-                                        <option value="NICU">NICU</option>
-                                        <option value="Pendaftaran">Pendaftaran</option>
-                                        <option value="Poliklinik">Poliklinik</option>
-                                        <option value="Radiologi">Radiologi</option>
-                                        <option value="Ruang Bersalin">Ruang Bersalin</option>
-                                        <option value="Seluruh Ruangan/Koridor RS">Seluruh Ruangan/Koridor RS</option>
-                                        <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
-                                        <option value="UTD">UTD</option>
-                                        <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Shift Kerja</label>
-                                    <select class="form-select" id="shiftKerja" required>
-                                        <option value="">Pilih Shift</option>
-                                        <option value="Malam">Malam (22:00 - 06:00)</option>
-                                        <option value="Pagi">Pagi (06:00 - 14:00)</option>
-                                        <option value="Siang">Siang (14:00 - 22:00)</option>
-                                    </select>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Laporan Kegiatan</label>
-                                    <textarea class="form-control" id="laporanKegiatan" rows="4" required></textarea>
-                                </div>
-                                <div class="col-12 mb-3">
-                                    <label class="form-label">Upload Foto (Opsional)</label>
-                                    <input type="file" class="form-control" id="fotoLaporan" accept="image/*">
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="bi bi-send"></i> Kirim Laporan
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+            <div id="riwayatList">
+                <!-- Reports will be loaded here -->
             </div>
         </div>
-    </div>
 
-    <!-- Halaman Galeri Kegiatan -->
-    <div id="galeri" class="page">
-        <div class="header">
-            <h1>OUTSOURCING RSUD TALAUD 2026</h1>
-            <p>Sistem Manajemen Outsourcing Tenaga Kerja</p>
-        </div>
+        <!-- Galeri Kegiatan Page -->
+        <div id="galeri" class="page" style="display: none;">
+            <div class="content-header">
+                <h2>Galeri Kegiatan</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Beranda</a></li>
+                        <li class="breadcrumb-item active">Galeri Kegiatan</li>
+                    </ol>
+                </nav>
+            </div>
 
-        <div class="main-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="gallery-item">
-                            <img src="https://picsum.photos/seed/tim1/400/300" alt="Tim Medical">
-                            <div class="position-absolute bottom-0 start-0 m-2 text-white">
-                                <h5>Tim Medical</h5>
-                                <small>IGD - Pemeriksaan Pasien</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="gallery-item">
-                            <img src="https://picsum.photos/seed/cleaning1/400/300" alt="Cleaning Service">
-                            <div class="position-absolute bottom-0 start-0 m-2 text-white">
-                                <h5>Cleaning Service</h5>
-                                <small>Ruang Bedah - Pembersihan</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="gallery-item">
-                            <img src="https://picsum.photos/seed/ipsrs1/400/300" alt="Teknisi IPSRS">
-                            <div class="position-absolute bottom-0 start-0 m-2 text-white">
-                                <h5>Teknisi IPSRS</h5>
-                                <small>IPAL - Maintenance</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="gallery-item">
-                            <img src="https://picsum.photos/seed/kasir1/400/300" alt="Tim Kasir">
-                            <div class="position-absolute bottom-0 start-0 m-2 text-white">
-                                <h5>Tim Kasir</h5>
-                                <small>Pendaftaran - Transaksi</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="gallery-item">
-                            <img src="https://picsum.photos/seed/koki1/400/300" alt="Tim Dapur">
-                            <div class="position-absolute bottom-0 start-0 m-2 text-white">
-                                <h5>Tim Dapur</h5>
-                                <small>Kantin - Penyajian Makanan</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-4 mb-4">
-                        <div class="gallery-item">
-                            <img src="https://picsum.photos/seed/laundry1/400/300" alt="Tim Laundry">
-                            <div class="position-absolute bottom-0 start-0 m-2 text-white">
-                                <h5>Tim Laundry</h5>
-                                <small>Lokasi Laundry - Pencucian</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="gallery-container" id="galleryContainer">
+                <!-- Gallery items will be loaded here -->
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Halaman Chat Grup -->
-    <div id="chat" class="page">
-        <div class="header">
-            <h1>GRUP CHAT</h1>
-            <p>Komunikasi dengan rekan kerja</p>
-        </div>
-
-        <div class="main-content">
-            <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <i class="bi bi-chat-dots"></i> Diskusi Tim
-                    </div>
-                    <div class="card-body">
-                        <div class="chat-container" id="chatContainer">
-                            <!-- Chat kosong, akan diisi saat ada pesan -->
-                            <div class="empty-chat">
-                                <i class="bi bi-chat-dots"></i>
-                                <h5>Belum ada pesan</h5>
-                                <p>Tunggu pesan terbaru dari rekan kerja</p>
-                            </div>
-                        </div>
-                        <div class="chat-input">
-                            <input type="text" id="chatInput" placeholder="Ketik pesan...">
-                            <button onclick="sendMessage()">
-                                <i class="bi bi-send"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigation Footer - permanen di bawah -->
-    <nav class="footer-nav" id="footerNav">
+    <!-- Footer -->
+    <footer class="main-footer">
         <div class="container-fluid">
-            <div class="d-flex justify-content-center">
-                <a href="#" class="nav-item-footer" onclick="showPage('beranda')" id="navBeranda">
-                    <i class="bi bi-house-door"></i>
-                    <span>Beranda</span>
-                </a>
-                <a href="#" class="nav-item-footer" onclick="showPage('laporan')" id="navLaporan">
-                    <i class="bi bi-file-earmark-plus"></i>
-                    <span>Buat Laporan</span>
-                </a>
-                <a href="#" class="nav-item-footer" onclick="showPage('galeri')" id="navGaleri">
-                    <i class="bi bi-images"></i>
-                    <span>Galeri Kegiatan</span>
-                </a>
-                <a href="#" class="nav-item-footer" onclick="showPage('chat')" id="navChat">
-                    <i class="bi bi-chat-dots"></i>
-                    <span>Chat Grup</span>
-                </a>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5>RSUD Talaud 2026</h5>
+                    <p>Sistem Manajemen Outsourcing Tenaga Kerja</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="bi bi-twitter"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="bi bi-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Link Cepat</h5>
+                    <p><a href="#">Beranda</a></p>
+                    <p><a href="#">Tentang Kami</a></p>
+                    <p><a href="#">Kontak</a></p>
+                    <p><a href="#">Bantuan</a></p>
+                </div>
+                <div class="footer-section">
+                    <h5>Kontak</h5>
+                    <p><i class="bi bi-geo-alt"></i> Jl. Raya Talaud, Kabupaten Kepulauan Talaud</p>
+                    <p><i class="bi bi-telephone"></i> (0434) 123456</p>
+                    <p><i class="bi bi-envelope"></i> info@rsudtalaud2026.go.id</p>
+                </div>
+            </div>
+            <div class="text-center mt-3 pt-3 border-top border-secondary">
+                <p>&copy; 2026 RSUD Talaud. All rights reserved.</p>
             </div>
         </div>
-    </nav>
+    </footer>
 
     <!-- Notification -->
     <div id="notification" class="notification">
         <i class="bi bi-check-circle"></i> <span id="notificationText"></span>
     </div>
 
-    <!-- Chat Notification -->
-    <div id="chatNotification" class="chat-notification">
-        <div class="chat-header">
-            <div class="chat-avatar">
-                <i class="bi bi-person-fill"></i>
-            </div>
-            <div class="chat-info">
-                <div class="chat-name" id="chatNotificationName">Nama Pengguna</div>
-                <div class="chat-preview" id="chatNotificationPreview">Pesan preview...</div>
-            </div>
-            <div class="chat-time" id="chatNotificationTime">12:00</div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Simulasi data
-        const dataSimulasi = {
-            totalKaryawan: 156,
-            totalArea: 27,
-            totalLaporan: 42,
-            aktif: 138
-        };
+        // Toggle sidebar for mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
 
-        // Data pengguna
-        let userData = {
-            phoneNumber: '',
-            fullName: '',
-            employeeType: '',
-            registered: false
-        };
-
-        // Data chat
-        let chatMessages = [];
-        let lastMessageId = 0;
-        let unreadMessages = 0;
-
-        // Daftar pengguna untuk simulasi
-        const allUsers = [
-            { name: 'Admin', type: 'Administrasi' },
-            { name: 'Tim Medical', type: 'Cleaning Service' },
-            { name: 'Cleaning Service', type: 'Cleaning Service' },
-            { name: 'Teknisi IPSRS', type: 'Teknisi IPSRS' },
-            { name: 'Operator IPAL', type: 'Operator IPAL' },
-            { name: 'Penata Halaman', type: 'Penata Halaman' },
-            { name: 'Juru Masak', type: 'Juru Masak' },
-            { name: 'Limbah RS', type: 'Limbah RS' },
-            { name: 'Laundry', type: 'Laundry' }
-        ];
-
-        // Pesan untuk simulasi
-        const sampleMessages = [
-            "Apakah ada update jadwal shift hari ini?",
-            "Tim bedah sentral sudah selesai membersihkan ruangan",
-            "Sistem IPAL sedang dalam maintenance",
-            "Pemeriksaan kesehatan di IGD berjalan normal",
-            "Pendaftaran pasien sudah selesai untuk hari ini",
-            "Laundry sudah selesai mencuci semua linen",
-            "Kantin sudah menyajikan makanan siang",
-            "Radiologi sedang melakukan pemeriksaan",
-            "Apotek sudah restock obat-obatan"
-        ];
-
-        // Cek apakah pengguna sudah terdaftar
-        function checkRegistrationStatus() {
-            const storedData = localStorage.getItem('userData');
-            if (storedData) {
-                userData = JSON.parse(storedData);
-                userData.registered = true;
-                showPage('beranda');
-                updateNavigation('beranda');
-                // Tampilkan footer navigation setelah registrasi
-                document.getElementById('footerNav').classList.add('show');
-                // Mulai simulasi pesan masuk
-                startMessageSimulation();
-            } else {
-                showPage('login');
-                // Sembunyikan footer navigation saat belum registrasi
-                document.getElementById('footerNav').classList.remove('show');
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+                sidebar.classList.remove('active');
             }
-        }
+        });
 
-        // Update statistik
-        function updateStatistik() {
-            document.getElementById('totalKaryawan').textContent = dataSimulasi.totalKaryawan;
-            document.getElementById('totalArea').textContent = dataSimulasi.totalArea;
-        }
-
-        // Navigasi halaman
+        // Show page function
         function showPage(pageId) {
-            // Sembunyikan semua halaman
+            // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
+                page.style.display = 'none';
             });
             
-            // Tampilkan halaman yang dipilih
-            document.getElementById(pageId).classList.add('active');
+            // Show selected page
+            document.getElementById(pageId).style.display = 'block';
             
-            // Update navigasi
-            updateNavigation(pageId);
-            
-            // Reset unread messages saat membuka chat
-            if (pageId === 'chat') {
-                unreadMessages = 0;
-                updateChatBadge();
-            }
-        }
-
-        // Update navigasi
-        function updateNavigation(pageId) {
-            document.querySelectorAll('.nav-item-footer').forEach(item => {
-                item.classList.remove('active');
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
             });
             
-            // Tambahkan class active ke navigasi yang sesuai
-            if (pageId === 'beranda') {
-                document.getElementById('navBeranda').classList.add('active');
-            } else if (pageId === 'laporan') {
-                document.getElementById('navLaporan').classList.add('active');
+            document.querySelector(`.nav-link[onclick="showPage('${pageId}')"]`).classList.add('active');
+            
+            // Close sidebar on mobile after navigation
+            document.getElementById('sidebar').classList.remove('active');
+            
+            // Load page content
+            if (pageId === 'riwayat') {
+                loadLaporanData();
+                displayLaporan();
             } else if (pageId === 'galeri') {
-                document.getElementById('navGaleri').classList.add('active');
-            } else if (pageId === 'chat') {
-                document.getElementById('navChat').classList.add('active');
+                loadGallery();
             }
         }
 
-        // Tampilkan notifikasi
+        // Show notification
         function showNotification(message) {
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
@@ -1057,291 +1114,319 @@
             }, 3000);
         }
 
-        // Tampilkan notifikasi chat
-        function showChatNotification(sender, message) {
-            const chatNotification = document.getElementById('chatNotification');
-            const notificationName = document.getElementById('chatNotificationName');
-            const notificationPreview = document.getElementById('chatNotificationPreview');
-            const notificationTime = document.getElementById('chatNotificationTime');
-            
-            notificationName.textContent = sender;
-            notificationPreview.textContent = message;
-            notificationTime.textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-            
-            chatNotification.style.display = 'block';
-            
-            // Update badge
-            unreadMessages++;
-            updateChatBadge();
-            
-            // Sembunyikan notifikasi setelah 5 detik
-            setTimeout(() => {
-                chatNotification.style.display = 'none';
-            }, 5000);
-            
-            // Klik notifikasi untuk membuka chat
-            chatNotification.onclick = function() {
-                showPage('chat');
-                chatNotification.style.display = 'none';
-            };
-        }
-
-        // Update badge chat
-        function updateChatBadge() {
-            const chatBadge = document.querySelector('.chat-badge');
-            if (chatBadge) {
-                chatBadge.textContent = unreadMessages > 0 ? unreadMessages : '';
-                chatBadge.style.display = unreadMessages > 0 ? 'flex' : 'none';
-            }
-        }
-
-        // Handle registrasi form
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simpan data pengguna
-            userData.phoneNumber = document.getElementById('phoneNumber').value;
-            userData.fullName = document.getElementById('fullName').value;
-            userData.employeeType = document.getElementById('employeeType').value;
-            userData.registered = true;
-            
-            // Simpan ke localStorage
-            localStorage.setItem('userData', JSON.stringify(userData));
-            
-            // Tampilkan pesan sukses
-            const successMessage = document.getElementById('registrationSuccess');
-            successMessage.classList.add('show');
-            
-            // Reset form
-            this.reset();
-            
-            // Tampilkan notifikasi
-            showNotification('Registrasi berhasil! Silakan login dengan data yang telah Anda daftar.');
-            
-            // Setelah 3 detik, arahkan ke halaman beranda
-            setTimeout(() => {
-                successMessage.classList.remove('show');
-                showPage('beranda');
-                updateNavigation('beranda');
-                // Tampilkan footer navigation setelah registrasi
-                document.getElementById('footerNav').classList.add('show');
-                // Mulai simulasi pesan masuk
-                startMessageSimulation();
-            }, 3000);
-        });
-
         // Handle form submit laporan
         document.getElementById('formLaporan').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const formData = {
-                namaKaryawan: document.getElementById('namaKaryawan').value,
+                id: Date.now(),
+                namaKaryawan: document.getElementById('namaKaryawan').value.toUpperCase(),
                 jenisKaryawan: document.getElementById('jenisKaryawan').value,
                 areaKerja: document.getElementById('areaKerja').value,
                 shiftKerja: document.getElementById('shiftKerja').value,
-                laporanKegiatan: document.getElementById('laporanKegiatan').value
+                laporanKegiatan: document.getElementById('laporanKegiatan').value.toUpperCase(),
+                tanggal: new Date().toISOString(),
+                foto: null
             };
             
-            // Simulasi pengiriman data
-            console.log('Data laporan:', formData);
+            // Handle upload foto
+            const fotoInput = document.getElementById('fotoLaporan');
+            if (fotoInput.files && fotoInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    formData.foto = e.target.result;
+                    saveLaporan(formData);
+                };
+                reader.readAsDataURL(fotoInput.files[0]);
+            } else {
+                saveLaporan(formData);
+            }
+        });
+
+        // Simpan laporan
+        function saveLaporan(data) {
+            // Tambahkan data ke array
+            laporanData.unshift(data);
+            
+            // Simpan ke localStorage
+            saveToLocalStorage('laporanData', laporanData);
             
             // Update statistik
-            dataSimulasi.totalLaporan++;
+            dataSimulasi.totalLaporan = laporanData.length;
             updateStatistik();
             
             // Reset form
-            this.reset();
+            document.getElementById('formLaporan').reset();
             
             // Tampilkan notifikasi
-            showNotification('Laporan berhasil dikirim!');
-        });
-
-        // Konversi nama karyawan ke huruf kapital otomatis
-        document.getElementById('namaKaryawan').addEventListener('input', function(e) {
-            e.target.value = e.target.value.toUpperCase();
-        });
-
-        // Fungsi kirim pesan chat
-        function sendMessage() {
-            const chatInput = document.getElementById('chatInput');
-            const message = chatInput.value.trim();
+            showNotification('Laporan berhasil disimpan!');
             
-            if (message && userData.fullName && userData.registered) {
-                const chatContainer = document.getElementById('chatContainer');
-                
-                // Hapus pesan kosong jika ada
-                const emptyChat = chatContainer.querySelector('.empty-chat');
-                if (emptyChat) {
-                    emptyChat.remove();
-                }
-                
-                // Tambahkan pesan terkirim
-                const sentMessage = {
-                    id: ++lastMessageId,
-                    sender: userData.fullName,
-                    message: message,
-                    timestamp: new Date(),
-                    type: 'sent'
-                };
-                
-                chatMessages.push(sentMessage);
-                saveChatMessages();
-                
-                const sentMessageElement = document.createElement('div');
-                sentMessageElement.className = 'chat-message sent';
-                sentMessageElement.innerHTML = `
-                    <div class="message-bubble sent">
-                        <strong>${userData.fullName}:</strong> ${message}
-                    </div>
-                `;
-                chatContainer.appendChild(sentMessageElement);
-                
-                // Kosongkan input
-                chatInput.value = '';
-                
-                // Scroll ke bawah
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-                
-                // Simulasi balasan dari pengguna lain
-                setTimeout(() => {
-                    const randomUser = allUsers[Math.floor(Math.random() * allUsers.length)];
-                    if (randomUser.name !== userData.fullName) {
-                        const receivedMessage = {
-                            id: ++lastMessageId,
-                            sender: randomUser.name,
-                            message: sampleMessages[Math.floor(Math.random() * sampleMessages.length)],
-                            timestamp: new Date(),
-                            type: 'received'
-                        };
-                        
-                        chatMessages.push(receivedMessage);
-                        saveChatMessages();
-                        
-                        const receivedMessageElement = document.createElement('div');
-                        receivedMessageElement.className = 'chat-message received';
-                        receivedMessageElement.innerHTML = `
-                            <div class="message-bubble received">
-                                <strong>${randomUser.name}:</strong> ${receivedMessage.message}
-                            </div>
-                        `;
-                        chatContainer.appendChild(receivedMessageElement);
-                        chatContainer.scrollTop = chatContainer.scrollHeight;
-                        
-                        // Tampilkan notifikasi jika user tidak di halaman chat
-                        if (document.getElementById('chat').classList.contains('active') === false) {
-                            showChatNotification(randomUser.name, receivedMessage.message);
-                        }
+            // Navigasi ke halaman riwayat
+            setTimeout(() => {
+                showPage('riwayat');
+            }, 1000);
+        }
+
+        // Update statistik
+        function updateStatistik() {
+            document.getElementById('totalKaryawan').textContent = dataSimulasi.totalKaryawan;
+            document.getElementById('totalArea').textContent = dataSimulasi.totalArea;
+            document.getElementById('totalLaporan').textContent = dataSimulasi.totalLaporan;
+            document.getElementById('aktif').textContent = dataSimulasi.aktif;
+        }
+
+        // Simulasi data
+        const dataSimulasi = {
+            totalKaryawan: 156,
+            totalArea: 27,
+            totalLaporan: 42,
+            aktif: 138
+        };
+
+        // Data pengguna
+        let userData = {
+            phoneNumber: '',
+            fullName: 'Pengguna Aplikasi',
+            employeeType: 'Administrasi',
+            registered: true
+        };
+
+        // Data laporan
+        let laporanData = [];
+
+        // Fungsi untuk menyimpan data ke localStorage
+        function saveToLocalStorage(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+                return true;
+            } catch (error) {
+                console.error('Error saving to localStorage:', error);
+                return false;
+            }
+        }
+
+        // Fungsi untuk memuat data dari localStorage
+        function loadFromLocalStorage(key) {
+            try {
+                const data = localStorage.getItem(key);
+                return data ? JSON.parse(data) : [];
+            } catch (error) {
+                console.error('Error loading from localStorage:', error);
+                return [];
+            }
+        }
+
+        // Muat data laporan dari localStorage
+        function loadLaporanData() {
+            laporanData = loadFromLocalStorage('laporanData');
+            if (laporanData.length === 0) {
+                // Jika tidak ada data, tambahkan data sample
+                const sampleData = [
+                    {
+                        id: 1,
+                        namaKaryawan: "TIM CLEANING SERVICE",
+                        jenisKaryawan: "Cleaning Service",
+                        areaKerja: "Bedah Sentral",
+                        shiftKerja: "Pagi",
+                        laporanKegiatan: "MEMBERSIHKAN RUANG BEDAH SENTRAL DAN MENGANTI LINEN PASIEN",
+                        tanggal: new Date(Date.now() - 86400000).toISOString(),
+                        foto: null
+                    },
+                    {
+                        id: 2,
+                        namaKaryawan: "TEKNISI IPSRS",
+                        jenisKaryawan: "Teknisi IPSRS",
+                        areaKerja: "IPAL",
+                        shiftKerja: "Siang",
+                        laporanKegiatan: "MELAKUKAN MAINTENANCE SISTEM IPAL DAN MEMBERSIHKAN FILTER",
+                        tanggal: new Date(Date.now() - 172800000).toISOString(),
+                        foto: null
+                    },
+                    {
+                        id: 3,
+                        namaKaryawan: "TIM KASIR",
+                        jenisKaryawan: "Administrasi",
+                        areaKerja: "Pendaftaran",
+                        shiftKerja: "Malam",
+                        laporanKegiatan: "MEMBANTU PENDAFTARAN PASIEN MALAM DAN TRANSAKSI PEMBAYARAN",
+                        tanggal: new Date(Date.now() - 259200000).toISOString(),
+                        foto: null
                     }
-                }, 1000 + Math.random() * 2000); // 1-3 detik delay
+                ];
+                
+                laporanData = sampleData;
+                saveToLocalStorage('laporanData', laporanData);
             }
         }
 
-        // Handle enter key di chat input
-        document.getElementById('chatInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        // Simpan chat messages ke localStorage
-        function saveChatMessages() {
-            localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
-            localStorage.setItem('lastMessageId', lastMessageId);
-        }
-
-        // Load chat messages dari localStorage
-        function loadChatMessages() {
-            const storedMessages = localStorage.getItem('chatMessages');
-            if (storedMessages) {
-                chatMessages = JSON.parse(storedMessages);
-            }
-            
-            const storedId = localStorage.getItem('lastMessageId');
-            if (storedId) {
-                lastMessageId = parseInt(storedId);
-            }
-        }
-
-        // Tampilkan chat messages
-        function displayChatMessages() {
-            const chatContainer = document.getElementById('chatContainer');
+        // Tampilkan laporan
+        function displayLaporan(filteredData = null) {
+            const riwayatList = document.getElementById('riwayatList');
+            const data = filteredData || laporanData;
             
             // Kosongkan container
-            chatContainer.innerHTML = '';
+            riwayatList.innerHTML = '';
             
-            // Tampilkan semua pesan
-            chatMessages.forEach(msg => {
-                const messageElement = document.createElement('div');
-                messageElement.className = `chat-message ${msg.type}`;
+            if (data.length === 0) {
+                riwayatList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-inbox"></i>
+                        <h5>Belum ada laporan</h5>
+                        <p>Silakan buat laporan baru di halaman "Buat Laporan"</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Tampilkan setiap laporan
+            data.forEach(laporan => {
+                const tanggal = new Date(laporan.tanggal);
+                const formattedTanggal = tanggal.toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
                 
-                if (msg.type === 'sent') {
-                    messageElement.innerHTML = `
-                        <div class="message-bubble sent">
-                            <strong>${msg.sender}:</strong> ${msg.message}
+                const laporanElement = document.createElement('div');
+                laporanElement.className = 'report-item';
+                laporanElement.innerHTML = `
+                    <div class="report-header">
+                        <div class="report-title">${laporan.namaKaryawan}</div>
+                        <div class="report-date">${formattedTanggal}</div>
+                    </div>
+                    <div class="report-meta">
+                        <span class="report-tag">${laporan.jenisKaryawan}</span>
+                        <span class="report-tag">${laporan.shiftKerja}</span>
+                    </div>
+                    <div>
+                        <strong>Area:</strong> ${laporan.areaKerja}
+                    </div>
+                    <div class="report-content">
+                        <strong>Laporan:</strong><br>
+                        ${laporan.laporanKegiatan}
+                    </div>
+                    ${laporan.foto ? `
+                        <div class="report-image">
+                            <img src="${laporan.foto}" alt="Foto laporan" onclick="viewImage('${laporan.foto}')">
                         </div>
-                    `;
-                } else {
-                    messageElement.innerHTML = `
-                        <div class="message-bubble received">
-                            <strong>${msg.sender}:</strong> ${msg.message}
-                        </div>
-                    `;
-                }
+                    ` : ''}
+                `;
                 
-                chatContainer.appendChild(messageElement);
+                riwayatList.appendChild(laporanElement);
+            });
+        }
+
+        // Load gallery
+        function loadGallery() {
+            const galleryContainer = document.getElementById('galleryContainer');
+            const galleryItems = [
+                { title: 'Tim Medical', subtitle: 'IGD - Pemeriksaan Pasien', seed: 'tim1' },
+                { title: 'Cleaning Service', subtitle: 'Ruang Bedah - Pembersihan', seed: 'cleaning1' },
+                { title: 'Teknisi IPSRS', subtitle: 'IPAL - Maintenance', seed: 'ipsrs1' },
+                { title: 'Tim Kasir', subtitle: 'Pendaftaran - Transaksi', seed: 'kasir1' },
+                { title: 'Tim Dapur', subtitle: 'Kantin - Penyajian Makanan', seed: 'koki1' },
+                { title: 'Tim Laundry', subtitle: 'Lokasi Laundry - Pencucian', seed: 'laundry1' }
+            ];
+            
+            galleryContainer.innerHTML = '';
+            
+            galleryItems.forEach(item => {
+                const galleryElement = document.createElement('div');
+                galleryElement.className = 'gallery-item';
+                galleryElement.innerHTML = `
+                    <img src="https://picsum.photos/seed/${item.seed}/300/300" alt="${item.title}">
+                    <div class="gallery-overlay">
+                        <div class="gallery-title">${item.title}</div>
+                        <div class="gallery-subtitle">${item.subtitle}</div>
+                    </div>
+                `;
+                galleryContainer.appendChild(galleryElement);
+            });
+        }
+
+        // View image modal
+        function viewImage(imageSrc) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                cursor: pointer;
+            `;
+            
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.style.cssText = `
+                max-width: 90%;
+                max-height: 90%;
+                border-radius: 8px;
+            `;
+            
+            modal.appendChild(img);
+            modal.onclick = function() {
+                document.body.removeChild(modal);
+            };
+            
+            document.body.appendChild(modal);
+        }
+
+        // Apply filter
+        function applyFilter() {
+            const filterNama = document.getElementById('filterNama').value.toLowerCase();
+            const filterJenis = document.getElementById('filterJenis').value;
+            const filterArea = document.getElementById('filterArea').value;
+            
+            const filteredData = laporanData.filter(laporan => {
+                const matchNama = !filterNama || laporan.namaKaryawan.toLowerCase().includes(filterNama);
+                const matchJenis = !filterJenis || laporan.jenisKaryawan === filterJenis;
+                const matchArea = !filterArea || laporan.areaKerja === filterArea;
+                
+                return matchNama && matchJenis && matchArea;
             });
             
-            // Scroll ke bawah
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            displayLaporan(filteredData);
         }
 
-        // Mulai simulasi pesan masuk
-        function startMessageSimulation() {
-            // Load pesan yang tersimpan
-            loadChatMessages();
-            
-            // Tampilkan pesan yang tersimpan
-            if (chatMessages.length > 0) {
-                displayChatMessages();
-            }
-            
-            // Set interval untuk simulasi pesan masuk
-            setInterval(() => {
-                if (Math.random() > 0.7) { // 30% chance every 10 seconds
-                    const randomUser = allUsers[Math.floor(Math.random() * allUsers.length)];
-                    if (randomUser.name !== userData.fullName) {
-                        const newMessage = {
-                            id: ++lastMessageId,
-                            sender: randomUser.name,
-                            message: sampleMessages[Math.floor(Math.random() * sampleMessages.length)],
-                            timestamp: new Date(),
-                            type: 'received'
-                        };
-                        
-                        chatMessages.push(newMessage);
-                        saveChatMessages();
-                        
-                        // Tampilkan notifikasi jika user tidak di halaman chat
-                        if (document.getElementById('chat').classList.contains('active') === false) {
-                            showChatNotification(randomUser.name, newMessage.message);
-                        }
-                    }
-                }
-            }, 10000); // Cek setiap 10 detik
+        // Clear filter
+        function clearFilter() {
+            document.getElementById('filterNama').value = '';
+            document.getElementById('filterJenis').value = '';
+            document.getElementById('filterArea').value = '';
+            displayLaporan();
         }
 
-        // Inisialisasi
-        checkRegistrationStatus();
-        updateStatistik();
-
-        // Simulasi update real-time
-        setInterval(() => {
-            const random = Math.random();
-            if (random > 0.7) {
-                dataSimulasi.totalLaporan++;
-                updateStatistik();
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
             }
-        }, 30000); // Update setiap 30 detik
+            lastTouchEnd = now;
+        }, false);
+
+        // Prevent pinch zoom
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load laporan data saat pertama kali dibuka
+            loadLaporanData();
+            updateStatistik();
+        });
     </script>
 </body>
 </html>
