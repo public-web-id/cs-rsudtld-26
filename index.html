@@ -93,42 +93,65 @@
             padding: 15px;
             flex: 1;
             transition: all 0.3s ease;
-            margin-top: 0; /* Diubah dari 60px menjadi 0 karena header dihapus */
+            margin-top: 0;
         }
 
         /* Page Title */
         .page-title {
             background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
             color: white;
-            padding: 20px 15px;
+            padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
 
         .page-logo {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .page-title-content {
+            flex: 1;
+            min-width: 0;
         }
 
         .page-title h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             margin: 0;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .page-title p {
             margin: 5px 0 0 0;
-            font-size: 14px;
+            font-size: 13px;
             opacity: 0.9;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .page-title .logo-right {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            flex-shrink: 0;
         }
 
         /* Beranda Info Terkini */
@@ -308,7 +331,7 @@
         /* Notification */
         .notification {
             position: fixed;
-            top: 10px; /* Diubah dari 70px menjadi 10px karena header dihapus */
+            top: 10px;
             right: 15px;
             background-color: var(--success-green);
             color: white;
@@ -513,13 +536,23 @@
         /* Sticky filter section for riwayat page */
         .sticky-filter {
             position: sticky;
-            top: 0; /* Diubah dari 60px menjadi 0 karena header dihapus */
+            top: 0;
             z-index: 900;
             background-color: var(--white);
             padding: 15px;
             margin-bottom: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             border-radius: 8px;
+        }
+
+        /* Image placeholder */
+        .img-placeholder {
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--medium-gray);
+            font-size: 12px;
         }
     </style>
 </head>
@@ -530,12 +563,12 @@
         <div id="beranda" class="page active">
             <!-- Page Title -->
             <div class="page-title">
-                <img src="https://z-cdn-media.chatglm.cn/files/36757c6a-d0a7-4eaf-8d39-a5d7e5c5ff62.png?auth_key=1869368930-8f64b68ec75f44028859a88f6fbd5dd1-0-6aff416fe4d5ae5cca7ce25e93c3ef46" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo">
-                <div>
+                <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
+                <div class="page-title-content">
                     <h1>Outsourcing RSUD Talaud 2026</h1>
                     <p>Sistem Pelaporan Karyawan</p>
                 </div>
-                <img src="https://z-cdn-media.chatglm.cn/files/1e2f3a4b-5c6d-7e8f-9a0b-1c2d3e4f5g6h.png?auth_key=1234567890-abcdefghij-0-1234567890abcdef" alt="RSUD Talaud" class="page-logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
             <!-- Info Terkini Section -->
@@ -591,12 +624,12 @@
         <!-- Buat Laporan Page -->
         <div id="laporan" class="page" style="display: none;">
             <div class="page-title">
-                <img src="https://z-cdn-media.chatglm.cn/files/36757c6a-d0a7-4eaf-8d39-a5d7e5c5ff62.png?auth_key=1869368930-8f64b68ec75f44028859a88f6bd5dd1-0-6aff416fe4d5ae5cca7ce25e93c3ef46" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo">
-                <div>
+                <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
+                <div class="page-title-content">
                     <h1>Form Laporan Karyawan</h1>
                     <p>Buat laporan kegiatan harian Anda</p>
                 </div>
-                <img src="https://z-cdn-media.chatglm.cn/files/2g3h4i5j-k6l7m8n-o9p0q1r-s2t3u4v-w5x6y7z.png?auth_key=0987654321-fedcba098-0-abcdef0987654321" alt="Form Laporan" class="page-logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
             <div class="form-container">
@@ -679,12 +712,12 @@
         <!-- Riwayat Laporan Page -->
         <div id="riwayat" class="page" style="display: none;">
             <div class="page-title">
-                <img src="https://z-cdn-media.chatglm.cn/files/36757c6a-d0a7-4eaf-8d39-a5d7e5c5ff62.png?auth_key=1869368930-8f64b68ec75f44028859a88f6fbd5dd1-0-6aff416fe4d5ae5cca7ce25e93c3ef46" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo">
-                <div>
+                <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
+                <div class="page-title-content">
                     <h1>Riwayat Laporan</h1>
                     <p>Lihat semua laporan yang telah dibuat</p>
                 </div>
-                <img src="https://z-cdn-media.chatglm.cn/files/3a4b5c6d-7e8f-9a0b-1c2d-3e4f5g6h-7i8j9k0l.png?auth_key=9876543210-01234567-0-0123456789abcdef" alt="Riwayat Laporan" class="page-logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
             <div class="sticky-filter">
@@ -755,12 +788,12 @@
         <!-- Galeri Kegiatan Page -->
         <div id="galeri" class="page" style="display: none;">
             <div class="page-title">
-                <img src="https://z-cdn-media.chatglm.cn/files/36757c6a-d0a7-4eaf-8d39-a5d7e5c5ff62.png?auth_key=1869368930-8f64b68ec75f44028859a88f6fbd5dd1-0-6aff416fe4d5ae5cca7ce25e93c3ef46" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo">
-                <div>
+                <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
+                <div class="page-title-content">
                     <h1>Galeri Kegiatan</h1>
                     <p>Koleksi foto kegiatan karyawan</p>
                 </div>
-                <img src="https://z-cdn-media.chatglm.cn/files/4f5g6h7i-8j9k0l1m-2n3o4p5q-6r7s8t9u-0v1w2x3y.png?auth_key=5678901234-abcde123-0-abcdef1234567890" alt="Galeri Foto" class="page-logo" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.3); box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
             <div class="gallery-container" id="galleryContainer">
@@ -950,7 +983,7 @@
                         shiftKerja: "Pagi",
                         laporanKegiatan: "MEMBERSIHKAN RUANG BEDAH SENTRAL DAN MENGANTI LINEN PASIEN",
                         tanggal: new Date(Date.now() - 86400000).toISOString(),
-                        foto: null
+                        foto: "https://picsum.photos/seed/report1/400/300.jpg"
                     },
                     {
                         id: 2,
@@ -960,7 +993,7 @@
                         shiftKerja: "Siang",
                         laporanKegiatan: "MELAKUKAN MAINTENANCE SISTEM IPAL DAN MEMBERSIHKAN FILTER",
                         tanggal: new Date(Date.now() - 172800000).toISOString(),
-                        foto: null
+                        foto: "https://picsum.photos/seed/report2/400/300.jpg"
                     },
                     {
                         id: 3,
@@ -970,7 +1003,7 @@
                         shiftKerja: "Malam",
                         laporanKegiatan: "MEMBANTU PENDAFTARAN PASIEN MALAM DAN TRANSAKSI PEMBAYARAN",
                         tanggal: new Date(Date.now() - 259200000).toISOString(),
-                        foto: null
+                        foto: "https://picsum.photos/seed/report3/400/300.jpg"
                     }
                 ];
                 
@@ -1029,7 +1062,7 @@
                     </div>
                     ${laporan.foto ? `
                         <div class="report-image">
-                            <img src="${laporan.foto}" alt="Foto laporan" onclick="viewImage('${laporan.foto}')">
+                            <img src="${laporan.foto}" alt="Foto laporan" onerror="this.parentElement.innerHTML='<div class=img-placeholder>Gambar tidak tersedia</div>'" onclick="viewImage('${laporan.foto}')">
                         </div>
                     ` : ''}
                 `;
@@ -1056,7 +1089,7 @@
                 const galleryElement = document.createElement('div');
                 galleryElement.className = 'gallery-item';
                 galleryElement.innerHTML = `
-                    <img src="https://picsum.photos/seed/${item.seed}/300/300" alt="${item.title}">
+                    <img src="https://picsum.photos/seed/${item.seed}/300/300" alt="${item.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBkPSJNMTAgMjBMMjAgMTBMMTAgMjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9zdmc+'">
                     <div class="gallery-overlay">
                         <div class="gallery-title">${item.title}</div>
                         <div class="gallery-subtitle">${item.subtitle}</div>
