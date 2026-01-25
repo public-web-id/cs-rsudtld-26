@@ -71,19 +71,21 @@
             z-index: 2;
         }
 
-        /* Navigation Footer - hanya muncul setelah login */
+        /* Navigation Footer - permanen di bawah */
         .footer-nav {
             background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
-            position: sticky;
+            position: fixed;
             bottom: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             padding: 10px 0;
             display: none; /* Sembunyikan secara default */
         }
 
         .footer-nav.show {
-            display: block; /* Tampilkan setelah login */
+            display: block; /* Tampilkan setelah registrasi */
         }
 
         .nav-item-footer {
@@ -214,11 +216,85 @@
             z-index: 2000;
             animation: slideIn 0.5s ease;
             font-size: 0.9rem;
+            max-width: 300px;
         }
 
         @keyframes slideIn {
             from { transform: translateX(100%); }
             to { transform: translateX(0); }
+        }
+
+        .chat-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-red);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 2000;
+            animation: slideIn 0.5s ease;
+            max-width: 300px;
+            cursor: pointer;
+        }
+
+        .chat-notification .chat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .chat-notification .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: var(--primary-red);
+            font-weight: bold;
+        }
+
+        .chat-notification .chat-info {
+            flex: 1;
+        }
+
+        .chat-notification .chat-name {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .chat-notification .chat-preview {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-notification .chat-time {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .chat-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4d4d;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
         }
 
         .batik-border {
@@ -322,6 +398,7 @@
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
         }
 
         .chat-message {
@@ -396,6 +473,34 @@
             font-weight: bold;
         }
 
+        /* Empty chat state */
+        .empty-chat {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-chat i {
+            font-size: 3rem;
+            color: var(--light-red);
+            margin-bottom: 15px;
+        }
+
+        /* Registration success message */
+        .registration-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .registration-success.show {
+            display: block;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .header h1 {
@@ -460,9 +565,15 @@
             <div class="login-container">
                 <div class="login-header">
                     <i class="bi bi-shield-check" style="font-size: 3rem; color: var(--primary-red);"></i>
-                    <h2>LOGIN</h2>
-                    <p>Silakan masuk dengan nomor telepon</p>
+                    <h2>REGISTRASI</h2>
+                    <p>Silakan daftar untuk menggunakan aplikasi</p>
                 </div>
+                
+                <!-- Pesan sukses registrasi -->
+                <div class="registration-success" id="registrationSuccess">
+                    <i class="bi bi-check-circle"></i> Registrasi berhasil! Silakan login dengan data yang telah Anda daftar.
+                </div>
+                
                 <form id="loginForm">
                     <div class="mb-3">
                         <label class="form-label">Nomor Telepon</label>
@@ -486,8 +597,16 @@
                             <option value="Teknisi IPSRS">Teknisi IPSRS</option>
                         </select>
                     </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="agreement" required>
+                            <label class="form-check-label" for="agreement">
+                                Saya setuju dengan syarat dan ketentuan yang berlaku
+                            </label>
+                        </div>
+                    </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Masuk</button>
+                        <button type="submit" class="btn btn-primary">Daftar</button>
                     </div>
                 </form>
             </div>
@@ -752,25 +871,11 @@
                     </div>
                     <div class="card-body">
                         <div class="chat-container" id="chatContainer">
-                            <div class="chat-message received">
-                                <div class="message-bubble received">
-                                    <strong>Admin:</strong> Selamat datang di grup chat tim outsourcing RSUD Talaud
-                                </div>
-                            </div>
-                            <div class="chat-message received">
-                                <div class="message-bubble received">
-                                    <strong>Tim Medical:</strong> Apakah ada update jadwal shift hari ini?
-                                </div>
-                            </div>
-                            <div class="chat-message sent">
-                                <div class="message-bubble sent">
-                                    Sudah diperbarui, silakan cek di aplikasi
-                                </div>
-                            </div>
-                            <div class="chat-message received">
-                                <div class="message-bubble received">
-                                    <strong>Cleaning Service:</strong> Tim bedah sentral sudah selesai membersihkan ruangan
-                                </div>
+                            <!-- Chat kosong, akan diisi saat ada pesan -->
+                            <div class="empty-chat">
+                                <i class="bi bi-chat-dots"></i>
+                                <h5>Belum ada pesan</h5>
+                                <p>Tunggu pesan terbaru dari rekan kerja</p>
                             </div>
                         </div>
                         <div class="chat-input">
@@ -785,7 +890,7 @@
         </div>
     </div>
 
-    <!-- Navigation Footer - hanya muncul setelah login -->
+    <!-- Navigation Footer - permanen di bawah -->
     <nav class="footer-nav" id="footerNav">
         <div class="container-fluid">
             <div class="d-flex justify-content-center">
@@ -814,6 +919,20 @@
         <i class="bi bi-check-circle"></i> <span id="notificationText"></span>
     </div>
 
+    <!-- Chat Notification -->
+    <div id="chatNotification" class="chat-notification">
+        <div class="chat-header">
+            <div class="chat-avatar">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            <div class="chat-info">
+                <div class="chat-name" id="chatNotificationName">Nama Pengguna</div>
+                <div class="chat-preview" id="chatNotificationPreview">Pesan preview...</div>
+            </div>
+            <div class="chat-time" id="chatNotificationTime">12:00</div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Simulasi data
@@ -828,21 +947,56 @@
         let userData = {
             phoneNumber: '',
             fullName: '',
-            employeeType: ''
+            employeeType: '',
+            registered: false
         };
 
-        // Cek apakah pengguna sudah login
-        function checkLoginStatus() {
+        // Data chat
+        let chatMessages = [];
+        let lastMessageId = 0;
+        let unreadMessages = 0;
+
+        // Daftar pengguna untuk simulasi
+        const allUsers = [
+            { name: 'Admin', type: 'Administrasi' },
+            { name: 'Tim Medical', type: 'Cleaning Service' },
+            { name: 'Cleaning Service', type: 'Cleaning Service' },
+            { name: 'Teknisi IPSRS', type: 'Teknisi IPSRS' },
+            { name: 'Operator IPAL', type: 'Operator IPAL' },
+            { name: 'Penata Halaman', type: 'Penata Halaman' },
+            { name: 'Juru Masak', type: 'Juru Masak' },
+            { name: 'Limbah RS', type: 'Limbah RS' },
+            { name: 'Laundry', type: 'Laundry' }
+        ];
+
+        // Pesan untuk simulasi
+        const sampleMessages = [
+            "Apakah ada update jadwal shift hari ini?",
+            "Tim bedah sentral sudah selesai membersihkan ruangan",
+            "Sistem IPAL sedang dalam maintenance",
+            "Pemeriksaan kesehatan di IGD berjalan normal",
+            "Pendaftaran pasien sudah selesai untuk hari ini",
+            "Laundry sudah selesai mencuci semua linen",
+            "Kantin sudah menyajikan makanan siang",
+            "Radiologi sedang melakukan pemeriksaan",
+            "Apotek sudah restock obat-obatan"
+        ];
+
+        // Cek apakah pengguna sudah terdaftar
+        function checkRegistrationStatus() {
             const storedData = localStorage.getItem('userData');
             if (storedData) {
                 userData = JSON.parse(storedData);
+                userData.registered = true;
                 showPage('beranda');
                 updateNavigation('beranda');
-                // Tampilkan footer navigation setelah login
+                // Tampilkan footer navigation setelah registrasi
                 document.getElementById('footerNav').classList.add('show');
+                // Mulai simulasi pesan masuk
+                startMessageSimulation();
             } else {
                 showPage('login');
-                // Sembunyikan footer navigation saat belum login
+                // Sembunyikan footer navigation saat belum registrasi
                 document.getElementById('footerNav').classList.remove('show');
             }
         }
@@ -865,6 +1019,12 @@
             
             // Update navigasi
             updateNavigation(pageId);
+            
+            // Reset unread messages saat membuka chat
+            if (pageId === 'chat') {
+                unreadMessages = 0;
+                updateChatBadge();
+            }
         }
 
         // Update navigasi
@@ -897,7 +1057,45 @@
             }, 3000);
         }
 
-        // Handle login form
+        // Tampilkan notifikasi chat
+        function showChatNotification(sender, message) {
+            const chatNotification = document.getElementById('chatNotification');
+            const notificationName = document.getElementById('chatNotificationName');
+            const notificationPreview = document.getElementById('chatNotificationPreview');
+            const notificationTime = document.getElementById('chatNotificationTime');
+            
+            notificationName.textContent = sender;
+            notificationPreview.textContent = message;
+            notificationTime.textContent = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            
+            chatNotification.style.display = 'block';
+            
+            // Update badge
+            unreadMessages++;
+            updateChatBadge();
+            
+            // Sembunyikan notifikasi setelah 5 detik
+            setTimeout(() => {
+                chatNotification.style.display = 'none';
+            }, 5000);
+            
+            // Klik notifikasi untuk membuka chat
+            chatNotification.onclick = function() {
+                showPage('chat');
+                chatNotification.style.display = 'none';
+            };
+        }
+
+        // Update badge chat
+        function updateChatBadge() {
+            const chatBadge = document.querySelector('.chat-badge');
+            if (chatBadge) {
+                chatBadge.textContent = unreadMessages > 0 ? unreadMessages : '';
+                chatBadge.style.display = unreadMessages > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Handle registrasi form
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -905,19 +1103,31 @@
             userData.phoneNumber = document.getElementById('phoneNumber').value;
             userData.fullName = document.getElementById('fullName').value;
             userData.employeeType = document.getElementById('employeeType').value;
+            userData.registered = true;
             
             // Simpan ke localStorage
             localStorage.setItem('userData', JSON.stringify(userData));
             
-            // Tampilkan halaman beranda
-            showPage('beranda');
-            updateNavigation('beranda');
+            // Tampilkan pesan sukses
+            const successMessage = document.getElementById('registrationSuccess');
+            successMessage.classList.add('show');
             
-            // Tampilkan footer navigation setelah login
-            document.getElementById('footerNav').classList.add('show');
+            // Reset form
+            this.reset();
             
             // Tampilkan notifikasi
-            showNotification('Login berhasil! Selamat datang ' + userData.fullName);
+            showNotification('Registrasi berhasil! Silakan login dengan data yang telah Anda daftar.');
+            
+            // Setelah 3 detik, arahkan ke halaman beranda
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+                showPage('beranda');
+                updateNavigation('beranda');
+                // Tampilkan footer navigation setelah registrasi
+                document.getElementById('footerNav').classList.add('show');
+                // Mulai simulasi pesan masuk
+                startMessageSimulation();
+            }, 3000);
         });
 
         // Handle form submit laporan
@@ -956,18 +1166,35 @@
             const chatInput = document.getElementById('chatInput');
             const message = chatInput.value.trim();
             
-            if (message) {
+            if (message && userData.fullName && userData.registered) {
                 const chatContainer = document.getElementById('chatContainer');
                 
+                // Hapus pesan kosong jika ada
+                const emptyChat = chatContainer.querySelector('.empty-chat');
+                if (emptyChat) {
+                    emptyChat.remove();
+                }
+                
                 // Tambahkan pesan terkirim
-                const sentMessage = document.createElement('div');
-                sentMessage.className = 'chat-message sent';
-                sentMessage.innerHTML = `
+                const sentMessage = {
+                    id: ++lastMessageId,
+                    sender: userData.fullName,
+                    message: message,
+                    timestamp: new Date(),
+                    type: 'sent'
+                };
+                
+                chatMessages.push(sentMessage);
+                saveChatMessages();
+                
+                const sentMessageElement = document.createElement('div');
+                sentMessageElement.className = 'chat-message sent';
+                sentMessageElement.innerHTML = `
                     <div class="message-bubble sent">
                         <strong>${userData.fullName}:</strong> ${message}
                     </div>
                 `;
-                chatContainer.appendChild(sentMessage);
+                chatContainer.appendChild(sentMessageElement);
                 
                 // Kosongkan input
                 chatInput.value = '';
@@ -975,18 +1202,37 @@
                 // Scroll ke bawah
                 chatContainer.scrollTop = chatContainer.scrollHeight;
                 
-                // Simulasi balasan
+                // Simulasi balasan dari pengguna lain
                 setTimeout(() => {
-                    const receivedMessage = document.createElement('div');
-                    receivedMessage.className = 'chat-message received';
-                    receivedMessage.innerHTML = `
-                        <div class="message-bubble received">
-                            <strong>Admin:</strong> Pesan Anda telah diterima
-                        </div>
-                    `;
-                    chatContainer.appendChild(receivedMessage);
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                }, 1000);
+                    const randomUser = allUsers[Math.floor(Math.random() * allUsers.length)];
+                    if (randomUser.name !== userData.fullName) {
+                        const receivedMessage = {
+                            id: ++lastMessageId,
+                            sender: randomUser.name,
+                            message: sampleMessages[Math.floor(Math.random() * sampleMessages.length)],
+                            timestamp: new Date(),
+                            type: 'received'
+                        };
+                        
+                        chatMessages.push(receivedMessage);
+                        saveChatMessages();
+                        
+                        const receivedMessageElement = document.createElement('div');
+                        receivedMessageElement.className = 'chat-message received';
+                        receivedMessageElement.innerHTML = `
+                            <div class="message-bubble received">
+                                <strong>${randomUser.name}:</strong> ${receivedMessage.message}
+                            </div>
+                        `;
+                        chatContainer.appendChild(receivedMessageElement);
+                        chatContainer.scrollTop = chatContainer.scrollHeight;
+                        
+                        // Tampilkan notifikasi jika user tidak di halaman chat
+                        if (document.getElementById('chat').classList.contains('active') === false) {
+                            showChatNotification(randomUser.name, receivedMessage.message);
+                        }
+                    }
+                }, 1000 + Math.random() * 2000); // 1-3 detik delay
             }
         }
 
@@ -997,8 +1243,95 @@
             }
         });
 
+        // Simpan chat messages ke localStorage
+        function saveChatMessages() {
+            localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
+            localStorage.setItem('lastMessageId', lastMessageId);
+        }
+
+        // Load chat messages dari localStorage
+        function loadChatMessages() {
+            const storedMessages = localStorage.getItem('chatMessages');
+            if (storedMessages) {
+                chatMessages = JSON.parse(storedMessages);
+            }
+            
+            const storedId = localStorage.getItem('lastMessageId');
+            if (storedId) {
+                lastMessageId = parseInt(storedId);
+            }
+        }
+
+        // Tampilkan chat messages
+        function displayChatMessages() {
+            const chatContainer = document.getElementById('chatContainer');
+            
+            // Kosongkan container
+            chatContainer.innerHTML = '';
+            
+            // Tampilkan semua pesan
+            chatMessages.forEach(msg => {
+                const messageElement = document.createElement('div');
+                messageElement.className = `chat-message ${msg.type}`;
+                
+                if (msg.type === 'sent') {
+                    messageElement.innerHTML = `
+                        <div class="message-bubble sent">
+                            <strong>${msg.sender}:</strong> ${msg.message}
+                        </div>
+                    `;
+                } else {
+                    messageElement.innerHTML = `
+                        <div class="message-bubble received">
+                            <strong>${msg.sender}:</strong> ${msg.message}
+                        </div>
+                    `;
+                }
+                
+                chatContainer.appendChild(messageElement);
+            });
+            
+            // Scroll ke bawah
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Mulai simulasi pesan masuk
+        function startMessageSimulation() {
+            // Load pesan yang tersimpan
+            loadChatMessages();
+            
+            // Tampilkan pesan yang tersimpan
+            if (chatMessages.length > 0) {
+                displayChatMessages();
+            }
+            
+            // Set interval untuk simulasi pesan masuk
+            setInterval(() => {
+                if (Math.random() > 0.7) { // 30% chance every 10 seconds
+                    const randomUser = allUsers[Math.floor(Math.random() * allUsers.length)];
+                    if (randomUser.name !== userData.fullName) {
+                        const newMessage = {
+                            id: ++lastMessageId,
+                            sender: randomUser.name,
+                            message: sampleMessages[Math.floor(Math.random() * sampleMessages.length)],
+                            timestamp: new Date(),
+                            type: 'received'
+                        };
+                        
+                        chatMessages.push(newMessage);
+                        saveChatMessages();
+                        
+                        // Tampilkan notifikasi jika user tidak di halaman chat
+                        if (document.getElementById('chat').classList.contains('active') === false) {
+                            showChatNotification(randomUser.name, newMessage.message);
+                        }
+                    }
+                }
+            }, 10000); // Cek setiap 10 detik
+        }
+
         // Inisialisasi
-        checkLoginStatus();
+        checkRegistrationStatus();
         updateStatistik();
 
         // Simulasi update real-time
