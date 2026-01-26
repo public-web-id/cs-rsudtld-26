@@ -704,6 +704,21 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
+        /* Debug Panel */
+        .debug-panel {
+            position: fixed;
+            bottom: 80px;
+            right: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            max-width: 300px;
+            display: none;
+            z-index: 3000;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .page-title h1 {
@@ -751,52 +766,13 @@
                 
                 <div class="info-item">
                     <div class="info-icon">
-                        <i class="bi bi-calendar-event"></i>
+                        <i class="bi bi-file-earmark-text"></i>
                     </div>
                     <div class="info-content">
-                        <div class="info-title">Jadwal Pelatihan Karyawan</div>
-                        <div class="info-desc">Pelatihan kebersihan ruangan akan diadakan pada tanggal 15-17 Mei 2026 di ruang konferensi lantai 3. Semua karyawan wajib mengikuti.</div>
+                        <div class="info-title">Penandatanganan Kontrak Kerja</div>
+                        <div class="info-desc">Penandatanganan kontrak kerja telah dilaksanakan pada tanggal 26 Januari 2026 dengan jumlah tenaga karyawan sebanyak 45 orang untuk periode kerja 2026.</div>
                         <div class="info-time">
-                            <i class="bi bi-clock"></i> 2 jam yang lalu
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="bi bi-exclamation-triangle"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-title">Pemberitahuan Maintenance</div>
-                        <div class="info-desc">Sistem IPSRS akan maintenance pada tanggal 20 Mei 2026 pukul 00:00-06:00. Siapkan alternatif selama maintenance berlangsung.</div>
-                        <div class="info-time">
-                            <i class="bi bi-clock"></i> 1 hari yang lalu
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="bi bi-people-fill"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-title">Kenaikan Shift Kerja</div>
-                        <div class="info-desc">Tim Cleaning Service Area Bedah Sentral akan mengalami perubahan shift mulai 1 Juni 2026. Detail akan dikirim melalui email.</div>
-                        <div class="info-time">
-                            <i class="bi bi-clock"></i> 3 hari yang lalu
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="bi bi-trophy"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-title">Penghargaan Karyawan Terbaik</div>
-                        <div class="info-desc">Tim Laundry meraih penghargaan "Tim Terbaik Bulan Ini" karena pencapaian 99% kepuasan pasien. Selamat kepada seluruh tim!</div>
-                        <div class="info-time">
-                            <i class="bi bi-clock"></i> 5 hari yang lalu
+                            <i class="bi bi-calendar-check"></i> 26 Januari 2026
                         </div>
                     </div>
                 </div>
@@ -869,7 +845,7 @@
                         <label class="form-label">Shift Kerja</label>
                         <select class="form-select" id="shiftKerja" required>
                             <option value="">Pilih Shift</option>
-                            <option value="Malam">Malam (22:00 - 06:00)</option>
+                            <option value="Malam">Malam (22:00 - 06:)</option>
                             <option value="Pagi">Pagi (06:00 - 14:00)</option>
                             <option value="Siang">Siang (14:00 - 22:00)</option>
                         </select>
@@ -1009,6 +985,11 @@
         <i class="bi bi-check-circle"></i> <span id="notificationText"></span>
     </div>
 
+    <!-- Debug Panel -->
+    <div id="debugPanel" class="debug-panel">
+        <div id="debugContent"></div>
+    </div>
+
     <!-- Confirmation Modal -->
     <div id="confirmationModal" class="modal">
         <div class="modal-content">
@@ -1039,9 +1020,8 @@
         // TELEGRAM CONFIGURATION
         // ==========================================
         const TELEGRAM_BOT_TOKEN = "8467011518:AAEisUa7E9VWJxgYu5snEn0ouyGGejcxRRk";
-        const TELEGRAM_CHAT_ID = "-1003780824511"; // Chat ID yang diperbarui
-        const TELEGRAM_PHOTO_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
-
+        const TELEGRAM_CHAT_ID = "-1003780824511";
+        
         // Gallery images from document
         const galleryImages = [
             "https://z-cdn-media.chatglm.cn/files/b3174e1a-e178-44ce-bcda-fd5b828b7b1f.jpg?auth_key=1869395084-b6e6a52e442e4eb2b0fc6f882bbbce5d-0-bb1f0f8141634c7c0741eaca8593768b",
@@ -1051,6 +1031,21 @@
             "https://z-cdn-media.chatglm.cn/files/bb003171-d6d6-417f-817c-e6db0cdeab1c.jpg?auth_key=1869395084-e0de7ebbbc4d4a72b6a46391a81d75b1-0-27a879c79ae9a6f852e5fa4c659f88aa",
             "https://z-cdn-media.chatglm.cn/files/253c8032-8de9-415a-b01c-184f8fd5b690.jpg?auth_key=1869395084-bee7ec669fbf40efb33920017a8869b5-0-e0b994866918827343d7c9c9f05bf3c"
         ];
+
+        // Debug function
+        function debugLog(message) {
+            console.log(message);
+            const debugPanel = document.getElementById('debugPanel');
+            const debugContent = document.getElementById('debugContent');
+            debugContent.innerHTML += message + '<br>';
+            debugPanel.style.display = 'block';
+            
+            // Auto hide after 10 seconds
+            setTimeout(() => {
+                debugPanel.style.display = 'none';
+                debugContent.innerHTML = '';
+            }, 10000);
+        }
 
         // Show page function
         function showPage(pageId) {
@@ -1102,6 +1097,29 @@
                 reader.onload = () => resolve(reader.result);
                 reader.onerror = error => reject(error);
             });
+        }
+
+        // Convert base64 to Blob
+        function base64ToBlob(base64Data, contentType) {
+            contentType = contentType || '';
+            const sliceSize = 1024;
+            const byteCharacters = atob(base64Data.split(',')[1]);
+            const bytesLength = byteCharacters.length;
+            const slicesCount = Math.ceil(bytesLength / sliceSize);
+            const byteArrays = new Array(slicesCount);
+
+            for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+                const begin = sliceIndex * sliceSize;
+                const end = Math.min(begin + sliceSize, bytesLength);
+
+                const bytes = new Array(end - begin);
+                for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
+                    bytes[i] = byteCharacters[offset].charCodeAt(0);
+                }
+                byteArrays[sliceIndex] = new Uint8Array(bytes);
+            }
+
+            return new Blob(byteArrays, { type: contentType });
         }
 
         // Handle form submit laporan
@@ -1329,19 +1347,22 @@
             ctx.fillText('OUTSOURCING RSUD TALAUD 2026', width/2, footerY + 30);
         }
 
-        // Send Photo Helper
-        async function sendPhotoToTelegram(base64Image, caption) {
-            const response = await fetch(TELEGRAM_PHOTO_API_URL, {
+        // Send Photo to Telegram with proper multipart/form-data
+        async function sendPhotoToTelegram(imageBlob, caption) {
+            const formData = new FormData();
+            formData.append('chat_id', TELEGRAM_CHAT_ID);
+            formData.append('photo', imageBlob, 'report.jpg');
+            formData.append('caption', caption);
+            formData.append('parse_mode', 'HTML');
+
+            const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    photo: base64Image,
-                    caption: caption,
-                    parse_mode: 'HTML'
-                })
+                body: formData
             });
-            return await response.json();
+            
+            const result = await response.json();
+            debugLog(`Telegram Response: ${JSON.stringify(result)}`);
+            return result;
         }
 
         // Confirm and Send
@@ -1366,31 +1387,54 @@
             closeModal();
             
             try {
+                debugLog('Starting report sending process...');
                 showNotification('Membuat gambar form...', 'warning');
                 
                 // 1. Generate Image with Text + Embedded Photo (Image 1)
                 const reportImageData = await generateReportImage(formData);
+                debugLog('Report image generated successfully');
                 
                 showNotification('Mengirim Gambar 1 (Form)...', 'warning');
+                
+                // Convert base64 to blob for proper sending
+                const reportImageBlob = base64ToBlob(reportImageData, 'image/jpeg');
+                debugLog('Report image converted to blob');
+                
                 // 2. Send Image 1: The Form
-                await sendPhotoToTelegram(reportImageData, "<b>📄 FORM LAPORAN KEGIATAN</b>\n\nBerikut adalah detail laporan kegiatan karyawan beserta foto kegiatan yang tertempel.");
+                const result1 = await sendPhotoToTelegram(
+                    reportImageBlob, 
+                    "<b>📄 FORM LAPORAN KEGIATAN</b>\n\nBerikut adalah detail laporan kegiatan karyawan beserta foto kegiatan yang tertempel."
+                );
+                debugLog(`First image sent: ${JSON.stringify(result1)}`);
                 
                 // 3. Send Image 2: The Raw Photo (if exists)
                 if (fotoBase64) {
                     showNotification('Mengirim Gambar 2 (Foto)...', 'warning');
-                    await sendPhotoToTelegram(fotoBase64, "<b>📷 DOKUMENTASI KEGIATAN (ASLI)</b>\n\nFoto bukti pelaksanaan kegiatan dikirim terpisah agar jelas.");
+                    const originalPhotoBlob = base64ToBlob(fotoBase64, 'image/jpeg');
+                    debugLog('Original photo converted to blob');
+                    
+                    const result2 = await sendPhotoToTelegram(
+                        originalPhotoBlob, 
+                        "<b>📷 DOKUMENTASI KEGIATAN (ASLI)</b>\n\nFoto bukti pelaksanaan kegiatan dikirim terpisah agar jelas."
+                    );
+                    debugLog(`Second image sent: ${JSON.stringify(result2)}`);
                 }
                 
-                // Save report to localStorage after successful sending
-                saveReportToHistory(formData);
-                
-                showNotification('Laporan berhasil dikirim!', 'success');
-                document.getElementById('formLaporan').reset();
-                setTimeout(() => showPage('beranda'), 1500);
+                // Check if sending was successful
+                if (result1.ok) {
+                    // Save report to localStorage after successful sending
+                    saveReportToHistory(formData);
+                    showNotification('Laporan berhasil dikirim!', 'success');
+                    document.getElementById('formLaporan').reset();
+                    setTimeout(() => showPage('beranda'), 1500);
+                } else {
+                    throw new Error(result1.description || 'Failed to send to Telegram');
+                }
                 
             } catch (error) {
-                console.error(error);
-                showNotification('Gagal mengirim laporan.', 'error');
+                console.error('Error sending report:', error);
+                debugLog(`Error: ${error.message}`);
+                showNotification(`Gagal mengirim laporan: ${error.message}`, 'error');
             }
         }
 
@@ -1404,6 +1448,7 @@
             
             // Save back to localStorage
             localStorage.setItem('laporanData', JSON.stringify(reports));
+            debugLog('Report saved to localStorage');
         }
 
         // Display reports from localStorage
@@ -1501,6 +1546,21 @@
             if (!localStorage.getItem('laporanData')) {
                 localStorage.setItem('laporanData', JSON.stringify([]));
             }
+            
+            // Test Telegram connection on load
+            debugLog('Testing Telegram connection...');
+            fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        debugLog(`Connected to bot: ${data.result.first_name}`);
+                    } else {
+                        debugLog(`Bot connection failed: ${data.description}`);
+                    }
+                })
+                .catch(error => {
+                    debugLog(`Bot connection error: ${error.message}`);
+                });
         });
 
         // Prevent zoom
