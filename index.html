@@ -155,77 +155,27 @@
         }
 
         /* Beranda Page Styles */
-        .info-terkini {
+        .welcome-section {
             background-color: var(--white);
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             border-left: 4px solid var(--primary-red);
+            text-align: center;
         }
 
-        .info-terkini h3 {
+        .welcome-section h3 {
             color: var(--primary-red);
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .info-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .info-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .info-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background-color: rgba(220, 20, 60, 0.1);
-            color: var(--primary-red);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            flex-shrink: 0;
-            font-size: 20px;
-        }
-
-        .info-content {
-            flex: 1;
-        }
-
-        .info-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            font-size: 16px;
+        .welcome-section p {
             color: var(--dark-gray);
-        }
-
-        .info-desc {
-            font-size: 14px;
-            color: var(--medium-gray);
+            font-size: 16px;
             line-height: 1.5;
-            margin-bottom: 8px;
-        }
-
-        .info-time {
-            font-size: 12px;
-            color: var(--medium-gray);
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
         /* Form Styles */
@@ -292,124 +242,29 @@
         }
 
         /* Riwayat Page Styles */
-        .sticky-filter {
-            position: sticky;
-            top: 0;
-            z-index: 900;
-            background-color: var(--white);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-radius: 8px;
-        }
-
-        .filter-title {
-            color: var(--primary-red);
-            font-weight: 700;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .filter-row {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .filter-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .filter-group .form-control,
-        .filter-group .form-select {
-            flex: 1;
-            min-width: 150px;
-        }
-
-        .btn-filter {
-            padding: 10px 20px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .report-item {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-left: 3px solid var(--medical-blue);
-            transition: all 0.3s ease;
-        }
-
-        .report-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .report-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .report-title {
-            font-weight: 600;
-            color: var(--dark-gray);
-            font-size: 16px;
-        }
-
-        .report-date {
-            font-size: 12px;
-            color: var(--medium-gray);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .report-meta {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .report-tag {
-            background-color: var(--light-red);
-            color: var(--dark-red);
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .report-content {
-            background-color: var(--light-gray);
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-        .report-content strong {
-            color: var(--primary-red);
-        }
-
-        .report-image {
-            margin-top: 15px;
+        .empty-state {
             text-align: center;
+            padding: 50px 20px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .report-image img {
-            max-width: 100%;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        .empty-state i {
+            font-size: 48px;
+            color: var(--medium-gray);
+            margin-bottom: 15px;
+        }
+
+        .empty-state h5 {
+            color: var(--medium-gray);
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: var(--medium-gray);
+            font-size: 14px;
         }
 
         /* Galeri Page Styles */
@@ -439,32 +294,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            background-color: var(--white);
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .empty-state i {
-            font-size: 48px;
-            color: var(--medium-gray);
-            margin-bottom: 15px;
-        }
-
-        .empty-state h5 {
-            color: var(--medium-gray);
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-
-        .empty-state p {
-            color: var(--medium-gray);
-            font-size: 14px;
         }
 
         /* Bottom Navigation */
@@ -760,22 +589,10 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
-            <!-- Info Terkini Section -->
-            <div class="info-terkini">
-                <h3><i class="bi bi-megaphone"></i> Informasi Terkini</h3>
-                
-                <div class="info-item">
-                    <div class="info-icon">
-                        <i class="bi bi-file-earmark-text"></i>
-                    </div>
-                    <div class="info-content">
-                        <div class="info-title">Penandatanganan Kontrak Kerja</div>
-                        <div class="info-desc">Penandatanganan kontrak kerja telah dilaksanakan pada tanggal 26 Januari 2026 dengan jumlah tenaga karyawan sebanyak 45 orang untuk periode kerja 2026.</div>
-                        <div class="info-time">
-                            <i class="bi bi-calendar-check"></i> 26 Januari 2026
-                        </div>
-                    </div>
-                </div>
+            <!-- Welcome Section (replacing Info Terkini) -->
+            <div class="welcome-section">
+                <h3><i class="bi bi-house-heart"></i> Selamat Datang</h3>
+                <p>Silakan gunakan menu di bawah untuk membuat laporan kegiatan harian Anda. Laporan yang Anda buat akan langsung terkirim ke sistem monitoring.</p>
             </div>
         </div>
 
@@ -878,68 +695,11 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
-            <div class="sticky-filter">
-                <div class="filter-title">Filter Laporan</div>
-                <div class="filter-row">
-                    <div class="filter-group">
-                        <input type="text" class="form-control" id="filterNama" placeholder="Filter berdasarkan nama...">
-                    </div>
-                    <div class="filter-group">
-                        <select class="form-select" id="filterJenis">
-                            <option value="">Semua Jenis</option>
-                            <option value="Administrasi">Administrasi</option>
-                            <option value="Cleaning Service">Cleaning Service</option>
-                            <option value="Operator IPAL">Operator IPAL</option>
-                            <option value="Penata Halaman">Penata Halaman</option>
-                            <option value="Juru Masak">Juru Masak</option>
-                            <option value="Limbah RS">Limbah RS</option>
-                            <option value="Laundry">Laundry</option>
-                            <option value="Teknisi IPSRS">Teknisi IPSRS</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <select class="form-select" id="filterArea">
-                            <option value="">Semua Area</option>
-                            <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
-                            <option value="Bedah">Bedah</option>
-                            <option value="Bedah Sentral">Bedah Sentral</option>
-                            <option value="Binatu">Binatu</option>
-                            <option value="Bougenville">Bougenville</option>
-                            <option value="Crysant">Crysant</option>
-                            <option value="Dahlia">Dahlia</option>
-                            <option value="Edelweis VIP">Edelweis VIP</option>
-                            <option value="Fisioterapi">Fisioterapi</option>
-                            <option value="ICU">ICU</option>
-                            <option value="IGD">IGD</option>
-                            <option value="Isolasi">Isolasi</option>
-                            <option value="IPAL">IPAL</option>
-                            <option value="IPSRS">IPSRS</option>
-                            <option value="Kantor/Manajemen">Kantor/Manajemen</option>
-                            <option value="Kasir">Kasir</option>
-                            <option value="NICU">NICU</option>
-                            <option value="Pendaftaran">Pendaftaran</option>
-                            <option value="Poliklinik">Poliklinik</option>
-                            <option value="Radiologi">Radiologi</option>
-                            <option value="Ruang Bersalin">Ruang Bersalin</option>
-                            <option value="Seluruh Ruangan/Koridor RS">Seluruh Ruangan/Koridor RS</option>
-                            <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
-                            <option value="UTD">UTD</option>
-                            <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <button class="btn btn-primary btn-filter" onclick="applyFilter()">
-                            <i class="bi bi-search"></i> Filter
-                        </button>
-                        <button class="btn btn-outline-secondary btn-filter" onclick="clearFilter()">
-                            <i class="bi bi-x-circle"></i> Bersihkan
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="riwayatList">
-                <!-- Reports will be loaded here -->
+            <!-- Empty State - No Reports Displayed -->
+            <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <h5>Tidak Ada Riwayat Laporan</h5>
+                <p>Sistem tidak menampilkan riwayat laporan untuk menjaga privasi. Silakan buat laporan baru menggunakan menu Laporan.</p>
             </div>
         </div>
 
@@ -954,8 +714,11 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
-            <div class="gallery-container" id="galleryContainer">
-                <!-- Gallery items will be loaded here -->
+            <!-- Empty State - No Gallery Displayed -->
+            <div class="empty-state">
+                <i class="bi bi-images"></i>
+                <h5>Galeri Tidak Tersedia</h5>
+                <p>Galeri kegiatan tidak ditampilkan untuk menjaga privasi. Foto kegiatan hanya akan dikirim ke sistem monitoring.</p>
             </div>
         </div>
     </main>
@@ -1022,16 +785,6 @@
         const TELEGRAM_BOT_TOKEN = "8467011518:AAEisUa7E9VWJxgYu5snEn0ouyGGejcxRRk";
         const TELEGRAM_CHAT_ID = "-1003780824511";
         
-        // Gallery images from document
-        const galleryImages = [
-            "https://z-cdn-media.chatglm.cn/files/b3174e1a-e178-44ce-bcda-fd5b828b7b1f.jpg?auth_key=1869395084-b6e6a52e442e4eb2b0fc6f882bbbce5d-0-bb1f0f8141634c7c0741eaca8593768b",
-            "https://z-cdn-media.chatglm.cn/files/a355aed5-9f13-4139-9263-aa4e67ae32a7.jpg?auth_key=1869395084-12487987a7dc4978a766f0bdb8f2e46a-0-c276dafb3c86b0576e2a72feff0b94ae",
-            "https://z-cdn-media.chatglm.cn/files/4ed65afe-0760-4df9-9547-ae20b4428c06.jpg?auth_key=1869395084-c17683b4c1b94da995781f039be28c0a-0-940b0d69fcde72af3dcfeadd205ebe8f",
-            "https://z-cdn-media.chatglm.cn/files/1ff17e3f-af4c-48d8-8b0f-90b330dfcfc5.jpg?auth_key=1869395084-4469ce42cf8b435f964c923bc15c3e58-0-f8b21a810828ee947397c4047e1597a0",
-            "https://z-cdn-media.chatglm.cn/files/bb003171-d6d6-417f-817c-e6db0cdeab1c.jpg?auth_key=1869395084-e0de7ebbbc4d4a72b6a46391a81d75b1-0-27a879c79ae9a6f852e5fa4c659f88aa",
-            "https://z-cdn-media.chatglm.cn/files/253c8032-8de9-415a-b01c-184f8fd5b690.jpg?auth_key=1869395084-bee7ec669fbf40efb33920017a8869b5-0-e0b994866918827343d7c9c9f05bf3c"
-        ];
-
         // Debug function
         function debugLog(message) {
             console.log(message);
@@ -1060,15 +813,9 @@
             });
             
             document.querySelector(`.bottom-nav-item[onclick="showPage('${pageId}')"]`).classList.add('active');
-            
-            if (pageId === 'riwayat') {
-                displayLaporan();
-            } else if (pageId === 'galeri') {
-                loadGallery();
-            }
         }
 
-        // Show notification
+        // Show notification - Only for report submission
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
@@ -1422,8 +1169,7 @@
                 
                 // Check if sending was successful
                 if (result1.ok) {
-                    // Save report to localStorage after successful sending
-                    saveReportToHistory(formData);
+                    // Don't save to localStorage to maintain privacy
                     showNotification('Laporan berhasil dikirim!', 'success');
                     document.getElementById('formLaporan').reset();
                     setTimeout(() => showPage('beranda'), 1500);
@@ -1438,115 +1184,7 @@
             }
         }
 
-        // Save report to localStorage
-        function saveReportToHistory(reportData) {
-            // Get existing reports from localStorage
-            let reports = JSON.parse(localStorage.getItem('laporanData')) || [];
-            
-            // Add new report to the beginning of the array
-            reports.unshift(reportData);
-            
-            // Save back to localStorage
-            localStorage.setItem('laporanData', JSON.stringify(reports));
-            debugLog('Report saved to localStorage');
-        }
-
-        // Display reports from localStorage
-        function displayLaporan(filteredData = null) {
-            const riwayatList = document.getElementById('riwayatList');
-            const data = filteredData || JSON.parse(localStorage.getItem('laporanData')) || [];
-            riwayatList.innerHTML = '';
-            
-            if (data.length === 0) {
-                riwayatList.innerHTML = `
-                    <div class="empty-state">
-                        <i class="bi bi-inbox"></i>
-                        <h5>Menunggu Laporan Terbaru</h5>
-                        <p>Belum ada laporan yang dikirim. Silakan buat laporan baru.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            data.forEach(laporan => {
-                const tanggal = new Date(laporan.tanggal).toLocaleDateString('id-ID', {
-                    day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
-                });
-                
-                const laporanElement = document.createElement('div');
-                laporanElement.className = 'report-item';
-                laporanElement.innerHTML = `
-                    <div class="report-header">
-                        <div class="report-title">${laporan.namaKaryawan}</div>
-                        <div class="report-date"><i class="bi bi-clock"></i> ${tanggal}</div>
-                    </div>
-                    <div class="report-meta">
-                        <span class="report-tag">${laporan.jenisKaryawan}</span>
-                        <span class="report-tag">${laporan.shiftKerja}</span>
-                    </div>
-                    <div><strong>Area:</strong> ${laporan.areaKerja}</div>
-                    <div class="report-content">
-                        <strong>Laporan:</strong><br>${laporan.laporanKegiatan}
-                    </div>
-                    ${laporan.foto ? `
-                        <div class="report-image">
-                            <img src="${laporan.foto}" alt="Foto" onclick="viewImage('${laporan.foto}')">
-                        </div>
-                    ` : ''}
-                `;
-                riwayatList.appendChild(laporanElement);
-            });
-        }
-
-        // Load gallery with actual images from document
-        function loadGallery() {
-            const container = document.getElementById('galleryContainer');
-            container.innerHTML = '';
-            
-            galleryImages.forEach(imageUrl => {
-                const galleryItem = document.createElement('div');
-                galleryItem.className = 'gallery-item';
-                galleryItem.onclick = () => viewImage(imageUrl);
-                galleryItem.innerHTML = `<img src="${imageUrl}" alt="Gallery Image">`;
-                container.appendChild(galleryItem);
-            });
-        }
-
-        function viewImage(src) {
-            const modal = document.createElement('div');
-            modal.style.cssText = `position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:9999;cursor:pointer;`;
-            modal.innerHTML = `<img src="${src}" style="max-width:90%;max-height:90%;border-radius:8px;">`;
-            modal.onclick = () => document.body.removeChild(modal);
-            document.body.appendChild(modal);
-        }
-
-        function applyFilter() {
-            const filterNama = document.getElementById('filterNama').value.toLowerCase();
-            const filterJenis = document.getElementById('filterJenis').value;
-            const filterArea = document.getElementById('filterArea').value;
-            
-            const data = JSON.parse(localStorage.getItem('laporanData')) || [];
-            const filtered = data.filter(l => 
-                (!filterNama || l.namaKaryawan.toLowerCase().includes(filterNama)) &&
-                (!filterJenis || l.jenisKaryawan === filterJenis) &&
-                (!filterArea || l.areaKerja === filterArea)
-            );
-            displayLaporan(filtered);
-        }
-
-        function clearFilter() {
-            document.getElementById('filterNama').value = '';
-            document.getElementById('filterJenis').value = '';
-            document.getElementById('filterArea').value = '';
-            displayLaporan();
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize empty reports array if not exists
-            if (!localStorage.getItem('laporanData')) {
-                localStorage.setItem('laporanData', JSON.stringify([]));
-            }
-            
             // Test Telegram connection on load
             debugLog('Testing Telegram connection...');
             fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe`)
