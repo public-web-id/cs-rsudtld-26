@@ -31,7 +31,7 @@
             flex-direction: column;
             margin: 0;
             padding: 0;
-            padding-bottom: 70px;
+            padding-bottom: 70px; /* Ruang untuk navigasi bawah */
             overflow-x: hidden;
         }
 
@@ -94,6 +94,7 @@
             flex: 1;
             transition: all 0.3s ease;
             margin-top: 0;
+            padding-bottom: 20px; /* Ruang ekstra di bawah konten */
         }
 
         /* Page Title */
@@ -178,6 +179,52 @@
             line-height: 1.5;
         }
 
+        /* Report Type Selection */
+        .report-type-selection {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .report-type-card {
+            flex: 1;
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .report-type-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .report-type-card.active {
+            border-color: var(--primary-red);
+            background-color: rgba(220, 20, 60, 0.05);
+        }
+
+        .report-type-card i {
+            font-size: 36px;
+            color: var(--primary-red);
+            margin-bottom: 10px;
+        }
+
+        .report-type-card h4 {
+            color: var(--dark-gray);
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .report-type-card p {
+            color: var(--medium-gray);
+            font-size: 14px;
+        }
+
         /* Form Styles */
         .form-container {
             background-color: var(--white);
@@ -242,6 +289,85 @@
         }
 
         /* Riwayat Page Styles */
+        .history-container {
+            margin-top: 20px;
+        }
+
+        .history-item {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary-red);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .history-title {
+            font-weight: 600;
+            color: var(--primary-red);
+            font-size: 16px;
+        }
+
+        .history-date {
+            font-size: 12px;
+            color: var(--medium-gray);
+        }
+
+        .history-content {
+            margin-bottom: 10px;
+        }
+
+        .history-field {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .history-label {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .history-value {
+            color: var(--medium-gray);
+        }
+
+        .history-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .history-status {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background-color: var(--light-red);
+            color: var(--dark-red);
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .history-action-btn {
+            background: none;
+            border: none;
+            color: var(--primary-red);
+            cursor: pointer;
+            font-size: 16px;
+        }
+
         .empty-state {
             text-align: center;
             padding: 50px 20px;
@@ -296,7 +422,7 @@
             object-fit: cover;
         }
 
-        /* Bottom Navigation */
+        /* Bottom Navigation - Menu Ikon Permanen di Bawah */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -309,6 +435,7 @@
             justify-content: space-around;
             padding: 10px 0;
             border-top: 1px solid var(--light-gray);
+            height: 70px; /* Tinggi tetap untuk navigasi */
         }
 
         .bottom-nav-item {
@@ -456,6 +583,39 @@
             border-color: var(--dark-red);
         }
 
+        /* PIN Modal Styles */
+        .pin-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .pin-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .pin-input:focus {
+            border-color: var(--primary-red);
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.25);
+        }
+
+        .pin-error {
+            color: var(--danger-red);
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+
         /* Report Preview Styles */
         .report-preview {
             background-color: var(--light-gray);
@@ -571,6 +731,10 @@
             .gallery-item {
                 height: 140px;
             }
+            
+            .report-type-selection {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -601,6 +765,32 @@
             <div class="page-title">
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
                 <div class="page-title-content">
+                    <h1>Pilih Jenis Laporan</h1>
+                    <p>Pilih jenis laporan yang ingin Anda buat</p>
+                </div>
+                <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
+            </div>
+            
+            <!-- Report Type Selection -->
+            <div class="report-type-selection">
+                <div class="report-type-card" onclick="showEmployeeReport()">
+                    <i class="bi bi-person-badge"></i>
+                    <h4>Laporan Karyawan</h4>
+                    <p>Buat laporan kegiatan harian sebagai karyawan outsourcing</p>
+                </div>
+                <div class="report-type-card" onclick="showSupervisorPinModal()">
+                    <i class="bi bi-clipboard-check"></i>
+                    <h4>Laporan Pengawas</h4>
+                    <p>Buat laporan pengawasan dan evaluasi kinerja</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Laporan Karyawan -->
+        <div id="laporanKaryawan" class="page" style="display: none;">
+            <div class="page-title">
+                <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
+                <div class="page-title-content">
                     <h1>Form Laporan Karyawan</h1>
                     <p>Buat laporan kegiatan harian Anda</p>
                 </div>
@@ -608,7 +798,7 @@
             </div>
             
             <div class="form-container">
-                <form id="formLaporan">
+                <form id="formLaporanKaryawan">
                     <div class="form-group">
                         <label class="form-label">Nama Karyawan</label>
                         <input type="text" class="form-control" id="namaKaryawan" required placeholder="Masukkan nama karyawan">
@@ -656,15 +846,16 @@
                             <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
                             <option value="UTD">UTD</option>
                             <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
+                            <option value="Laboratorium">Laboratorium</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Shift Kerja</label>
                         <select class="form-select" id="shiftKerja" required>
                             <option value="">Pilih Shift</option>
-                            <option value="Malam">Malam (22:00 - 06:)</option>
-                            <option value="Pagi">Pagi (06:00 - 14:00)</option>
-                            <option value="Siang">Siang (14:00 - 22:00)</option>
+                            <option value="Malam">Malam</option>
+                            <option value="Pagi">Pagi</option>
+                            <option value="Siang">Siang</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -674,6 +865,93 @@
                     <div class="form-group">
                         <label class="form-label">Upload Foto (Wajib)</label>
                         <input type="file" class="form-control" id="fotoLaporan" accept="image/*" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send"></i> Kirim Laporan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Form Laporan Pengawas -->
+        <div id="laporanPengawas" class="page" style="display: none;">
+            <div class="page-title">
+                <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
+                <div class="page-title-content">
+                    <h1>Form Laporan Pengawas</h1>
+                    <p>Buat laporan pengawasan dan evaluasi kinerja</p>
+                </div>
+                <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
+            </div>
+            
+            <div class="form-container">
+                <form id="formLaporanPengawas">
+                    <div class="form-group">
+                        <label class="form-label">Nama Pengawas</label>
+                        <input type="text" class="form-control" id="namaPengawas" required placeholder="Masukkan nama pengawas">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tanggal Pengawasan</label>
+                        <input type="date" class="form-control" id="tanggalPengawasan" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Area Pengawasan</label>
+                        <select class="form-select" id="areaPengawasan" required>
+                            <option value="">Pilih Area Pengawasan</option>
+                            <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
+                            <option value="Bedah">Bedah</option>
+                            <option value="Bedah Sentral">Bedah Sentral</option>
+                            <option value="Binatu">Binatu</option>
+                            <option value="Bougenville">Bougenville</option>
+                            <option value="Crysant">Crysant</option>
+                            <option value="Dahlia">Dahlia</option>
+                            <option value="Edelweis VIP">Edelweis VIP</option>
+                            <option value="Fisioterapi">Fisioterapi</option>
+                            <option value="ICU">ICU</option>
+                            <option value="IGD">IGD</option>
+                            <option value="Isolasi">Isolasi</option>
+                            <option value="IPAL">IPAL</option>
+                            <option value="IPSRS">IPSRS</option>
+                            <option value="Kantor/Manajemen">Kantor/Manajemen</option>
+                            <option value="Kasir">Kasir</option>
+                            <option value="NICU">NICU</option>
+                            <option value="Pendaftaran">Pendaftaran</option>
+                            <option value="Poliklinik">Poliklinik</option>
+                            <option value="Radiologi">Radiologi</option>
+                            <option value="Ruang Bersalin">Ruang Bersalin</option>
+                            <option value="Seluruh Ruangan/Koridor RS">Seluruh Ruangan/Koridor RS</option>
+                            <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
+                            <option value="UTD">UTD</option>
+                            <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
+                            <option value="Laboratorium">Laboratorium</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Shift Pengawasan</label>
+                        <select class="form-select" id="shiftPengawasan" required>
+                            <option value="">Pilih Shift</option>
+                            <option value="Malam">Malam</option>
+                            <option value="Pagi">Pagi</option>
+                            <option value="Siang">Siang</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nama Karyawan yang Diawasi</label>
+                        <input type="text" class="form-control" id="karyawanDiawasi" required placeholder="Masukkan nama karyawan yang diawasi">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hasil Pengawasan</label>
+                        <textarea class="form-control" id="hasilPengawasan" rows="4" required placeholder="Deskripsikan hasil pengawasan yang dilakukan"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Catatan Evaluasi</label>
+                        <textarea class="form-control" id="catatanEvaluasi" rows="3" placeholder="Tambahkan catatan evaluasi jika diperlukan"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload Foto (Wajib)</label>
+                        <input type="file" class="form-control" id="fotoPengawasan" accept="image/*" required>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">
@@ -695,11 +973,16 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
+            <!-- History Container -->
+            <div class="history-container" id="historyContainer">
+                <!-- History items will be inserted here -->
+            </div>
+            
             <!-- Empty State - No Reports Displayed -->
-            <div class="empty-state">
+            <div class="empty-state" id="emptyState" style="display: none;">
                 <i class="bi bi-inbox"></i>
-                <h5>Tidak Ada Riwayat Laporan</h5>
-                <p>Sistem tidak menampilkan riwayat laporan untuk menjaga privasi. Silakan buat laporan baru menggunakan menu Laporan.</p>
+                <h5>Belum Ada Riwayat Laporan</h5>
+                <p>Anda belum membuat laporan. Silakan buat laporan baru menggunakan menu Laporan.</p>
             </div>
         </div>
 
@@ -723,7 +1006,7 @@
         </div>
     </main>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation - Menu Ikon Permanen di Bawah -->
     <nav class="bottom-nav">
         <a href="#" class="bottom-nav-item active" onclick="showPage('beranda')">
             <i class="bi bi-house-door"></i>
@@ -774,6 +1057,30 @@
         </div>
     </div>
 
+    <!-- PIN Confirmation Modal -->
+    <div id="pinModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Konfirmasi PIN Pengawas</h3>
+                <span class="close" onclick="closePinModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Masukkan PIN 4 digit untuk mengakses form laporan pengawas:</p>
+                <div class="pin-container">
+                    <input type="text" maxlength="1" class="pin-input" id="pin1" onkeyup="moveToNext(this, 'pin2')">
+                    <input type="text" maxlength="1" class="pin-input" id="pin2" onkeyup="moveToNext(this, 'pin3')">
+                    <input type="text" maxlength="1" class="pin-input" id="pin3" onkeyup="moveToNext(this, 'pin4')">
+                    <input type="text" maxlength="1" class="pin-input" id="pin4" onkeyup="checkPin()">
+                </div>
+                <div class="pin-error" id="pinError">PIN yang Anda masukkan salah. Silakan coba lagi.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closePinModal()">Batal</button>
+                <button type="button" class="btn btn-primary-modal" onclick="verifyPin()">Verifikasi</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Hidden Canvas for Image Generation -->
     <canvas id="reportImageCanvas"></canvas>
 
@@ -784,6 +1091,8 @@
         // ==========================================
         const TELEGRAM_BOT_TOKEN = "8467011518:AAEisUa7E9VWJxgYu5snEn0ouyGGejcxRRk";
         const TELEGRAM_CHAT_ID = "-1003780824511";
+        const SUPERVISOR_PIN = "1234"; // PIN untuk akses laporan pengawas
+        let currentReportType = ""; // Menyimpan jenis laporan yang sedang dibuat
         
         // Debug function
         function debugLog(message) {
@@ -813,6 +1122,71 @@
             });
             
             document.querySelector(`.bottom-nav-item[onclick="showPage('${pageId}')"]`).classList.add('active');
+            
+            // Load history if riwayat page is shown
+            if (pageId === 'riwayat') {
+                loadHistory();
+            }
+        }
+
+        // Show employee report form
+        function showEmployeeReport() {
+            currentReportType = "karyawan";
+            showPage('laporanKaryawan');
+        }
+
+        // Show supervisor PIN modal
+        function showSupervisorPinModal() {
+            document.getElementById('pinModal').style.display = 'block';
+            // Reset PIN inputs
+            document.getElementById('pin1').value = '';
+            document.getElementById('pin2').value = '';
+            document.getElementById('pin3').value = '';
+            document.getElementById('pin4').value = '';
+            document.getElementById('pinError').style.display = 'none';
+            document.getElementById('pin1').focus();
+        }
+
+        // Close PIN modal
+        function closePinModal() {
+            document.getElementById('pinModal').style.display = 'none';
+        }
+
+        // Move to next PIN input
+        function moveToNext(current, nextFieldID) {
+            if (current.value.length >= 1) {
+                document.getElementById(nextFieldID).focus();
+            }
+        }
+
+        // Check PIN when last digit is entered
+        function checkPin() {
+            if (document.getElementById('pin4').value.length >= 1) {
+                verifyPin();
+            }
+        }
+
+        // Verify PIN
+        function verifyPin() {
+            const pin1 = document.getElementById('pin1').value;
+            const pin2 = document.getElementById('pin2').value;
+            const pin3 = document.getElementById('pin3').value;
+            const pin4 = document.getElementById('pin4').value;
+            const enteredPin = pin1 + pin2 + pin3 + pin4;
+            
+            if (enteredPin === SUPERVISOR_PIN) {
+                closePinModal();
+                currentReportType = "pengawas";
+                showPage('laporanPengawas');
+            } else {
+                document.getElementById('pinError').style.display = 'block';
+                // Reset PIN inputs
+                document.getElementById('pin1').value = '';
+                document.getElementById('pin2').value = '';
+                document.getElementById('pin3').value = '';
+                document.getElementById('pin4').value = '';
+                document.getElementById('pin1').focus();
+            }
         }
 
         // Show notification - Only for report submission
@@ -869,8 +1243,196 @@
             return new Blob(byteArrays, { type: contentType });
         }
 
-        // Handle form submit laporan
-        document.getElementById('formLaporan').addEventListener('submit', async function(e) {
+        // Save report to localStorage
+        function saveReportToStorage(reportData) {
+            // Get existing reports from localStorage
+            let reports = JSON.parse(localStorage.getItem('reports')) || [];
+            
+            // Add new report to the beginning of the array
+            reports.unshift(reportData);
+            
+            // Save updated reports to localStorage
+            localStorage.setItem('reports', JSON.stringify(reports));
+            
+            // Limit to 50 most recent reports to prevent storage issues
+            if (reports.length > 50) {
+                reports = reports.slice(0, 50);
+                localStorage.setItem('reports', JSON.stringify(reports));
+            }
+        }
+
+        // Load reports from localStorage
+        function loadHistory() {
+            const historyContainer = document.getElementById('historyContainer');
+            const emptyState = document.getElementById('emptyState');
+            
+            // Get reports from localStorage
+            const reports = JSON.parse(localStorage.getItem('reports')) || [];
+            
+            // Clear existing history
+            historyContainer.innerHTML = '';
+            
+            if (reports.length === 0) {
+                // Show empty state if no reports
+                emptyState.style.display = 'block';
+                historyContainer.style.display = 'none';
+            } else {
+                // Hide empty state and show history
+                emptyState.style.display = 'none';
+                historyContainer.style.display = 'block';
+                
+                // Add each report to the history container
+                reports.forEach(report => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    
+                    // Format date
+                    const reportDate = new Date(report.tanggal);
+                    const formattedDate = reportDate.toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    // Create history item HTML based on report type
+                    if (report.reportType === 'karyawan') {
+                        historyItem.innerHTML = `
+                            <div class="history-header">
+                                <div class="history-title">Laporan Karyawan</div>
+                                <div class="history-date">${formattedDate}</div>
+                            </div>
+                            <div class="history-content">
+                                <div class="history-field">
+                                    <span class="history-label">Nama Karyawan:</span>
+                                    <span class="history-value">${report.namaKaryawan}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Jenis Karyawan:</span>
+                                    <span class="history-value">${report.jenisKaryawan}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Area Kerja:</span>
+                                    <span class="history-value">${report.areaKerja}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Shift:</span>
+                                    <span class="history-value">${report.shiftKerja}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Kegiatan:</span>
+                                    <span class="history-value">${report.laporanKegiatan}</span>
+                                </div>
+                            </div>
+                            <div class="history-footer">
+                                <div class="history-status">Terkirim</div>
+                                <div class="history-actions">
+                                    ${report.foto ? `<button class="history-action-btn" onclick="viewImage('${report.foto}')"><i class="bi bi-image"></i></button>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        historyItem.innerHTML = `
+                            <div class="history-header">
+                                <div class="history-title">Laporan Pengawas</div>
+                                <div class="history-date">${formattedDate}</div>
+                            </div>
+                            <div class="history-content">
+                                <div class="history-field">
+                                    <span class="history-label">Nama Pengawas:</span>
+                                    <span class="history-value">${report.namaPengawas}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Tanggal Pengawasan:</span>
+                                    <span class="history-value">${report.tanggalPengawasan}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Area Pengawasan:</span>
+                                    <span class="history-value">${report.areaPengawasan}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Shift:</span>
+                                    <span class="history-value">${report.shiftPengawasan}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Karyawan Diawasi:</span>
+                                    <span class="history-value">${report.karyawanDiawasi}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Hasil Pengawasan:</span>
+                                    <span class="history-value">${report.hasilPengawasan}</span>
+                                </div>
+                                ${report.catatanEvaluasi ? `
+                                <div class="history-field">
+                                    <span class="history-label">Catatan Evaluasi:</span>
+                                    <span class="history-value">${report.catatanEvaluasi}</span>
+                                </div>
+                                ` : ''}
+                            </div>
+                            <div class="history-footer">
+                                <div class="history-status">Terkirim</div>
+                                <div class="history-actions">
+                                    ${report.foto ? `<button class="history-action-btn" onclick="viewImage('${report.foto}')"><i class="bi bi-image"></i></button>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    historyContainer.appendChild(historyItem);
+                });
+            }
+        }
+
+        // View image in modal
+        function viewImage(imageSrc) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            
+            const modalContent = document.createElement('div');
+            modalContent.className = 'modal-content';
+            modalContent.style.maxWidth = '90%';
+            modalContent.style.margin = '5% auto';
+            
+            const modalHeader = document.createElement('div');
+            modalHeader.className = 'modal-header';
+            
+            const modalTitle = document.createElement('h3');
+            modalTitle.className = 'modal-title';
+            modalTitle.textContent = 'Foto Laporan';
+            
+            const closeBtn = document.createElement('span');
+            closeBtn.className = 'close';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.onclick = function() {
+                document.body.removeChild(modal);
+            };
+            
+            modalHeader.appendChild(modalTitle);
+            modalHeader.appendChild(closeBtn);
+            
+            const modalBody = document.createElement('div');
+            modalBody.className = 'modal-body';
+            modalBody.style.textAlign = 'center';
+            
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '70vh';
+            img.style.borderRadius = '8px';
+            
+            modalBody.appendChild(img);
+            
+            modalContent.appendChild(modalHeader);
+            modalContent.appendChild(modalBody);
+            modal.appendChild(modalContent);
+            
+            document.body.appendChild(modal);
+        }
+
+        // Handle form submit laporan karyawan
+        document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const fotoInput = document.getElementById('fotoLaporan');
@@ -895,8 +1457,50 @@
                 shiftKerja: document.getElementById('shiftKerja').value,
                 laporanKegiatan: document.getElementById('laporanKegiatan').value.toUpperCase(),
                 tanggal: new Date().toISOString(),
-                foto: fotoBase64
+                foto: fotoBase64,
+                reportType: 'karyawan'
             };
+            
+            // Save to localStorage
+            saveReportToStorage(formData);
+            
+            showConfirmationModal(formData);
+        });
+
+        // Handle form submit laporan pengawas
+        document.getElementById('formLaporanPengawas').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const fotoInput = document.getElementById('fotoPengawasan');
+            let fotoBase64 = null;
+            
+            // Read photo if exists
+            if (fotoInput.files && fotoInput.files[0]) {
+                try {
+                    showNotification('Memproses foto...', 'warning');
+                    fotoBase64 = await fileToBase64(fotoInput.files[0]);
+                } catch (err) {
+                    showNotification('Gagal memproses foto', 'error');
+                    return;
+                }
+            }
+            
+            const formData = {
+                id: Date.now(),
+                namaPengawas: document.getElementById('namaPengawas').value.toUpperCase(),
+                tanggalPengawasan: document.getElementById('tanggalPengawasan').value,
+                areaPengawasan: document.getElementById('areaPengawasan').value,
+                shiftPengawasan: document.getElementById('shiftPengawasan').value,
+                karyawanDiawasi: document.getElementById('karyawanDiawasi').value.toUpperCase(),
+                hasilPengawasan: document.getElementById('hasilPengawasan').value.toUpperCase(),
+                catatanEvaluasi: document.getElementById('catatanEvaluasi').value.toUpperCase(),
+                tanggal: new Date().toISOString(),
+                foto: fotoBase64,
+                reportType: 'pengawas'
+            };
+            
+            // Save to localStorage
+            saveReportToStorage(formData);
             
             showConfirmationModal(formData);
         });
@@ -915,36 +1519,77 @@
                 minute: '2-digit'
             });
             
-            preview.innerHTML = `
+            let previewHTML = `
                 <div class="report-preview-header">
-                    <div class="report-preview-title">Laporan Karyawan</div>
+                    <div class="report-preview-title">${formData.reportType === 'karyawan' ? 'Laporan Karyawan' : 'Laporan Pengawas'}</div>
                     <div class="report-preview-date">
                         <i class="bi bi-clock"></i> ${formattedTanggal}
                     </div>
                 </div>
-                <div class="report-preview-meta">
-                    <span class="report-preview-tag">${formData.jenisKaryawan}</span>
-                    <span class="report-preview-tag">${formData.shiftKerja}</span>
-                </div>
-                <div class="report-preview-item">
-                    <div class="report-preview-label">Nama Karyawan:</div>
-                    <div class="report-preview-value">${formData.namaKaryawan}</div>
-                </div>
-                <div class="report-preview-item">
-                    <div class="report-preview-label">Area Kerja:</div>
-                    <div class="report-preview-value">${formData.areaKerja}</div>
-                </div>
-                <div class="report-preview-item">
-                    <div class="report-preview-label">Laporan Kegiatan:</div>
-                    <div class="report-preview-value">${formData.laporanKegiatan}</div>
-                </div>
-                ${formData.foto ? `
+            `;
+            
+            if (formData.reportType === 'karyawan') {
+                previewHTML += `
+                    <div class="report-preview-meta">
+                        <span class="report-preview-tag">${formData.jenisKaryawan}</span>
+                        <span class="report-preview-tag">${formData.shiftKerja}</span>
+                    </div>
+                    <div class="report-preview-item">
+                        <div class="report-preview-label">Nama Karyawan:</div>
+                        <div class="report-preview-value">${formData.namaKaryawan}</div>
+                    </div>
+                    <div class="report-preview-item">
+                        <div class="report-preview-label">Area Kerja:</div>
+                        <div class="report-preview-value">${formData.areaKerja}</div>
+                    </div>
+                    <div class="report-preview-item">
+                        <div class="report-preview-label">Laporan Kegiatan:</div>
+                        <div class="report-preview-value">${formData.laporanKegiatan}</div>
+                    </div>
+                `;
+            } else {
+                previewHTML += `
+                    <div class="report-preview-meta">
+                        <span class="report-preview-tag">${formData.shiftPengawasan}</span>
+                    </div>
+                    <div class="report-preview-item">
+                        <div class="report-preview-label">Nama Pengawas:</div>
+                        <div class="report-preview-value">${formData.namaPengawas}</div>
+                    </div>
+                    <div class="report-preview-item">
+                        <div class="report-preview-label">Tanggal Pengawasan:</div>
+                        <div class="report-preview-value">${formData.tanggalPengawasan}</div>
+                    </div>
+                    <div class="report-preview-item">
+                        <div class="report-preview-label">Area Pengawasan:</div>
+                        <div class="report-preview-value">${formData.areaPengawasan}</div>
+                    </div>
+                    <div class="report-preview-item">
+                        <div class="report-preview-label">Karyawan yang Diawasi:</div>
+                        <div class="report-preview-value">${formData.karyawanDiawasi}</div>
+                    </div>
+                    <div class="report-preview-item">
+                        <div class="report-preview-label">Hasil Pengawasan:</div>
+                        <div class="report-preview-value">${formData.hasilPengawasan}</div>
+                    </div>
+                    ${formData.catatanEvaluasi ? `
+                    <div class="report-preview-item">
+                        <div class="report-preview-label">Catatan Evaluasi:</div>
+                        <div class="report-preview-value">${formData.catatanEvaluasi}</div>
+                    </div>
+                    ` : ''}
+                `;
+            }
+            
+            if (formData.foto) {
+                previewHTML += `
                     <div class="preview-image-container">
                         <img src="${formData.foto}" alt="Foto Preview" class="preview-image">
                     </div>
-                ` : ''}
-            `;
+                `;
+            }
             
+            preview.innerHTML = previewHTML;
             modal.style.display = 'block';
         }
 
@@ -981,7 +1626,7 @@
                 ctx.fillStyle = 'white';
                 ctx.font = 'bold 36px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText('LAPORAN KEGIATAN', width/2, 60);
+                ctx.fillText(formData.reportType === 'karyawan' ? 'LAPORAN KEGIATAN KARYAWAN' : 'LAPORAN PENGAWASAN', width/2, 60);
                 
                 const tanggal = new Date(formData.tanggal);
                 const formattedTanggal = tanggal.toLocaleDateString('id-ID', {
@@ -996,50 +1641,126 @@
                 ctx.fillStyle = '#2c3e50';
                 ctx.textAlign = 'left';
                 
-                const infoData = [
-                    `Nama: ${formData.namaKaryawan}`,
-                    `Jabatan: ${formData.jenisKaryawan}`,
-                    `Area: ${formData.areaKerja}`,
-                    `Shift: ${formData.shiftKerja}`
-                ];
-                
-                ctx.font = 'bold 24px Arial';
-                ctx.fillText('DATA PELAPOR', 50, currentY);
-                currentY += 40;
-                
-                ctx.font = '20px Arial';
-                infoData.forEach(text => {
-                    ctx.fillText(text, 50, currentY);
-                    currentY += 35;
-                });
-                
-                // Activity Text
-                currentY += 20;
-                ctx.font = 'bold 24px Arial';
-                ctx.fillText('DESKRIPSI KEGIATAN', 50, currentY);
-                currentY += 40;
-                
-                ctx.font = '20px Arial';
-                ctx.fillStyle = '#333';
-                const maxWidth = width - 100;
-                const lineHeight = 30;
-                const words = formData.laporanKegiatan.split(' ');
-                let line = '';
-                
-                for(let n = 0; n < words.length; n++) {
-                    const testLine = line + words[n] + ' ';
-                    const metrics = ctx.measureText(testLine);
-                    const testWidth = metrics.width;
-                    if (testWidth > maxWidth && n > 0) {
-                        ctx.fillText(line, 50, currentY);
-                        line = words[n] + ' ';
-                        currentY += lineHeight;
+                if (formData.reportType === 'karyawan') {
+                    const infoData = [
+                        `Nama: ${formData.namaKaryawan}`,
+                        `Jabatan: ${formData.jenisKaryawan}`,
+                        `Area: ${formData.areaKerja}`,
+                        `Shift: ${formData.shiftKerja}`
+                    ];
+                    
+                    ctx.font = 'bold 24px Arial';
+                    ctx.fillText('DATA PELAPOR', 50, currentY);
+                    currentY += 40;
+                    
+                    ctx.font = '20px Arial';
+                    infoData.forEach(text => {
+                        ctx.fillText(text, 50, currentY);
+                        currentY += 35;
+                    });
+                    
+                    // Activity Text
+                    currentY += 20;
+                    ctx.font = 'bold 24px Arial';
+                    ctx.fillText('DESKRIPSI KEGIATAN', 50, currentY);
+                    currentY += 40;
+                    
+                    ctx.font = '20px Arial';
+                    ctx.fillStyle = '#333';
+                    const maxWidth = width - 100;
+                    const lineHeight = 30;
+                    const words = formData.laporanKegiatan.split(' ');
+                    let line = '';
+                    
+                    for(let n = 0; n < words.length; n++) {
+                        const testLine = line + words[n] + ' ';
+                        const metrics = ctx.measureText(testLine);
+                        const testWidth = metrics.width;
+                        if (testWidth > maxWidth && n > 0) {
+                            ctx.fillText(line, 50, currentY);
+                            line = words[n] + ' ';
+                            currentY += lineHeight;
+                        }
+                        else {
+                            line = testLine;
+                        }
                     }
-                    else {
-                        line = testLine;
+                    ctx.fillText(line, 50, currentY);
+                } else {
+                    const infoData = [
+                        `Pengawas: ${formData.namaPengawas}`,
+                        `Tanggal: ${formData.tanggalPengawasan}`,
+                        `Area: ${formData.areaPengawasan}`,
+                        `Shift: ${formData.shiftPengawasan}`,
+                        `Karyawan Diawasi: ${formData.karyawanDiawasi}`
+                    ];
+                    
+                    ctx.font = 'bold 24px Arial';
+                    ctx.fillText('DATA PENGAWASAN', 50, currentY);
+                    currentY += 40;
+                    
+                    ctx.font = '20px Arial';
+                    infoData.forEach(text => {
+                        ctx.fillText(text, 50, currentY);
+                        currentY += 35;
+                    });
+                    
+                    // Hasil Pengawasan
+                    currentY += 20;
+                    ctx.font = 'bold 24px Arial';
+                    ctx.fillText('HASIL PENGAWASAN', 50, currentY);
+                    currentY += 40;
+                    
+                    ctx.font = '20px Arial';
+                    ctx.fillStyle = '#333';
+                    const maxWidth = width - 100;
+                    const lineHeight = 30;
+                    const words = formData.hasilPengawasan.split(' ');
+                    let line = '';
+                    
+                    for(let n = 0; n < words.length; n++) {
+                        const testLine = line + words[n] + ' ';
+                        const metrics = ctx.measureText(testLine);
+                        const testWidth = metrics.width;
+                        if (testWidth > maxWidth && n > 0) {
+                            ctx.fillText(line, 50, currentY);
+                            line = words[n] + ' ';
+                            currentY += lineHeight;
+                        }
+                        else {
+                            line = testLine;
+                        }
+                    }
+                    ctx.fillText(line, 50, currentY);
+                    
+                    // Catatan Evaluasi (jika ada)
+                    if (formData.catatanEvaluasi) {
+                        currentY += 40;
+                        ctx.font = 'bold 24px Arial';
+                        ctx.fillText('CATATAN EVALUASI', 50, currentY);
+                        currentY += 40;
+                        
+                        ctx.font = '20px Arial';
+                        ctx.fillStyle = '#333';
+                        const words2 = formData.catatanEvaluasi.split(' ');
+                        let line2 = '';
+                        
+                        for(let n = 0; n < words2.length; n++) {
+                            const testLine = line2 + words2[n] + ' ';
+                            const metrics = ctx.measureText(testLine);
+                            const testWidth = metrics.width;
+                            if (testWidth > maxWidth && n > 0) {
+                                ctx.fillText(line2, 50, currentY);
+                                line2 = words2[n] + ' ';
+                                currentY += lineHeight;
+                            }
+                            else {
+                                line2 = testLine;
+                            }
+                        }
+                        ctx.fillText(line2, 50, currentY);
                     }
                 }
-                ctx.fillText(line, 50, currentY);
                 
                 // Insert Photo inside Canvas if exists (Logic requested)
                 if (formData.foto) {
@@ -1114,22 +1835,46 @@
 
         // Confirm and Send
         async function confirmSend() {
-            // Re-capture data from DOM to ensure consistency
-            const formData = {
-                id: Date.now(),
-                namaKaryawan: document.getElementById('namaKaryawan').value.toUpperCase(),
-                jenisKaryawan: document.getElementById('jenisKaryawan').value,
-                areaKerja: document.getElementById('areaKerja').value,
-                shiftKerja: document.getElementById('shiftKerja').value,
-                laporanKegiatan: document.getElementById('laporanKegiatan').value.toUpperCase(),
-                tanggal: new Date().toISOString(),
-                foto: null
-            };
+            // Re-capture data from DOM based on report type
+            let formData;
+            
+            if (currentReportType === 'karyawan') {
+                formData = {
+                    id: Date.now(),
+                    namaKaryawan: document.getElementById('namaKaryawan').value.toUpperCase(),
+                    jenisKaryawan: document.getElementById('jenisKaryawan').value,
+                    areaKerja: document.getElementById('areaKerja').value,
+                    shiftKerja: document.getElementById('shiftKerja').value,
+                    laporanKegiatan: document.getElementById('laporanKegiatan').value.toUpperCase(),
+                    tanggal: new Date().toISOString(),
+                    foto: null,
+                    reportType: 'karyawan'
+                };
 
-            // Get image from preview (it's already base64)
-            const previewImg = document.querySelector('#reportPreview img');
-            const fotoBase64 = previewImg ? previewImg.src : null;
-            formData.foto = fotoBase64;
+                // Get image from preview (it's already base64)
+                const previewImg = document.querySelector('#reportPreview img');
+                const fotoBase64 = previewImg ? previewImg.src : null;
+                formData.foto = fotoBase64;
+            } else {
+                formData = {
+                    id: Date.now(),
+                    namaPengawas: document.getElementById('namaPengawas').value.toUpperCase(),
+                    tanggalPengawasan: document.getElementById('tanggalPengawasan').value,
+                    areaPengawasan: document.getElementById('areaPengawasan').value,
+                    shiftPengawasan: document.getElementById('shiftPengawasan').value,
+                    karyawanDiawasi: document.getElementById('karyawanDiawasi').value.toUpperCase(),
+                    hasilPengawasan: document.getElementById('hasilPengawasan').value.toUpperCase(),
+                    catatanEvaluasi: document.getElementById('catatanEvaluasi').value.toUpperCase(),
+                    tanggal: new Date().toISOString(),
+                    foto: null,
+                    reportType: 'pengawas'
+                };
+
+                // Get image from preview (it's already base64)
+                const previewImg = document.querySelector('#reportPreview img');
+                const fotoBase64 = previewImg ? previewImg.src : null;
+                formData.foto = fotoBase64;
+            }
 
             closeModal();
             
@@ -1150,28 +1895,36 @@
                 // 2. Send Image 1: The Form
                 const result1 = await sendPhotoToTelegram(
                     reportImageBlob, 
-                    "<b>📄 FORM LAPORAN KEGIATAN</b>\n\nBerikut adalah detail laporan kegiatan karyawan beserta foto kegiatan yang tertempel."
+                    formData.reportType === 'karyawan' 
+                        ? "<b>📄 FORM LAPORAN KEGIATAN KARYAWAN</b>\n\nBerikut adalah detail laporan kegiatan karyawan beserta foto kegiatan yang tertempel."
+                        : "<b>📋 FORM LAPORAN PENGAWASAN</b>\n\nBerikut adalah detail laporan pengawasan dan evaluasi kinerja karyawan beserta foto dokumentasi."
                 );
                 debugLog(`First image sent: ${JSON.stringify(result1)}`);
                 
                 // 3. Send Image 2: The Raw Photo (if exists)
-                if (fotoBase64) {
+                if (formData.foto) {
                     showNotification('Mengirim Gambar 2 (Foto)...', 'warning');
-                    const originalPhotoBlob = base64ToBlob(fotoBase64, 'image/jpeg');
+                    const originalPhotoBlob = base64ToBlob(formData.foto, 'image/jpeg');
                     debugLog('Original photo converted to blob');
                     
                     const result2 = await sendPhotoToTelegram(
                         originalPhotoBlob, 
-                        "<b>📷 DOKUMENTASI KEGIATAN (ASLI)</b>\n\nFoto bukti pelaksanaan kegiatan dikirim terpisah agar jelas."
+                        formData.reportType === 'karyawan'
+                            ? "<b>📷 DOKUMENTASI KEGIATAN KARYAWAN (ASLI)</b>\n\nFoto bukti pelaksanaan kegiatan dikirim terpisah agar jelas."
+                            : "<b>📷 DOKUMENTASI PENGAWASAN (ASLI)</b>\n\nFoto bukti pelaksanaan pengawasan dikirim terpisah agar jelas."
                     );
                     debugLog(`Second image sent: ${JSON.stringify(result2)}`);
                 }
                 
                 // Check if sending was successful
                 if (result1.ok) {
-                    // Don't save to localStorage to maintain privacy
+                    // Report is already saved to localStorage in the form submit handler
                     showNotification('Laporan berhasil dikirim!', 'success');
-                    document.getElementById('formLaporan').reset();
+                    if (formData.reportType === 'karyawan') {
+                        document.getElementById('formLaporanKaryawan').reset();
+                    } else {
+                        document.getElementById('formLaporanPengawas').reset();
+                    }
                     setTimeout(() => showPage('beranda'), 1500);
                 } else {
                     throw new Error(result1.description || 'Failed to send to Telegram');
@@ -1185,20 +1938,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Test Telegram connection on load
-            debugLog('Testing Telegram connection...');
-            fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        debugLog(`Connected to bot: ${data.result.first_name}`);
-                    } else {
-                        debugLog(`Bot connection failed: ${data.description}`);
-                    }
-                })
-                .catch(error => {
-                    debugLog(`Bot connection error: ${error.message}`);
-                });
+            // Set today's date as default for supervisor report
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('tanggalPengawasan');
+            if (dateInput) {
+                dateInput.value = today;
+                dateInput.max = today; // Prevent selecting future dates
+            }
         });
 
         // Prevent zoom
