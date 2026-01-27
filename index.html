@@ -31,7 +31,7 @@
             flex-direction: column;
             margin: 0;
             padding: 0;
-            padding-bottom: 70px; /* Ruang untuk navigasi bawah */
+            padding-bottom: 70px;
             overflow-x: hidden;
         }
 
@@ -94,7 +94,7 @@
             flex: 1;
             transition: all 0.3s ease;
             margin-top: 0;
-            padding-bottom: 20px; /* Ruang ekstra di bawah konten */
+            padding-bottom: 20px;
         }
 
         /* Page Title */
@@ -435,7 +435,7 @@
             justify-content: space-around;
             padding: 10px 0;
             border-top: 1px solid var(--light-gray);
-            height: 70px; /* Tinggi tetap untuk navigasi */
+            height: 70px;
         }
 
         .bottom-nav-item {
@@ -1090,9 +1090,10 @@
         // TELEGRAM CONFIGURATION
         // ==========================================
         const TELEGRAM_BOT_TOKEN = "8467011518:AAEisUa7E9VWJxgYu5snEn0ouyGGejcxRRk";
-        const TELEGRAM_CHAT_ID = "-1003705997140"; // Updated to match user's request
-        const SUPERVISOR_PIN = "1234"; // PIN untuk akses laporan pengawas
-        let currentReportType = ""; // Menyimpan jenis laporan yang sedang dibuat
+        const TELEGRAM_CHAT_ID = "-1003705997140";
+        const SUPERVISOR_PIN = "1234";
+        let currentReportType = "";
+        let currentReportData = null; // Store current report data globally
         
         // Debug function
         function debugLog(message) {
@@ -1189,7 +1190,7 @@
             }
         }
 
-        // Show notification - Only for report submission
+        // Show notification
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
@@ -1434,6 +1435,7 @@
         // Handle form submit laporan karyawan
         document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
             e.preventDefault();
+            debugLog('Employee form submitted');
             
             const fotoInput = document.getElementById('fotoLaporan');
             let fotoBase64 = null;
@@ -1443,10 +1445,15 @@
                 try {
                     showNotification('Memproses foto...', 'warning');
                     fotoBase64 = await fileToBase64(fotoInput.files[0]);
+                    debugLog('Photo processed successfully');
                 } catch (err) {
+                    debugLog('Error processing photo: ' + err.message);
                     showNotification('Gagal memproses foto', 'error');
                     return;
                 }
+            } else {
+                showNotification('Mohon upload foto terlebih dahulu', 'error');
+                return;
             }
             
             const formData = {
@@ -1461,15 +1468,23 @@
                 reportType: 'karyawan'
             };
             
+            debugLog('Form data created: ' + JSON.stringify(formData));
+            
             // Save to localStorage
             saveReportToStorage(formData);
+            debugLog('Report saved to localStorage');
             
+            // Store current report data globally
+            currentReportData = formData;
+            
+            // Show confirmation modal
             showConfirmationModal(formData);
         });
 
         // Handle form submit laporan pengawas
         document.getElementById('formLaporanPengawas').addEventListener('submit', async function(e) {
             e.preventDefault();
+            debugLog('Supervisor form submitted');
             
             const fotoInput = document.getElementById('fotoPengawasan');
             let fotoBase64 = null;
@@ -1479,10 +1494,15 @@
                 try {
                     showNotification('Memproses foto...', 'warning');
                     fotoBase64 = await fileToBase64(fotoInput.files[0]);
+                    debugLog('Photo processed successfully');
                 } catch (err) {
+                    debugLog('Error processing photo: ' + err.message);
                     showNotification('Gagal memproses foto', 'error');
                     return;
                 }
+            } else {
+                showNotification('Mohon upload foto terlebih dahulu', 'error');
+                return;
             }
             
             const formData = {
@@ -1499,9 +1519,16 @@
                 reportType: 'pengawas'
             };
             
+            debugLog('Form data created: ' + JSON.stringify(formData));
+            
             // Save to localStorage
             saveReportToStorage(formData);
+            debugLog('Report saved to localStorage');
             
+            // Store current report data globally
+            currentReportData = formData;
+            
+            // Show confirmation modal
             showConfirmationModal(formData);
         });
 
@@ -1835,47 +1862,13 @@
 
         // Confirm and Send
         async function confirmSend() {
-            // Re-capture data from DOM based on report type
-            let formData;
-            
-            if (currentReportType === 'karyawan') {
-                formData = {
-                    id: Date.now(),
-                    namaKaryawan: document.getElementById('namaKaryawan').value.toUpperCase(),
-                    jenisKaryawan: document.getElementById('jenisKaryawan').value,
-                    areaKerja: document.getElementById('areaKerja').value,
-                    shiftKerja: document.getElementById('shiftKerja').value,
-                    laporanKegiatan: document.getElementById('laporanKegiatan').value.toUpperCase(),
-                    tanggal: new Date().toISOString(),
-                    foto: null,
-                    reportType: 'karyawan'
-                };
-
-                // Get image from preview (it's already base64)
-                const previewImg = document.querySelector('#reportPreview img');
-                const fotoBase64 = previewImg ? previewImg.src : null;
-                formData.foto = fotoBase64;
-            } else {
-                formData = {
-                    id: Date.now(),
-                    namaPengawas: document.getElementById('namaPengawas').value.toUpperCase(),
-                    tanggalPengawasan: document.getElementById('tanggalPengawasan').value,
-                    areaPengawasan: document.getElementById('areaPengawasan').value,
-                    shiftPengawasan: document.getElementById('shiftPengawasan').value,
-                    karyawanDiawasi: document.getElementById('karyawanDiawasi').value.toUpperCase(),
-                    hasilPengawasan: document.getElementById('hasilPengawasan').value.toUpperCase(),
-                    catatanEvaluasi: document.getElementById('catatanEvaluasi').value.toUpperCase(),
-                    tanggal: new Date().toISOString(),
-                    foto: null,
-                    reportType: 'pengawas'
-                };
-
-                // Get image from preview (it's already base64)
-                const previewImg = document.querySelector('#reportPreview img');
-                const fotoBase64 = previewImg ? previewImg.src : null;
-                formData.foto = fotoBase64;
+            // Use the globally stored report data instead of trying to get it from DOM
+            if (!currentReportData) {
+                showNotification('Data laporan tidak tersedia', 'error');
+                return;
             }
-
+            
+            const formData = currentReportData;
             closeModal();
             
             try {
@@ -1925,6 +1918,8 @@
                     } else {
                         document.getElementById('formLaporanPengawas').reset();
                     }
+                    // Clear the global report data
+                    currentReportData = null;
                     setTimeout(() => showPage('beranda'), 1500);
                 } else {
                     throw new Error(result1.description || 'Failed to send to Telegram');
