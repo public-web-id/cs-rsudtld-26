@@ -1089,8 +1089,18 @@
         // ==========================================
         // TELEGRAM CONFIGURATION
         // ==========================================
-        const TELEGRAM_BOT_TOKEN = "8467011518:AAEisUa7E9VWJxgYu5snEn0ouyGGejcxRRk";
-        const TELEGRAM_CHAT_ID = "-1003705997140";
+        // Konfigurasi untuk laporan karyawan
+        const EMPLOYEE_CONFIG = {
+            token: "8355189455:AAGqJXf_OCoPWx11CSyeUk4fLhif156HjX4",
+            chatId: "-1003780824511"
+        };
+        
+        // Konfigurasi untuk laporan pengawas
+        const SUPERVISOR_CONFIG = {
+            token: "8467011518:AAEisUa7E9VWJxgYu5snEn0ouyGGejcxRRk",
+            chatId: "-1003705997140"
+        };
+        
         const SUPERVISOR_PIN = "1234";
         let currentReportType = "";
         let currentReportData = null; // Store current report data globally
@@ -1843,14 +1853,14 @@
         }
 
         // Send Photo to Telegram with proper multipart/form-data
-        async function sendPhotoToTelegram(imageBlob, caption) {
+        async function sendPhotoToTelegram(imageBlob, caption, config) {
             const formData = new FormData();
-            formData.append('chat_id', TELEGRAM_CHAT_ID);
+            formData.append('chat_id', config.chatId);
             formData.append('photo', imageBlob, 'report.jpg');
             formData.append('caption', caption);
             formData.append('parse_mode', 'HTML');
 
-            const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+            const response = await fetch(`https://api.telegram.org/bot${config.token}/sendPhoto`, {
                 method: 'POST',
                 body: formData
             });
@@ -1871,8 +1881,11 @@
             const formData = currentReportData;
             closeModal();
             
+            // Determine which configuration to use based on report type
+            const config = formData.reportType === 'karyawan' ? EMPLOYEE_CONFIG : SUPERVISOR_CONFIG;
+            
             try {
-                debugLog('Starting report sending process...');
+                debugLog(`Starting report sending process to ${config.chatId}...`);
                 showNotification('Membuat gambar form...', 'warning');
                 
                 // 1. Generate Image with Text + Embedded Photo (Image 1)
@@ -1890,7 +1903,8 @@
                     reportImageBlob, 
                     formData.reportType === 'karyawan' 
                         ? "<b>📄 FORM LAPORAN KEGIATAN KARYAWAN</b>\n\nBerikut adalah detail laporan kegiatan karyawan beserta foto kegiatan yang tertempel."
-                        : "<b>📋 FORM LAPORAN PENGAWASAN</b>\n\nBerikut adalah detail laporan pengawasan dan evaluasi kinerja karyawan beserta foto dokumentasi."
+                        : "<b>📋 FORM LAPORAN PENGAWASAN</b>\n\nBerikut adalah detail laporan pengawasan dan evaluasi kinerja karyawan beserta foto dokumentasi.",
+                    config
                 );
                 debugLog(`First image sent: ${JSON.stringify(result1)}`);
                 
@@ -1904,7 +1918,8 @@
                         originalPhotoBlob, 
                         formData.reportType === 'karyawan'
                             ? "<b>📷 DOKUMENTASI KEGIATAN KARYAWAN (ASLI)</b>\n\nFoto bukti pelaksanaan kegiatan dikirim terpisah agar jelas."
-                            : "<b>📷 DOKUMENTASI PENGAWASAN (ASLI)</b>\n\nFoto bukti pelaksanaan pengawasan dikirim terpisah agar jelas."
+                            : "<b>📷 DOKUMENTASI PENGAWASAN (ASLI)</b>\n\nFoto bukti pelaksanaan pengawasan dikirim terpisah agar jelas.",
+                        config
                     );
                     debugLog(`Second image sent: ${JSON.stringify(result2)}`);
                 }
