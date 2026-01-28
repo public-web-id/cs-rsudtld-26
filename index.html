@@ -572,292 +572,7 @@
             }
         }
 
-        /* Confirmation Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1050;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background-color: var(--white);
-            margin: 5% auto;
-            padding: 25px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .modal-title {
-            color: var(--primary-red);
-            font-weight: 700;
-            font-size: 20px;
-        }
-
-        .modal-body {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid var(--light-gray);
-        }
-
-        .btn-secondary {
-            background-color: var(--medium-gray);
-            border-color: var(--medium-gray);
-            padding: 10px 20px;
-            font-size: 14px;
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--dark-gray);
-            border-color: var(--dark-gray);
-        }
-
-        .btn-primary-modal {
-            background-color: var(--primary-red);
-            border-color: var(--primary-red);
-            padding: 10px 20px;
-            font-size: 14px;
-        }
-
-        .btn-primary-modal:hover {
-            background-color: var(--dark-red);
-            border-color: var(--dark-red);
-        }
-
-        /* PIN Modal Styles */
-        .pin-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .pin-input {
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            border: 2px solid var(--light-gray);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .pin-input:focus {
-            border-color: var(--primary-red);
-            outline: none;
-            box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.25);
-        }
-
-        .pin-error {
-            color: var(--danger-red);
-            font-size: 14px;
-            text-align: center;
-            margin-top: 10px;
-            display: none;
-        }
-
-        /* Report Preview Styles */
-        .report-preview {
-            background-color: var(--light-gray);
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-        }
-
-        .report-preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--medium-gray);
-        }
-
-        .report-preview-title {
-            color: var(--primary-red);
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .report-preview-date {
-            font-size: 14px;
-            color: var(--medium-gray);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .report-preview-item {
-            margin-bottom: 15px;
-        }
-
-        .report-preview-label {
-            font-weight: 600;
-            color: var(--dark-gray);
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .report-preview-value {
-            color: var(--medium-gray);
-            font-size: 14px;
-            word-wrap: break-word;
-            line-height: 1.5;
-            max-width: 100%;
-        }
-
-        .report-preview-meta {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-        }
-
-        .report-preview-tag {
-            background-color: var(--light-red);
-            color: var(--dark-red);
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .preview-image-container {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .preview-image {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        /* Loading Spinner */
-        .spinner-border {
-            width: 1rem;
-            height: 1rem;
-            border-width: 0.15em;
-            margin-right: 5px;
-        }
-
-        /* Blur overlay */
-        .blur-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(5px);
-            z-index: 3000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .blur-overlay-content {
-            text-align: center;
-            background-color: var(--white);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            max-width: 90%;
-            width: 350px;
-        }
-
-        .blur-overlay-icon {
-            font-size: 48px;
-            color: var(--primary-red);
-            margin-bottom: 20px;
-            animation: spin 1.5s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .blur-overlay-text {
-            font-size: 18px;
-            color: var(--dark-gray);
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .blur-overlay-subtext {
-            font-size: 14px;
-            color: var(--medium-gray);
-            margin-bottom: 20px;
-        }
-
-        .blur-overlay-progress {
-            width: 100%;
-            height: 8px;
-            background-color: var(--light-gray);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .blur-overlay-progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-red), var(--dark-red));
-            border-radius: 4px;
-            width: 0%;
-            animation: progress 2s ease-in-out infinite;
-        }
-
-        @keyframes progress {
-            0% { width: 0%; }
-            50% { width: 70%; }
-            100% { width: 100%; }
-        }
-
-        /* Success overlay with motivation */
+        /* Success overlay with motivation - OPTIMIZED FOR SPEED */
         .success-overlay {
             position: fixed;
             top: 0;
@@ -871,7 +586,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.3s ease;
         }
 
         .success-content {
@@ -882,7 +597,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             max-width: 90%;
             width: 400px;
-            animation: slideUp 0.5s ease;
+            animation: slideUp 0.3s ease;
         }
 
         @keyframes slideUp {
@@ -900,7 +615,7 @@
             font-size: 64px;
             color: var(--success-green);
             margin-bottom: 25px;
-            animation: bounce 1s ease infinite;
+            animation: bounce 0.5s ease infinite;
         }
 
         @keyframes bounce {
@@ -956,18 +671,6 @@
     </style>
 </head>
 <body>
-    <!-- Blur Overlay -->
-    <div id="blurOverlay" class="blur-overlay">
-        <div class="blur-overlay-content">
-            <i class="bi bi-send blur-overlay-icon"></i>
-            <div class="blur-overlay-text">Mengirim Laporan</div>
-            <div class="blur-overlay-subtext">Mohon tunggu sebentar, laporan sedang diproses</div>
-            <div class="blur-overlay-progress">
-                <div class="blur-overlay-progress-bar"></div>
-            </div>
-        </div>
-    </div>
-
     <!-- Success Overlay with Motivation -->
     <div id="successOverlay" class="success-overlay">
         <div class="success-content">
@@ -979,7 +682,7 @@
                 <p>Riwayat laporan Anda telah tersimpan secara permanen di perangkat ini.</p>
             </div>
             <div class="success-countdown" id="countdownText">
-                Kembali ke beranda dalam <span id="countdownNumber">2</span> detik...
+                Kembali ke beranda dalam <span id="countdownNumber">1</span> detik...
             </div>
         </div>
     </div>
@@ -1334,27 +1037,6 @@
         <i class="bi bi-check-circle"></i> <span id="notificationText"></span>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div id="confirmationModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Konfirmasi Penyimpanan Laporan</h3>
-                <span class="close" onclick="closeModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="report-preview" id="reportPreview">
-                    <!-- Preview content will be inserted here -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal()">Batal</button>
-                <button type="button" class="btn btn-primary-modal" id="confirmBtn" onclick="confirmSave()">
-                    <i class="bi bi-save"></i> Simpan Laporan
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- PIN Confirmation Modal -->
     <div id="pinModal" class="modal">
         <div class="modal-content">
@@ -1524,7 +1206,7 @@
             
             setTimeout(() => {
                 notification.style.display = 'none';
-            }, 3000);
+            }, 2000); // Reduced timeout for faster feedback
         }
 
         // Helper: Convert File to Base64
@@ -2248,8 +1930,8 @@
             // Store current report data globally
             currentReportData = formData;
             
-            // Show confirmation modal
-            showConfirmationModal(formData);
+            // Directly send the report
+            sendReport(formData);
         });
 
         // Handle form submit laporan pengawas - OPTIMIZED
@@ -2287,115 +1969,22 @@
             // Store current report data globally
             currentReportData = formData;
             
-            // Show confirmation modal
-            showConfirmationModal(formData);
+            // Directly send the report
+            sendReport(formData);
         });
 
-        // Show confirmation modal
-        function showConfirmationModal(formData) {
-            const modal = document.getElementById('confirmationModal');
-            const preview = document.getElementById('reportPreview');
-            
-            const formattedTanggal = formatDate(formData.tanggal);
-            
-            let previewHTML = `
-                <div class="report-preview-header">
-                    <div class="report-preview-title">${formData.reportType === 'karyawan' ? 'Laporan Karyawan' : 'Laporan Pengawas'}</div>
-                    <div class="report-preview-date">
-                        <i class="bi bi-clock"></i> ${formattedTanggal}
-                    </div>
-                </div>
-            `;
-            
-            if (formData.reportType === 'karyawan') {
-                previewHTML += `
-                    <div class="report-preview-meta">
-                        <span class="report-preview-tag">${formData.jenisKaryawan}</span>
-                        <span class="report-preview-tag">${formData.shiftKerja}</span>
-                    </div>
-                    <div class="report-preview-item">
-                        <div class="report-preview-label">Nama Karyawan:</div>
-                        <div class="report-preview-value">${formData.namaKaryawan}</div>
-                    </div>
-                    <div class="report-preview-item">
-                        <div class="report-preview-label">Area Kerja:</div>
-                        <div class="report-preview-value">${formData.areaKerja}</div>
-                    </div>
-                `;
-            } else {
-                previewHTML += `
-                    <div class="report-preview-meta">
-                        <span class="report-preview-tag">${formData.shiftPengawasan}</span>
-                    </div>
-                    <div class="report-preview-item">
-                        <div class="report-preview-label">Nama Pengawas:</div>
-                        <div class="report-preview-value">${formData.namaPengawas}</div>
-                    </div>
-                    <div class="report-preview-item">
-                        <div class="report-preview-label">Tanggal Pengawasan:</div>
-                        <div class="report-preview-value">${formData.tanggalPengawasan}</div>
-                    </div>
-                    <div class="report-preview-item">
-                        <div class="report-preview-label">Area Pengawasan:</div>
-                        <div class="report-preview-value">${formData.areaPengawasan}</div>
-                    </div>
-                    <div class="report-preview-item">
-                        <div class="report-preview-label">Karyawan yang Diawasi:</div>
-                        <div class="report-preview-value">${formData.karyawanDiawasi}</div>
-                    </div>
-                    <div class="report-preview-item">
-                        <div class="report-preview-label">Hasil Pengawasan:</div>
-                        <div class="report-preview-value">${formData.hasilPengawasan}</div>
-                    </div>
-                    ${formData.catatanEvaluasi ? `
-                    <div class="report-preview-item">
-                        <div class="report-preview-label">Catatan Evaluasi:</div>
-                        <div class="report-preview-value">${formData.catatanEvaluasi}</div>
-                    </div>
-                    ` : ''}
-                `;
-            }
-            
-            if (formData.foto) {
-                previewHTML += `
-                    <div class="preview-image-container">
-                        <img src="${formData.foto}" alt="Foto Preview" class="preview-image">
-                    </div>
-                `;
-            }
-            
-            preview.innerHTML = previewHTML;
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('confirmationModal').style.display = 'none';
-        }
-
-        // Confirm and Save - OPTIMIZED FOR FASTER PROCESSING
-        async function confirmSave() {
-            // Use the globally stored report data instead of trying to get it from DOM
-            if (!currentReportData) {
-                showNotification('Data laporan tidak tersedia', 'error');
-                return;
-            }
-            
-            const formData = currentReportData;
-            closeModal();
-            
-            // Show blur overlay
-            const blurOverlay = document.getElementById('blurOverlay');
-            blurOverlay.style.display = 'flex';
-            
+        // Send report directly - OPTIMIZED FOR SPEED
+        async function sendReport(formData) {
             try {
-                // Create report image using the new function that matches the preview
-                showNotification('Membuat gambar laporan...', 'warning');
+                // Show notification that we're sending
+                showNotification('Mengirim laporan...', 'warning');
+                
+                // Create report image
                 const reportImageBlob = await createReportImageFromPreview(formData);
                 
                 // Create separate activity image if photo exists
                 let activityImageBlob = null;
                 if (formData.foto) {
-                    showNotification('Mempersiapkan foto kegiatan...', 'warning');
                     activityImageBlob = await createActivityImage(formData);
                 }
                 
@@ -2409,32 +1998,21 @@
                 };
                 
                 // Send report image to server without caption
-                showNotification('Mengirim laporan...', 'warning');
-                
                 const reportResponse = await sendToTelegram('', reportImageBlob, config);
                 
                 if (reportResponse.success && activityImageBlob) {
                     // If report sent successfully and there's an activity image, send it separately
-                    showNotification('Mengirim foto kegiatan...', 'warning');
-                    
-                    // Send activity image without caption
                     const activityResponse = await sendToTelegram('', activityImageBlob, config);
                     
                     if (activityResponse.success) {
                         // Save to localStorage
                         saveReportToStorage(formData);
                         
-                        // Hide blur overlay
-                        blurOverlay.style.display = 'none';
-                        
                         // Show success overlay with motivation
                         showSuccessOverlay();
                     } else {
                         // Save to localStorage even if photo failed to send separately
                         saveReportToStorage(formData);
-                        
-                        // Hide blur overlay
-                        blurOverlay.style.display = 'none';
                         
                         // Show success overlay with motivation
                         showSuccessOverlay();
@@ -2444,17 +2022,11 @@
                     // Save to localStorage
                     saveReportToStorage(formData);
                     
-                    // Hide blur overlay
-                    blurOverlay.style.display = 'none';
-                    
                     // Show success overlay with motivation
                     showSuccessOverlay();
                 } else {
                     // Save to localStorage even if sending failed
                     saveReportToStorage(formData);
-                    
-                    // Hide blur overlay
-                    blurOverlay.style.display = 'none';
                     
                     // Show success overlay with motivation
                     showSuccessOverlay();
@@ -2462,9 +2034,6 @@
             } catch (error) {
                 // Save to localStorage even if there's an error
                 saveReportToStorage(formData);
-                
-                // Hide blur overlay
-                blurOverlay.style.display = 'none';
                 
                 // Show success overlay with motivation
                 showSuccessOverlay();
@@ -2476,8 +2045,8 @@
             const successOverlay = document.getElementById('successOverlay');
             successOverlay.style.display = 'flex';
             
-            // Start countdown - REDUCED FROM 3 TO 2 SECONDS
-            let countdown = 2;
+            // Start countdown - REDUCED FROM 3 TO 1 SECOND
+            let countdown = 1;
             const countdownElement = document.getElementById('countdownNumber');
             const countdownText = document.getElementById('countdownText');
             
@@ -2491,7 +2060,7 @@
                     setTimeout(() => {
                         successOverlay.style.display = 'none';
                         showPage('beranda');
-                    }, 500);
+                    }, 300); // Reduced delay
                 }
             }, 1000);
         }
