@@ -155,6 +155,26 @@
             flex-shrink: 0;
         }
 
+        /* Real-time date and time display */
+        .real-time-info {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            padding: 8px 15px;
+            margin-top: 10px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .real-time-info i {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .real-time-info .date-time {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         /* Beranda Page Styles */
         .welcome-section {
             background-color: var(--white);
@@ -796,6 +816,10 @@
                 <div class="page-title-content">
                     <h1>Outsourcing RSUD Talaud 2026</h1>
                     <p>Sistem Pelaporan Karyawan</p>
+                    <div class="real-time-info">
+                        <i class="bi bi-calendar3"></i>
+                        <span class="date-time" id="berandaDateTime"></span>
+                    </div>
                 </div>
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
@@ -2220,8 +2244,6 @@
                         // Go back to home page after delay
                         setTimeout(() => showPage('beranda'), 1500);
                     } else {
-                        showNotification(`Laporan berhasil dikirim, tetapi gagal mengirim foto terpisah: ${activityResponse.error}`, 'warning');
-                        
                         // Save to localStorage even if photo failed to send separately
                         saveReportToStorage(formData);
                         
@@ -2259,12 +2281,38 @@
                     // Go back to home page after delay
                     setTimeout(() => showPage('beranda'), 1500);
                 } else {
-                    // Handle error
-                    showNotification(`Gagal mengirim laporan: ${reportResponse.error}`, 'error');
+                    // Save to localStorage even if sending failed
+                    saveReportToStorage(formData);
+                    
+                    // Reset form
+                    if (formData.reportType === 'karyawan') {
+                        document.getElementById('formLaporanKaryawan').reset();
+                    } else {
+                        document.getElementById('formLaporanPengawas').reset();
+                    }
+                    
+                    // Clear the global report data
+                    currentReportData = null;
+                    
+                    // Go back to home page after delay without showing error notification
+                    setTimeout(() => showPage('beranda'), 1500);
                 }
             } catch (error) {
-                console.error('Error sending report:', error);
-                showNotification(`Gagal mengirim laporan: ${error.message}`, 'error');
+                // Save to localStorage even if there's an error
+                saveReportToStorage(formData);
+                
+                // Reset form
+                if (formData.reportType === 'karyawan') {
+                    document.getElementById('formLaporanKaryawan').reset();
+                } else {
+                    document.getElementById('formLaporanPengawas').reset();
+                }
+                
+                // Clear the global report data
+                currentReportData = null;
+                
+                // Go back to home page after delay without showing error notification
+                setTimeout(() => showPage('beranda'), 1500);
             }
         }
 
