@@ -241,6 +241,28 @@
             font-size: 20px;
         }
 
+        .form-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .section-title {
+            color: var(--primary-red);
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -264,6 +286,14 @@
         .form-control:focus, .form-select:focus {
             border-color: var(--primary-red);
             box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.25);
+        }
+
+        /* Perbaikan untuk textarea laporan kegiatan */
+        .form-control#laporanKegiatan {
+            min-height: 120px;
+            resize: vertical;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         .btn-primary {
@@ -663,6 +693,7 @@
             font-size: 14px;
             word-wrap: break-word;
             line-height: 1.5;
+            max-width: 100%;
         }
 
         .report-preview-meta {
@@ -693,19 +724,30 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* Debug Panel */
-        .debug-panel {
+        /* Offline Mode Indicator */
+        .offline-indicator {
             position: fixed;
-            bottom: 80px;
+            top: 70px;
             right: 15px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
+            background-color: var(--warning-yellow);
+            color: var(--dark-gray);
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 12px;
-            max-width: 300px;
-            display: none;
-            z-index: 3000;
+            font-weight: 600;
+            z-index: 1500;
+        }
+
+        /* Loading Spinner */
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            border-width: 0.15em;
+            margin-right: 5px;
         }
 
         /* Responsive adjustments */
@@ -739,6 +781,12 @@
     </style>
 </head>
 <body>
+    <!-- Offline Mode Indicator -->
+    <div class="offline-indicator">
+        <i class="bi bi-wifi-off"></i>
+        <span>Mode Offline</span>
+    </div>
+
     <!-- Main Content -->
     <main class="main-content">
         <!-- Beranda Page -->
@@ -748,15 +796,15 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
                 <div class="page-title-content">
                     <h1>Outsourcing RSUD Talaud 2026</h1>
-                    <p>Sistem Pelaporan Karyawan</p>
+                    <p>Sistem Pelaporan Karyawan (Mode Offline)</p>
                 </div>
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
-            <!-- Welcome Section (replacing Info Terkini) -->
+            <!-- Welcome Section -->
             <div class="welcome-section">
                 <h3><i class="bi bi-house-heart"></i> Selamat Datang</h3>
-                <p>Silakan gunakan menu di bawah untuk membuat laporan kegiatan harian Anda. Laporan yang Anda buat akan langsung terkirim ke sistem monitoring.</p>
+                <p>Silakan gunakan menu di bawah untuk membuat laporan kegiatan harian Anda. Laporan akan disimpan secara lokal di perangkat ini dan dikirim ke Telegram dalam format gambar form dan foto terpisah.</p>
             </div>
         </div>
 
@@ -799,73 +847,92 @@
             
             <div class="form-container">
                 <form id="formLaporanKaryawan">
-                    <div class="form-group">
-                        <label class="form-label">Nama Karyawan</label>
-                        <input type="text" class="form-control" id="namaKaryawan" required placeholder="Masukkan nama karyawan">
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-person-fill"></i> Identitas Karyawan
+                        </h3>
+                        <div class="form-group">
+                            <label class="form-label">Nama Karyawan</label>
+                            <input type="text" class="form-control" id="namaKaryawan" required placeholder="Masukkan nama karyawan">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jenis Karyawan</label>
+                            <select class="form-select" id="jenisKaryawan" required>
+                                <option value="">Pilih Jenis Karyawan</option>
+                                <option value="Administrasi">Administrasi</option>
+                                <option value="Cleaning Service">Cleaning Service</option>
+                                <option value="Operator IPAL">Operator IPAL</option>
+                                <option value="Penata Halaman">Penata Halaman</option>
+                                <option value="Juru Masak">Juru Masak</option>
+                                <option value="Limbah RS">Limbah RS</option>
+                                <option value="Laundry">Laundry</option>
+                                <option value="Teknisi IPSRS">Teknisi IPSRS</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Area Kerja/Ruangan</label>
+                            <select class="form-select" id="areaKerja" required>
+                                <option value="">Pilih Area Kerja</option>
+                                <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
+                                <option value="Bedah">Bedah</option>
+                                <option value="Bedah Sentral">Bedah Sentral</option>
+                                <option value="Binatu">Binatu</option>
+                                <option value="Bougenville">Bougenville</option>
+                                <option value="Crysant">Crysant</option>
+                                <option value="Dahlia">Dahlia</option>
+                                <option value="Edelweis VIP">Edelweis VIP</option>
+                                <option value="Fisioterapi">Fisioterapi</option>
+                                <option value="ICU">ICU</option>
+                                <option value="IGD">IGD</option>
+                                <option value="Isolasi">Isolasi</option>
+                                <option value="IPAL">IPAL</option>
+                                <option value="IPSRS">IPSRS</option>
+                                <option value="Kantor/Manajemen">Kantor/Manajemen</option>
+                                <option value="Kasir">Kasir</option>
+                                <option value="NICU">NICU</option>
+                                <option value="Pendaftaran">Pendaftaran</option>
+                                <option value="Poliklinik">Poliklinik</option>
+                                <option value="Radiologi">Radiologi</option>
+                                <option value="Ruang Bersalin">Ruang Bersalin</option>
+                                <option value="Seluruh Ruangan/Koridor RS">Seluruh Ruangan/Koridor RS</option>
+                                <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
+                                <option value="UTD">UTD</option>
+                                <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
+                                <option value="Laboratorium">Laboratorium</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Shift Kerja</label>
+                            <select class="form-select" id="shiftKerja" required>
+                                <option value="">Pilih Shift</option>
+                                <option value="Malam">Malam</option>
+                                <option value="Pagi">Pagi</option>
+                                <option value="Siang">Siang</option>
+                                <option value="24 Jam">24 Jam</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Jenis Karyawan</label>
-                        <select class="form-select" id="jenisKaryawan" required>
-                            <option value="">Pilih Jenis Karyawan</option>
-                            <option value="Administrasi">Administrasi</option>
-                            <option value="Cleaning Service">Cleaning Service</option>
-                            <option value="Operator IPAL">Operator IPAL</option>
-                            <option value="Penata Halaman">Penata Halaman</option>
-                            <option value="Juru Masak">Juru Masak</option>
-                            <option value="Limbah RS">Limbah RS</option>
-                            <option value="Laundry">Laundry</option>
-                            <option value="Teknisi IPSRS">Teknisi IPSRS</option>
-                        </select>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-clipboard2-fill"></i> Laporan Kegiatan
+                        </h3>
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi Kegiatan</label>
+                            <textarea class="form-control" id="laporanKegiatan" rows="4" required placeholder="Deskripsikan kegiatan yang dilakukan"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Area Kerja/Ruangan</label>
-                        <select class="form-select" id="areaKerja" required>
-                            <option value="">Pilih Area Kerja</option>
-                            <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
-                            <option value="Bedah">Bedah</option>
-                            <option value="Bedah Sentral">Bedah Sentral</option>
-                            <option value="Binatu">Binatu</option>
-                            <option value="Bougenville">Bougenville</option>
-                            <option value="Crysant">Crysant</option>
-                            <option value="Dahlia">Dahlia</option>
-                            <option value="Edelweis VIP">Edelweis VIP</option>
-                            <option value="Fisioterapi">Fisioterapi</option>
-                            <option value="ICU">ICU</option>
-                            <option value="IGD">IGD</option>
-                            <option value="Isolasi">Isolasi</option>
-                            <option value="IPAL">IPAL</option>
-                            <option value="IPSRS">IPSRS</option>
-                            <option value="Kantor/Manajemen">Kantor/Manajemen</option>
-                            <option value="Kasir">Kasir</option>
-                            <option value="NICU">NICU</option>
-                            <option value="Pendaftaran">Pendaftaran</option>
-                            <option value="Poliklinik">Poliklinik</option>
-                            <option value="Radiologi">Radiologi</option>
-                            <option value="Ruang Bersalin">Ruang Bersalin</option>
-                            <option value="Seluruh Ruangan/Koridor RS">Seluruh Ruangan/Koridor RS</option>
-                            <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
-                            <option value="UTD">UTD</option>
-                            <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
-                            <option value="Laboratorium">Laboratorium</option>
-                        </select>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-image-fill"></i> Dokumentasi
+                        </h3>
+                        <div class="form-group">
+                            <label class="form-label">Upload Foto (Opsional)</label>
+                            <input type="file" class="form-control" id="fotoLaporan" accept="image/*">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Shift Kerja</label>
-                        <select class="form-select" id="shiftKerja" required>
-                            <option value="">Pilih Shift</option>
-                            <option value="Malam">Malam</option>
-                            <option value="Pagi">Pagi</option>
-                            <option value="Siang">Siang</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Laporan Kegiatan</label>
-                        <textarea class="form-control" id="laporanKegiatan" rows="4" required placeholder="Deskripsikan kegiatan yang dilakukan"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Upload Foto (Wajib)</label>
-                        <input type="file" class="form-control" id="fotoLaporan" accept="image/*" required>
-                    </div>
+                    
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-send"></i> Kirim Laporan
@@ -888,71 +955,96 @@
             
             <div class="form-container">
                 <form id="formLaporanPengawas">
-                    <div class="form-group">
-                        <label class="form-label">Nama Pengawas</label>
-                        <input type="text" class="form-control" id="namaPengawas" required placeholder="Masukkan nama pengawas">
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-person-badge-fill"></i> Identitas Pengawas
+                        </h3>
+                        <div class="form-group">
+                            <label class="form-label">Nama Pengawas</label>
+                            <input type="text" class="form-control" id="namaPengawas" required placeholder="Masukkan nama pengawas">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tanggal Pengawasan</label>
+                            <input type="date" class="form-control" id="tanggalPengawasan" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Area Pengawasan</label>
+                            <select class="form-select" id="areaPengawasan" required>
+                                <option value="">Pilih Area Pengawasan</option>
+                                <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
+                                <option value="Bedah">Bedah</option>
+                                <option value="Bedah Sentral">Bedah Sentral</option>
+                                <option value="Binatu">Binatu</option>
+                                <option value="Bougenville">Bougenville</option>
+                                <option value="Crysant">Crysant</option>
+                                <option value="Dahlia">Dahlia</option>
+                                <option value="Edelweis VIP">Edelweis VIP</option>
+                                <option value="Fisioterapi">Fisioterapi</option>
+                                <option value="ICU">ICU</option>
+                                <option value="IGD">IGD</option>
+                                <option value="Isolasi">Isolasi</option>
+                                <option value="IPAL">IPAL</option>
+                                <option value="IPSRS">IPSRS</option>
+                                <option value="Kantor/Manajemen">Kantor/Manajemen</option>
+                                <option value="Kasir">Kasir</option>
+                                <option value="NICU">NICU</option>
+                                <option value="Pendaftaran">Pendaftaran</option>
+                                <option value="Poliklinik">Poliklinik</option>
+                                <option value="Radiologi">Radiologi</option>
+                                <option value="Ruang Bersalin">Ruang Bersalin</option>
+                                <option value="Seluruh Ruangan/Koridor RS">Seluruh Ruangan/Koridor RS</option>
+                                <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
+                                <option value="UTD">UTD</option>
+                                <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
+                                <option value="Laboratorium">Laboratorium</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Shift Pengawasan</label>
+                            <select class="form-select" id="shiftPengawasan" required>
+                                <option value="">Pilih Shift</option>
+                                <option value="Malam">Malam</option>
+                                <option value="Pagi">Pagi</option>
+                                <option value="Siang">Siang</option>
+                                <option value="24 Jam">24 Jam</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Tanggal Pengawasan</label>
-                        <input type="date" class="form-control" id="tanggalPengawasan" required>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-people-fill"></i> Informasi Karyawan
+                        </h3>
+                        <div class="form-group">
+                            <label class="form-label">Nama Karyawan yang Diawasi</label>
+                            <input type="text" class="form-control" id="karyawanDiawasi" required placeholder="Masukkan nama karyawan yang diawasi">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Area Pengawasan</label>
-                        <select class="form-select" id="areaPengawasan" required>
-                            <option value="">Pilih Area Pengawasan</option>
-                            <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
-                            <option value="Bedah">Bedah</option>
-                            <option value="Bedah Sentral">Bedah Sentral</option>
-                            <option value="Binatu">Binatu</option>
-                            <option value="Bougenville">Bougenville</option>
-                            <option value="Crysant">Crysant</option>
-                            <option value="Dahlia">Dahlia</option>
-                            <option value="Edelweis VIP">Edelweis VIP</option>
-                            <option value="Fisioterapi">Fisioterapi</option>
-                            <option value="ICU">ICU</option>
-                            <option value="IGD">IGD</option>
-                            <option value="Isolasi">Isolasi</option>
-                            <option value="IPAL">IPAL</option>
-                            <option value="IPSRS">IPSRS</option>
-                            <option value="Kantor/Manajemen">Kantor/Manajemen</option>
-                            <option value="Kasir">Kasir</option>
-                            <option value="NICU">NICU</option>
-                            <option value="Pendaftaran">Pendaftaran</option>
-                            <option value="Poliklinik">Poliklinik</option>
-                            <option value="Radiologi">Radiologi</option>
-                            <option value="Ruang Bersalin">Ruang Bersalin</option>
-                            <option value="Seluruh Ruangan/Koridor RS">Seluruh Ruangan/Koridor RS</option>
-                            <option value="Seluruh Halaman RS">Seluruh Halaman RS</option>
-                            <option value="UTD">UTD</option>
-                            <option value="Pemulasaran Jenazah">Pemulasaran Jenazah</option>
-                            <option value="Laboratorium">Laboratorium</option>
-                        </select>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-clipboard2-check-fill"></i> Hasil Pengawasan
+                        </h3>
+                        <div class="form-group">
+                            <label class="form-label">Hasil Pengawasan</label>
+                            <textarea class="form-control" id="hasilPengawasan" rows="4" required placeholder="Deskripsikan hasil pengawasan yang dilakukan"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Catatan Evaluasi</label>
+                            <textarea class="form-control" id="catatanEvaluasi" rows="3" placeholder="Tambahkan catatan evaluasi jika diperlukan"></textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Shift Pengawasan</label>
-                        <select class="form-select" id="shiftPengawasan" required>
-                            <option value="">Pilih Shift</option>
-                            <option value="Malam">Malam</option>
-                            <option value="Pagi">Pagi</option>
-                            <option value="Siang">Siang</option>
-                        </select>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-image-fill"></i> Dokumentasi
+                        </h3>
+                        <div class="form-group">
+                            <label class="form-label">Upload Foto (Opsional)</label>
+                            <input type="file" class="form-control" id="fotoPengawasan" accept="image/*">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Nama Karyawan yang Diawasi</label>
-                        <input type="text" class="form-control" id="karyawanDiawasi" required placeholder="Masukkan nama karyawan yang diawasi">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Hasil Pengawasan</label>
-                        <textarea class="form-control" id="hasilPengawasan" rows="4" required placeholder="Deskripsikan hasil pengawasan yang dilakukan"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Catatan Evaluasi</label>
-                        <textarea class="form-control" id="catatanEvaluasi" rows="3" placeholder="Tambahkan catatan evaluasi jika diperlukan"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Upload Foto (Wajib)</label>
-                        <input type="file" class="form-control" id="fotoPengawasan" accept="image/*" required>
-                    </div>
+                    
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-send"></i> Kirim Laporan
@@ -1001,7 +1093,7 @@
             <div class="empty-state">
                 <i class="bi bi-images"></i>
                 <h5>Galeri Tidak Tersedia</h5>
-                <p>Galeri kegiatan tidak ditampilkan untuk menjaga privasi. Foto kegiatan hanya akan dikirim ke sistem monitoring.</p>
+                <p>Galeri kegiatan tidak ditampilkan untuk menjaga privasi. Foto kegiatan hanya disimpan secara lokal di perangkat.</p>
             </div>
         </div>
     </main>
@@ -1031,16 +1123,11 @@
         <i class="bi bi-check-circle"></i> <span id="notificationText"></span>
     </div>
 
-    <!-- Debug Panel -->
-    <div id="debugPanel" class="debug-panel">
-        <div id="debugContent"></div>
-    </div>
-
     <!-- Confirmation Modal -->
     <div id="confirmationModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Konfirmasi Pengiriman Laporan</h3>
+                <h3 class="modal-title">Konfirmasi Penyimpanan Laporan</h3>
                 <span class="close" onclick="closeModal()">&times;</span>
             </div>
             <div class="modal-body">
@@ -1050,8 +1137,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal()">Batal</button>
-                <button type="button" class="btn btn-primary-modal" id="confirmBtn" onclick="confirmSend()">
-                    <i class="bi bi-send"></i> Kirim ke Telegram
+                <button type="button" class="btn btn-primary-modal" id="confirmBtn" onclick="confirmSave()">
+                    <i class="bi bi-save"></i> Simpan Laporan
                 </button>
             </div>
         </div>
@@ -1081,44 +1168,27 @@
         </div>
     </div>
 
-    <!-- Hidden Canvas for Image Generation -->
-    <canvas id="reportImageCanvas"></canvas>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // ==========================================
         // TELEGRAM CONFIGURATION
         // ==========================================
         // Konfigurasi untuk laporan karyawan
-        const EMPLOYEE_CONFIG = {
-            token: "8355189455:AAGqJXf_OCoPWx11CSyeUk4fLhif156HjX4",
-            chatId: "-1003637925420"  // Updated to new chat ID
-        };
+        const TELEGRAM_CHAT_ID_EMPLOYEE = "-1003637925420";
+        const TELEGRAM_BOT_TOKEN_EMPLOYEE = "8355189455:AAGqJXf_OCoPWx11CSyeUk4fLhif156HjX4";
+        const TELEGRAM_API_URL_EMPLOYEE = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_EMPLOYEE}`;
         
-        // Konfigurasi untuk laporan pengawas
-        const SUPERVISOR_CONFIG = {
-            token: "8467011518:AAEisUa7E9VWJxgYu5snEn0ouyGGejcxRRk",
-            chatId: "-1003705997140"
-        };
+        // Konfigurasi untuk laporan pengawas (sesuai permintaan)
+        const TELEGRAM_CHAT_ID_SUPERVISOR = "-1003822735476";
+        const TELEGRAM_BOT_TOKEN_SUPERVISOR = "8300283586:AAFhk9F9ZouK_gB9m0nbm5kFyzgFblgho1s";
+        const TELEGRAM_API_URL_SUPERVISOR = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_SUPERVISOR}`;
         
+        // ==========================================
+        // OFFLINE MODE CONFIGURATION
+        // ==========================================
         const SUPERVISOR_PIN = "1234";
         let currentReportType = "";
         let currentReportData = null; // Store current report data globally
-        
-        // Debug function
-        function debugLog(message) {
-            console.log(message);
-            const debugPanel = document.getElementById('debugPanel');
-            const debugContent = document.getElementById('debugContent');
-            debugContent.innerHTML += message + '<br>';
-            debugPanel.style.display = 'block';
-            
-            // Auto hide after 10 seconds
-            setTimeout(() => {
-                debugPanel.style.display = 'none';
-                debugContent.innerHTML = '';
-            }, 10000);
-        }
 
         // Show page function
         function showPage(pageId) {
@@ -1231,27 +1301,532 @@
             });
         }
 
-        // Convert base64 to Blob
-        function base64ToBlob(base64Data, contentType) {
-            contentType = contentType || '';
-            const sliceSize = 1024;
-            const byteCharacters = atob(base64Data.split(',')[1]);
-            const bytesLength = byteCharacters.length;
-            const slicesCount = Math.ceil(bytesLength / sliceSize);
-            const byteArrays = new Array(slicesCount);
+        // Helper: Format Date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
 
-            for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-                const begin = sliceIndex * sliceSize;
-                const end = Math.min(begin + sliceSize, bytesLength);
+        // Helper: Get Full Date with Day Name
+        function getFullDateWithDay(dateString) {
+            const date = new Date(dateString);
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const dayName = days[date.getDay()];
+            const formattedDate = date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+            return `${dayName}, ${formattedDate}`;
+        }
 
-                const bytes = new Array(end - begin);
-                for (let offset = begin, i = 0; offset < end; ++i, ++offset) {
-                    bytes[i] = byteCharacters[offset].charCodeAt(0);
+        // Helper: Create image from preview modal content (PERBAIKAN TATA LETAK IDENTITAS KARYAWAN)
+        async function createReportImageFromPreview(reportData) {
+            // Create a canvas element with larger dimensions for better quality
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size - LARGER for better visibility
+            const canvasWidth = 900;
+            const canvasHeight = 1600;
+            
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            
+            // Background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Header with gradient - TEBAL
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+            gradient.addColorStop(0, '#DC143C');
+            gradient.addColorStop(1, '#8B0000');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, 90);
+            
+            // Title - LEBAR
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 38px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(reportData.reportType === 'karyawan' ? 'LAPORAN KARYAWAN' : 'LAPORAN PENGAWAS', canvas.width / 2, 60);
+            
+            // Logo section - LEBAR
+            ctx.fillStyle = '#f8f9fa';
+            ctx.fillRect(0, 90, canvas.width, 70);
+            
+            // Logo placeholder - LEBAR
+            ctx.fillStyle = '#DC143C';
+            ctx.font = 'bold 26px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('RSUD Talaud 2026', canvas.width / 2, 140);
+            
+            // Content sections - SPASI LEBAR
+            let yPos = 180;
+            const sectionHeight = 45;
+            
+            // Report type specific content
+            if (reportData.reportType === 'karyawan') {
+                // Karyawan form fields - PERBAIKAN TATA LETAK
+                // Section: Identitas Karyawan
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                ctx.fillStyle = '#DC143C';
+                ctx.font = 'bold 34px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 38);
+                
+                yPos += sectionHeight + 25;
+                
+                // Form fields - TATA LETAK YANG LEBAR TERSTRUKTUR
+                // Nama Karyawan
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText('Nama Karyawan:', 30, yPos + 38);
+                ctx.font = '30px Arial';
+                ctx.fillText(reportData.namaKaryawan, 30, yPos + 80);
+                yPos += 100;
+                
+                // Jenis Karyawan
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText('Jenis Karyawan:', 30, yPos + 38);
+                ctx.font = '30px Arial';
+                ctx.fillText(reportData.jenisKaryawan, 30, yPos + 80);
+                yPos += 100;
+                
+                // Area Kerja
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText('Area Kerja:', 30, yPos + 38);
+                ctx.font = '30px Arial';
+                ctx.fillText(reportData.areaKerja, 30, yPos + 80);
+                yPos += 100;
+                
+                // Shift Kerja
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText('Shift Kerja:', 30, yPos + 38);
+                ctx.font = '30px Arial';
+                ctx.fillText(reportData.shiftKerja, 30, yPos + 80);
+                yPos += 120;
+                
+                // Section: Laporan Kegiatan
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                ctx.fillStyle = '#DC143C';
+                ctx.font = 'bold 34px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('LAPORAN KEGIATAN', 30, yPos + 38);
+                
+                yPos += sectionHeight + 25;
+                
+                // Draw activity text box - LEBAR
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(30, yPos, canvas.width - 60, 240);
+                
+                ctx.strokeStyle = '#DC143C';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(30, yPos, canvas.width - 60, 240);
+                
+                // Draw activity text - LEBAR dengan baris yang lebih lebar
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = '26px Arial';
+                const words = reportData.laporanKegiatan.split(' ');
+                let line = '';
+                let lineCount = 0;
+                const maxLines = 8;
+                
+                for (let i = 0; i < words.length && lineCount < maxLines; i++) {
+                    const testLine = line + words[i] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+                    
+                    if (testWidth > canvas.width - 100 && line.length > 0) {
+                        ctx.fillText(line, 40, yPos + 45 + (lineCount * 40));
+                        line = words[i] + ' ';
+                        lineCount++;
+                    } else {
+                        line = testLine;
+                    }
                 }
-                byteArrays[sliceIndex] = new Uint8Array(bytes);
+                
+                if (line.length > 0 && lineCount < maxLines) {
+                    ctx.fillText(line, 40, yPos + 45 + (lineCount * 40));
+                }
+                
+                yPos += 260;
+            } else {
+                // Supervisor form fields - TATA LETAK YANG DIPERBAIKI
+                // Section: Identitas Pengawas
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                ctx.fillStyle = '#DC143C';
+                ctx.font = 'bold 34px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('IDENTITAS PENGAWAS', 30, yPos + 38);
+                
+                yPos += sectionHeight + 25;
+                
+                // Form fields - TATA LETAK YANG LEBAR TERSTRUKTUR
+                // Nama Pengawas
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText('Nama Pengawas:', 30, yPos + 38);
+                ctx.font = '30px Arial';
+                ctx.fillText(reportData.namaPengawas, 30, yPos + 80);
+                yPos += 100;
+                
+                // Tanggal Pengawasan
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText('Tanggal Pengawasan:', 30, yPos + 38);
+                ctx.font = '30px Arial';
+                ctx.fillText(reportData.tanggalPengawasan, 30, yPos + 80);
+                yPos += 100;
+                
+                // Area Pengawasan
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText('Area Pengawasan:', 30, yPos + 38);
+                ctx.font = '30px Arial';
+                ctx.fillText(reportData.areaPengawasan, 30, yPos + 80);
+                yPos += 100;
+                
+                // Shift Pengawasan
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText('Shift Pengawasan:', 30, yPos + 38);
+                ctx.font = '30px Arial';
+                ctx.fillText(reportData.shiftPengawasan, 30, yPos + 80);
+                yPos += 120;
+                
+                // Section: Informasi Karyawan
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                ctx.fillStyle = '#DC143C';
+                ctx.font = 'bold 34px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('INFORMASI KARYAWAN', 30, yPos + 38);
+                
+                yPos += sectionHeight + 25;
+                
+                // Nama Karyawan yang Diawasi
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText('Nama Karyawan:', 30, yPos + 38);
+                ctx.font = '30px Arial';
+                ctx.fillText(reportData.karyawanDiawasi, 30, yPos + 80);
+                yPos += 120;
+                
+                // Section: Hasil Pengawasan
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                ctx.fillStyle = '#DC143C';
+                ctx.font = 'bold 34px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('HASIL PENGAWASAN', 30, yPos + 38);
+                
+                yPos += sectionHeight + 25;
+                
+                // Draw supervision text box - LEBAR
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(30, yPos, canvas.width - 60, 240);
+                
+                ctx.strokeStyle = '#DC143C';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(30, yPos, canvas.width - 60, 240);
+                
+                // Draw supervision text - LEBAR dengan baris yang lebih lebar
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = '26px Arial';
+                const words = reportData.hasilPengawasan.split(' ');
+                let line = '';
+                let lineCount = 0;
+                const maxLines = 8;
+                
+                for (let i = 0; i < words.length && lineCount < maxLines; i++) {
+                    const testLine = line + words[i] + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    const testWidth = metrics.width;
+                    
+                    if (testWidth > canvas.width - 100 && line.length > 0) {
+                        ctx.fillText(line, 40, yPos + 45 + (lineCount * 40));
+                        line = words[i] + ' ';
+                        lineCount++;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                
+                if (line.length > 0 && lineCount < maxLines) {
+                    ctx.fillText(line, 40, yPos + 45 + (lineCount * 40));
+                }
+                
+                yPos += 260;
+                
+                // Add catatan evaluasi if exists
+                if (reportData.catatanEvaluasi) {
+                    // Section: Catatan Evaluasi
+                    ctx.fillStyle = '#f8f9fa';
+                    ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                    ctx.fillStyle = '#DC143C';
+                    ctx.font = 'bold 34px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('CATATAN EVALUASI', 30, yPos + 38);
+                    
+                    yPos += sectionHeight + 25;
+                    
+                    // Draw evaluation text box - LEBAR
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(30, yPos, canvas.width - 60, 190);
+                    
+                    ctx.strokeStyle = '#DC143C';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(30, yPos, canvas.width - 60, 190);
+                    
+                    // Draw evaluation text - LEBAR dengan baris yang lebih lebar
+                    ctx.fillStyle = '#2c3e50';
+                    ctx.font = '26px Arial';
+                    const evalWords = reportData.catatanEvaluasi.split(' ');
+                    let evalLine = '';
+                    let evalLineCount = 0;
+                    const evalMaxLines = 7;
+                    
+                    for (let i = 0; i < evalWords.length && evalLineCount < evalMaxLines; i++) {
+                        const testLine = evalLine + evalWords[i] + ' ';
+                        const metrics = ctx.measureText(testLine);
+                        const testWidth = metrics.width;
+                        
+                        if (testWidth > canvas.width - 100 && evalLine.length > 0) {
+                            ctx.fillText(evalLine, 40, yPos + 45 + (evalLineCount * 40));
+                            evalLine = evalWords[i] + ' ';
+                            evalLineCount++;
+                        } else {
+                            evalLine = testLine;
+                        }
+                    }
+                    
+                    if (evalLine.length > 0 && evalLineCount < evalMaxLines) {
+                        ctx.fillText(evalLine, 40, yPos + 45 + (evalLineCount * 40));
+                    }
+                    
+                    yPos += 210;
+                }
             }
+            
+            // Add photo if exists - PERBESARAN FOTO DAN FOOTER DI BAWAH
+            if (reportData.foto) {
+                // Section: Dokumentasi
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                ctx.fillStyle = '#DC143C';
+                ctx.font = 'bold 34px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('DOKUMENTASI', 30, yPos + 38);
+                
+                yPos += sectionHeight + 25;
+                
+                // Draw photo frame - LEBAR DAN TINGGI
+                ctx.fillStyle = '#ffffff';
+                const photoWidth = canvas.width - 60;
+                const photoHeight = 700;
+                ctx.fillRect(30, yPos, photoWidth, photoHeight);
+                
+                ctx.strokeStyle = '#DC143C';
+                ctx.lineWidth = 4;
+                ctx.strokeRect(30, yPos, photoWidth, photoHeight);
+                
+                // Load and draw photo - PERBESARAN
+                const img = new Image();
+                img.src = reportData.foto;
+                
+                // Calculate aspect ratio to fit in frame
+                const imgAspectRatio = img.width / img.height;
+                const frameAspectRatio = photoWidth / photoHeight;
+                
+                let drawWidth, drawHeight, drawX, drawY;
+                
+                if (imgAspectRatio > frameAspectRatio) {
+                    // Image is wider than frame
+                    drawWidth = photoWidth;
+                    drawHeight = drawWidth / imgAspectRatio;
+                    drawX = 30;
+                    drawY = yPos + (photoHeight - drawHeight) / 2;
+                } else {
+                    // Image is taller than frame
+                    drawHeight = photoHeight;
+                    drawWidth = drawHeight * imgAspectRatio;
+                    drawX = 30 + (photoWidth - drawWidth) / 2;
+                    drawY = yPos;
+                }
+                
+                ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+                
+                // Add watermark to photo - LEBAR
+                ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
+                const watermarkText = 'RSUD Talaud 2026';
+                ctx.font = 'bold 30px Arial';
+                const textWidth = ctx.measureText(watermarkText).width;
+                ctx.fillRect(canvas.width - textWidth - 70, yPos + photoHeight - 60, textWidth + 60, 60);
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText(watermarkText, canvas.width - textWidth - 65, yPos + photoHeight - 25);
+            }
+            
+            // Footer - TEBAL DAN DI BAWAH DENGAN TANGGAL LENGKAP (TANPA WAKTU)
+            const footerGradient = ctx.createLinearGradient(0, canvas.height - 70, 0, canvas.height);
+            footerGradient.addColorStop(0, '#DC143C');
+            footerGradient.addColorStop(1, '#8B0000');
+            
+            ctx.fillStyle = footerGradient;
+            ctx.fillRect(0, canvas.height - 70, canvas.width, 70);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 28px Arial';
+            ctx.textAlign = 'center';
+            
+            // Get current date with day name (without time)
+            const currentDate = new Date(reportData.tanggal);
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const dayName = days[currentDate.getDay()];
+            const formattedDate = currentDate.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            // Footer text with full date (without time)
+            ctx.fillText('RSUD Talaud 2026 - Outsourcing', canvas.width / 2, canvas.height - 40);
+            ctx.fillText(`${dayName}, ${formattedDate}`, canvas.width / 2, canvas.height - 10);
+            
+            // Convert canvas to blob with higher quality
+            return new Promise((resolve) => {
+                canvas.toBlob((blob) => {
+                    resolve(blob);
+                }, 'image/jpeg', 0.95);
+            });
+        }
 
-            return new Blob(byteArrays, { type: contentType });
+        // Helper: Create separate activity image - PERBESARAN
+        async function createActivityImage(reportData) {
+            // Create a canvas element to draw the activity photo - PERBESARAN
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Create a watermark
+            const watermarkText = 'RSUD Talaud 2026 - Outsourcing';
+            
+            // Load the image
+            const img = new Image();
+            img.src = reportData.foto;
+            
+            await new Promise((resolve) => {
+                img.onload = resolve;
+            });
+            
+            // Set canvas size to match photo aspect ratio - PERBESARAN
+            const maxWidth = 2200;
+            const maxHeight = 2200;
+            
+            let width = img.width;
+            let height = img.height;
+            
+            if (width > maxWidth) {
+                height = height * (maxWidth / width);
+                width = maxWidth;
+            }
+            
+            if (height > maxHeight) {
+                width = width * (maxHeight / height);
+                height = maxHeight;
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Draw the image
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // Add watermark - PERBESARAN
+            ctx.font = 'bold 36px Arial';
+            const textWidth = ctx.measureText(watermarkText).width;
+            
+            // Create semi-transparent background for watermark - LEBAR
+            ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
+            ctx.fillRect(width - textWidth - 70, height - 70, textWidth + 70, 70);
+            
+            // Draw watermark text
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(watermarkText, width - textWidth - 65, height - 30);
+            
+            // Convert canvas to blob with higher quality
+            return new Promise((resolve) => {
+                canvas.toBlob((blob) => {
+                    resolve(blob);
+                }, 'image/jpeg', 0.95);
+            });
+        }
+
+        // Format report for Telegram (simplified since the image contains all details)
+        function formatReportForTelegram(reportData) {
+            const timestamp = formatDate(reportData.tanggal);
+            let message = `<b>Laporan ${reportData.reportType === 'karyawan' ? 'Karyawan' : 'Pengawas'} - ${timestamp}</b>\n\n`;
+            
+            if (reportData.reportType === 'karyawan') {
+                message += `<b>Nama:</b> ${reportData.namaKaryawan}\n`;
+                message += `<b>Jenis:</b> ${reportData.jenisKaryawan}\n`;
+                message += `<b>Area:</b> ${reportData.areaKerja}\n`;
+                message += `<b>Shift:</b> ${reportData.shiftKerja}\n`;
+            } else {
+                message += `<b>Pengawas:</b> ${reportData.namaPengawas}\n`;
+                message += `<b>Tanggal:</b> ${reportData.tanggalPengawasan}\n`;
+                message += `<b>Area:</b> ${reportData.areaPengawasan}\n`;
+                message += `<b>Shift:</b> ${reportData.shiftPengawasan}\n`;
+                message += `<b>Karyawan:</b> ${reportData.karyawanDiawasi}\n`;
+            }
+            
+            message += `\n<b>Detail lengkap ada di gambar laporan.</b>`;
+            
+            return message;
+        }
+
+        // Send message to Telegram with configuration
+        async function sendToTelegram(message, photo = null, config) {
+            try {
+                let formData = new FormData();
+                formData.append('chat_id', config.chatId);
+                formData.append('text', message);
+                
+                // If there's a photo, send as photo
+                if (photo) {
+                    formData.delete('text'); // Remove text when sending photo
+                    formData.append('photo', photo);
+                    formData.append('caption', message);
+                    formData.append('parse_mode', 'HTML');
+                }
+                
+                const response = await fetch(`${config.apiUrl}/send${photo ? 'Photo' : 'Message'}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.ok) {
+                    return { success: true, result };
+                } else {
+                    return { success: false, error: result.description };
+                }
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
         }
 
         // Save report to localStorage
@@ -1299,13 +1874,7 @@
                     
                     // Format date
                     const reportDate = new Date(report.tanggal);
-                    const formattedDate = reportDate.toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
+                    const formattedDate = formatDate(report.tanggal);
                     
                     // Create history item HTML based on report type
                     if (report.reportType === 'karyawan') {
@@ -1337,7 +1906,7 @@
                                 </div>
                             </div>
                             <div class="history-footer">
-                                <div class="history-status">Terkirim</div>
+                                <div class="history-status">Tersimpan</div>
                                 <div class="history-actions">
                                     ${report.foto ? `<button class="history-action-btn" onclick="viewImage('${report.foto}')"><i class="bi bi-image"></i></button>` : ''}
                                 </div>
@@ -1382,7 +1951,7 @@
                                 ` : ''}
                             </div>
                             <div class="history-footer">
-                                <div class="history-status">Terkirim</div>
+                                <div class="history-status">Tersimpan</div>
                                 <div class="history-actions">
                                     ${report.foto ? `<button class="history-action-btn" onclick="viewImage('${report.foto}')"><i class="bi bi-image"></i></button>` : ''}
                                 </div>
@@ -1445,7 +2014,6 @@
         // Handle form submit laporan karyawan
         document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
             e.preventDefault();
-            debugLog('Employee form submitted');
             
             const fotoInput = document.getElementById('fotoLaporan');
             let fotoBase64 = null;
@@ -1455,15 +2023,10 @@
                 try {
                     showNotification('Memproses foto...', 'warning');
                     fotoBase64 = await fileToBase64(fotoInput.files[0]);
-                    debugLog('Photo processed successfully');
                 } catch (err) {
-                    debugLog('Error processing photo: ' + err.message);
                     showNotification('Gagal memproses foto', 'error');
                     return;
                 }
-            } else {
-                showNotification('Mohon upload foto terlebih dahulu', 'error');
-                return;
             }
             
             const formData = {
@@ -1478,12 +2041,6 @@
                 reportType: 'karyawan'
             };
             
-            debugLog('Form data created: ' + JSON.stringify(formData));
-            
-            // Save to localStorage
-            saveReportToStorage(formData);
-            debugLog('Report saved to localStorage');
-            
             // Store current report data globally
             currentReportData = formData;
             
@@ -1494,7 +2051,6 @@
         // Handle form submit laporan pengawas
         document.getElementById('formLaporanPengawas').addEventListener('submit', async function(e) {
             e.preventDefault();
-            debugLog('Supervisor form submitted');
             
             const fotoInput = document.getElementById('fotoPengawasan');
             let fotoBase64 = null;
@@ -1504,15 +2060,10 @@
                 try {
                     showNotification('Memproses foto...', 'warning');
                     fotoBase64 = await fileToBase64(fotoInput.files[0]);
-                    debugLog('Photo processed successfully');
                 } catch (err) {
-                    debugLog('Error processing photo: ' + err.message);
                     showNotification('Gagal memproses foto', 'error');
                     return;
                 }
-            } else {
-                showNotification('Mohon upload foto terlebih dahulu', 'error');
-                return;
             }
             
             const formData = {
@@ -1529,12 +2080,6 @@
                 reportType: 'pengawas'
             };
             
-            debugLog('Form data created: ' + JSON.stringify(formData));
-            
-            // Save to localStorage
-            saveReportToStorage(formData);
-            debugLog('Report saved to localStorage');
-            
             // Store current report data globally
             currentReportData = formData;
             
@@ -1547,14 +2092,7 @@
             const modal = document.getElementById('confirmationModal');
             const preview = document.getElementById('reportPreview');
             
-            const tanggal = new Date(formData.tanggal);
-            const formattedTanggal = tanggal.toLocaleDateString('id-ID', {
-                day: '2-digit',
-                month: 'long',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            const formattedTanggal = formatDate(formData.tanggal);
             
             let previewHTML = `
                 <div class="report-preview-header">
@@ -1634,244 +2172,8 @@
             document.getElementById('confirmationModal').style.display = 'none';
         }
 
-        // Generate Report Image (Returns Promise with Base64)
-        function generateReportImage(formData) {
-            return new Promise((resolve, reject) => {
-                const canvas = document.getElementById('reportImageCanvas');
-                const ctx = canvas.getContext('2d');
-                
-                const width = 800;
-                // Dynamic height based on text and photo presence
-                let estimatedHeight = 600; 
-                if (formData.foto) estimatedHeight += 350;
-                
-                canvas.width = width;
-                canvas.height = estimatedHeight;
-                
-                // Background
-                ctx.fillStyle = '#f8f9fa';
-                ctx.fillRect(0, 0, width, estimatedHeight);
-                
-                // Header
-                const gradient = ctx.createLinearGradient(0, 0, width, 0);
-                gradient.addColorStop(0, '#DC143C');
-                gradient.addColorStop(1, '#8B0000');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, width, 130);
-                
-                // Title
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 36px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(formData.reportType === 'karyawan' ? 'LAPORAN KEGIATAN KARYAWAN' : 'LAPORAN PENGAWASAN', width/2, 60);
-                
-                const tanggal = new Date(formData.tanggal);
-                const formattedTanggal = tanggal.toLocaleDateString('id-ID', {
-                    day: '2-digit', month: 'long', year: 'numeric',
-                    hour: '2-digit', minute: '2-digit'
-                });
-                ctx.font = '16px Arial';
-                ctx.fillText(`Waktu: ${formattedTanggal}`, width/2, 100);
-                
-                // Employee Info
-                let currentY = 180;
-                ctx.fillStyle = '#2c3e50';
-                ctx.textAlign = 'left';
-                
-                if (formData.reportType === 'karyawan') {
-                    const infoData = [
-                        `Nama: ${formData.namaKaryawan}`,
-                        `Jabatan: ${formData.jenisKaryawan}`,
-                        `Area: ${formData.areaKerja}`,
-                        `Shift: ${formData.shiftKerja}`
-                    ];
-                    
-                    ctx.font = 'bold 24px Arial';
-                    ctx.fillText('DATA PELAPOR', 50, currentY);
-                    currentY += 40;
-                    
-                    ctx.font = '20px Arial';
-                    infoData.forEach(text => {
-                        ctx.fillText(text, 50, currentY);
-                        currentY += 35;
-                    });
-                    
-                    // Activity Text
-                    currentY += 20;
-                    ctx.font = 'bold 24px Arial';
-                    ctx.fillText('DESKRIPSI KEGIATAN', 50, currentY);
-                    currentY += 40;
-                    
-                    ctx.font = '20px Arial';
-                    ctx.fillStyle = '#333';
-                    const maxWidth = width - 100;
-                    const lineHeight = 30;
-                    const words = formData.laporanKegiatan.split(' ');
-                    let line = '';
-                    
-                    for(let n = 0; n < words.length; n++) {
-                        const testLine = line + words[n] + ' ';
-                        const metrics = ctx.measureText(testLine);
-                        const testWidth = metrics.width;
-                        if (testWidth > maxWidth && n > 0) {
-                            ctx.fillText(line, 50, currentY);
-                            line = words[n] + ' ';
-                            currentY += lineHeight;
-                        }
-                        else {
-                            line = testLine;
-                        }
-                    }
-                    ctx.fillText(line, 50, currentY);
-                } else {
-                    const infoData = [
-                        `Pengawas: ${formData.namaPengawas}`,
-                        `Tanggal: ${formData.tanggalPengawasan}`,
-                        `Area: ${formData.areaPengawasan}`,
-                        `Shift: ${formData.shiftPengawasan}`,
-                        `Karyawan Diawasi: ${formData.karyawanDiawasi}`
-                    ];
-                    
-                    ctx.font = 'bold 24px Arial';
-                    ctx.fillText('DATA PENGAWASAN', 50, currentY);
-                    currentY += 40;
-                    
-                    ctx.font = '20px Arial';
-                    infoData.forEach(text => {
-                        ctx.fillText(text, 50, currentY);
-                        currentY += 35;
-                    });
-                    
-                    // Hasil Pengawasan
-                    currentY += 20;
-                    ctx.font = 'bold 24px Arial';
-                    ctx.fillText('HASIL PENGAWASAN', 50, currentY);
-                    currentY += 40;
-                    
-                    ctx.font = '20px Arial';
-                    ctx.fillStyle = '#333';
-                    const maxWidth = width - 100;
-                    const lineHeight = 30;
-                    const words = formData.hasilPengawasan.split(' ');
-                    let line = '';
-                    
-                    for(let n = 0; n < words.length; n++) {
-                        const testLine = line + words[n] + ' ';
-                        const metrics = ctx.measureText(testLine);
-                        const testWidth = metrics.width;
-                        if (testWidth > maxWidth && n > 0) {
-                            ctx.fillText(line, 50, currentY);
-                            line = words[n] + ' ';
-                            currentY += lineHeight;
-                        }
-                        else {
-                            line = testLine;
-                        }
-                    }
-                    ctx.fillText(line, 50, currentY);
-                    
-                    // Catatan Evaluasi (jika ada)
-                    if (formData.catatanEvaluasi) {
-                        currentY += 40;
-                        ctx.font = 'bold 24px Arial';
-                        ctx.fillText('CATATAN EVALUASI', 50, currentY);
-                        currentY += 40;
-                        
-                        ctx.font = '20px Arial';
-                        ctx.fillStyle = '#333';
-                        const words2 = formData.catatanEvaluasi.split(' ');
-                        let line2 = '';
-                        
-                        for(let n = 0; n < words2.length; n++) {
-                            const testLine = line2 + words2[n] + ' ';
-                            const metrics = ctx.measureText(testLine);
-                            const testWidth = metrics.width;
-                            if (testWidth > maxWidth && n > 0) {
-                                ctx.fillText(line2, 50, currentY);
-                                line2 = words2[n] + ' ';
-                                currentY += lineHeight;
-                            }
-                            else {
-                                line2 = testLine;
-                            }
-                        }
-                        ctx.fillText(line2, 50, currentY);
-                    }
-                }
-                
-                // Insert Photo inside Canvas if exists (Logic requested)
-                if (formData.foto) {
-                    currentY += 40;
-                    const img = new Image();
-                    img.onload = () => {
-                        // Draw Photo Frame
-                        const imgH = 300;
-                        const imgW = width - 100;
-                        const imgX = 50;
-                        const imgY = currentY;
-                        
-                        ctx.strokeStyle = '#DC143C';
-                        ctx.lineWidth = 5;
-                        ctx.strokeRect(imgX, imgY, imgW, imgH);
-                        
-                        // Draw Image inside Canvas
-                        ctx.drawImage(img, imgX + 5, imgY + 5, imgW - 10, imgH - 10);
-                        
-                        // Label below photo
-                        ctx.fillStyle = '#2c3e50';
-                        ctx.font = 'italic 16px Arial';
-                        ctx.textAlign = 'center';
-                        ctx.fillText("Dokumentasi Kegiatan (Tertempel)", width/2, currentY + imgH + 25);
-                        
-                        // Footer
-                        drawFooter(ctx, width, estimatedHeight);
-                        
-                        resolve(canvas.toDataURL('image/jpeg', 0.85));
-                    };
-                    img.onerror = reject;
-                    img.src = formData.foto;
-                } else {
-                    drawFooter(ctx, width, estimatedHeight);
-                    resolve(canvas.toDataURL('image/jpeg', 0.85));
-                }
-            });
-        }
-
-        function drawFooter(ctx, width, height) {
-            const footerY = height - 60;
-            ctx.beginPath();
-            ctx.moveTo(50, footerY);
-            ctx.lineTo(width - 50, footerY);
-            ctx.strokeStyle = '#DC143C';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            ctx.fillStyle = '#DC143C';
-            ctx.font = 'bold 18px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('OUTSOURCING RSUD TALAUD 2026', width/2, footerY + 30);
-        }
-
-        // Send Photo to Telegram with proper multipart/form-data
-        async function sendPhotoToTelegram(imageBlob, caption, config) {
-            const formData = new FormData();
-            formData.append('chat_id', config.chatId);
-            formData.append('photo', imageBlob, 'report.jpg');
-            formData.append('caption', caption);
-            formData.append('parse_mode', 'HTML');
-
-            const response = await fetch(`https://api.telegram.org/bot${config.token}/sendPhoto`, {
-                method: 'POST',
-                body: formData
-            });
-            
-            const result = await response.json();
-            debugLog(`Telegram Response: ${JSON.stringify(result)}`);
-            return result;
-        }
-
-        // Confirm and Send
-        async function confirmSend() {
+        // Confirm and Save
+        async function confirmSave() {
             // Use the globally stored report data instead of trying to get it from DOM
             if (!currentReportData) {
                 showNotification('Data laporan tidak tersedia', 'error');
@@ -1881,68 +2183,108 @@
             const formData = currentReportData;
             closeModal();
             
-            // Determine which configuration to use based on report type
-            const config = formData.reportType === 'karyawan' ? EMPLOYEE_CONFIG : SUPERVISOR_CONFIG;
-            
             try {
-                debugLog(`Starting report sending process to ${config.chatId}...`);
-                showNotification('Membuat gambar form...', 'warning');
+                // Show loading notification
+                showNotification('Mempersiapkan laporan...', 'warning');
                 
-                // 1. Generate Image with Text + Embedded Photo (Image 1)
-                const reportImageData = await generateReportImage(formData);
-                debugLog('Report image generated successfully');
+                // Create report image using the new function that matches the preview
+                const reportImageBlob = await createReportImageFromPreview(formData);
                 
-                showNotification('Mengirim Gambar 1 (Form)...', 'warning');
-                
-                // Convert base64 to blob for proper sending
-                const reportImageBlob = base64ToBlob(reportImageData, 'image/jpeg');
-                debugLog('Report image converted to blob');
-                
-                // 2. Send Image 1: The Form
-                const result1 = await sendPhotoToTelegram(
-                    reportImageBlob, 
-                    formData.reportType === 'karyawan' 
-                        ? "<b>📄 FORM LAPORAN KEGIATAN KARYAWAN</b>\n\nBerikut adalah detail laporan kegiatan karyawan beserta foto kegiatan yang tertempel."
-                        : "<b>📋 FORM LAPORAN PENGAWASAN</b>\n\nBerikut adalah detail laporan pengawasan dan evaluasi kinerja karyawan beserta foto dokumentasi.",
-                    config
-                );
-                debugLog(`First image sent: ${JSON.stringify(result1)}`);
-                
-                // 3. Send Image 2: The Raw Photo (if exists)
+                // Create separate activity image if photo exists
+                let activityImageBlob = null;
                 if (formData.foto) {
-                    showNotification('Mengirim Gambar 2 (Foto)...', 'warning');
-                    const originalPhotoBlob = base64ToBlob(formData.foto, 'image/jpeg');
-                    debugLog('Original photo converted to blob');
-                    
-                    const result2 = await sendPhotoToTelegram(
-                        originalPhotoBlob, 
-                        formData.reportType === 'karyawan'
-                            ? "<b>📷 DOKUMENTASI KEGIATAN KARYAWAN (ASLI)</b>\n\nFoto bukti pelaksanaan kegiatan dikirim terpisah agar jelas."
-                            : "<b>📷 DOKUMENTASI PENGAWASAN (ASLI)</b>\n\nFoto bukti pelaksanaan pengawasan dikirim terpisah agar jelas.",
-                        config
-                    );
-                    debugLog(`Second image sent: ${JSON.stringify(result2)}`);
+                    showNotification('Mempersiapkan foto kegiatan...', 'warning');
+                    activityImageBlob = await createActivityImage(formData);
                 }
                 
-                // Check if sending was successful
-                if (result1.ok) {
-                    // Report is already saved to localStorage in the form submit handler
-                    showNotification('Laporan berhasil dikirim!', 'success');
+                // Format message for Telegram
+                const telegramMessage = formatReportForTelegram(formData);
+                
+                // Determine configuration based on report type
+                const config = formData.reportType === 'pengawas' ? {
+                    chatId: TELEGRAM_CHAT_ID_SUPERVISOR,
+                    apiUrl: TELEGRAM_API_URL_SUPERVISOR
+                } : {
+                    chatId: TELEGRAM_CHAT_ID_EMPLOYEE,
+                    apiUrl: TELEGRAM_API_URL_EMPLOYEE
+                };
+                
+                // Send report image to Telegram
+                showNotification('Mengirim laporan ke Telegram...', 'warning');
+                
+                const reportResponse = await sendToTelegram(telegramMessage, reportImageBlob, config);
+                
+                if (reportResponse.success && activityImageBlob) {
+                    // If report sent successfully and there's an activity image, send it separately
+                    showNotification('Mengirim foto kegiatan terpisah...', 'warning');
+                    
+                    const activityCaption = 'Foto Kegiatan - ' + (formData.reportType === 'karyawan' ? formData.namaKaryawan : formData.namaPengawas);
+                    const activityResponse = await sendToTelegram(activityCaption, activityImageBlob, config);
+                    
+                    if (activityResponse.success) {
+                        // Save to localStorage
+                        saveReportToStorage(formData);
+                        
+                        // Show success notification
+                        showNotification('Laporan berhasil dikirim ke Telegram!', 'success');
+                        
+                        // Reset form
+                        if (formData.reportType === 'karyawan') {
+                            document.getElementById('formLaporanKaryawan').reset();
+                        } else {
+                            document.getElementById('formLaporanPengawas').reset();
+                        }
+                        
+                        // Clear the global report data
+                        currentReportData = null;
+                        
+                        // Go back to home page after delay
+                        setTimeout(() => showPage('beranda'), 1500);
+                    } else {
+                        showNotification(`Laporan berhasil dikirim, tetapi gagal mengirim foto terpisah: ${activityResponse.error}`, 'warning');
+                        
+                        // Save to localStorage even if photo failed to send separately
+                        saveReportToStorage(formData);
+                        
+                        // Reset form
+                        if (formData.reportType === 'karyawan') {
+                            document.getElementById('formLaporanKaryawan').reset();
+                        } else {
+                            document.getElementById('formLaporanPengawas').reset();
+                        }
+                        
+                        // Clear the global report data
+                        currentReportData = null;
+                        
+                        // Go back to home page after delay
+                        setTimeout(() => showPage('beranda'), 1500);
+                    }
+                } else if (reportResponse.success) {
+                    // If report sent successfully but no photo to send separately
+                    // Save to localStorage
+                    saveReportToStorage(formData);
+                    
+                    // Show success notification
+                    showNotification('Laporan berhasil dikirim ke Telegram!', 'success');
+                    
+                    // Reset form
                     if (formData.reportType === 'karyawan') {
                         document.getElementById('formLaporanKaryawan').reset();
                     } else {
                         document.getElementById('formLaporanPengawas').reset();
                     }
+                    
                     // Clear the global report data
                     currentReportData = null;
+                    
+                    // Go back to home page after delay
                     setTimeout(() => showPage('beranda'), 1500);
                 } else {
-                    throw new Error(result1.description || 'Failed to send to Telegram');
+                    // Handle Telegram error
+                    showNotification(`Gagal mengirim ke Telegram: ${reportResponse.error}`, 'error');
                 }
-                
             } catch (error) {
                 console.error('Error sending report:', error);
-                debugLog(`Error: ${error.message}`);
                 showNotification(`Gagal mengirim laporan: ${error.message}`, 'error');
             }
         }
