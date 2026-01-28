@@ -818,6 +818,13 @@
                 </ul>
             </div>
 
+            <!-- Pengawas Lapangan Information -->
+            <div class="info-section">
+                <h4><i class="bi bi-person-badge"></i> Informasi Pengawas Lapangan</h4>
+                <p><strong>Nama Pengawas Lapangan:</strong> Andriski Mangalo</p>
+                <p><strong>Peran:</strong> Bertanggung jawab atas pengawasan dan evaluasi kinerja karyawan outsourcing di seluruh area RSUD Talaud.</p>
+            </div>
+
             <!-- Warning Section - Perhatian Penting -->
             <div class="warning-section">
                 <h4><i class="bi bi-exclamation-triangle"></i> Perhatian Penting</h4>
@@ -833,7 +840,11 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
                 <div class="page-title-content">
                     <h1>Pilih Jenis Laporan</h1>
-                    <p>Pilih jenis laporan yang ingin Anda buat</p>
+                    <p>Sistem Pelaporan Karyawan</p>
+                    <div class="real-time-info">
+                        <i class="bi bi-calendar3"></i>
+                        <span class="date-time" id="laporanDateTime"></span>
+                    </div>
                 </div>
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
@@ -859,7 +870,11 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
                 <div class="page-title-content">
                     <h1>Form Laporan Karyawan</h1>
-                    <p>Buat laporan kegiatan harian Anda</p>
+                    <p>Sistem Pelaporan Karyawan</p>
+                    <div class="real-time-info">
+                        <i class="bi bi-calendar3"></i>
+                        <span class="date-time" id="laporanKaryawanDateTime"></span>
+                    </div>
                 </div>
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
@@ -957,7 +972,11 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
                 <div class="page-title-content">
                     <h1>Form Laporan Pengawas</h1>
-                    <p>Buat laporan pengawasan dan evaluasi kinerja</p>
+                    <p>Sistem Pelaporan Karyawan</p>
+                    <div class="real-time-info">
+                        <i class="bi bi-calendar3"></i>
+                        <span class="date-time" id="laporanPengawasDateTime"></span>
+                    </div>
                 </div>
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
@@ -1069,7 +1088,11 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
                 <div class="page-title-content">
                     <h1>Riwayat Laporan</h1>
-                    <p>Lihat semua laporan yang telah dibuat</p>
+                    <p>Sistem Pelaporan Karyawan</p>
+                    <div class="real-time-info">
+                        <i class="bi bi-calendar3"></i>
+                        <span class="date-time" id="riwayatDateTime"></span>
+                    </div>
                 </div>
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
@@ -1195,6 +1218,31 @@
                 loadHistory();
             }
         }
+
+        // Update real-time date and time
+        function updateDateTime() {
+            const now = new Date();
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const dayName = days[now.getDay()];
+            const date = now.getDate();
+            const month = now.getMonth() + 1;
+            const year = now.getFullYear();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            const dateTimeString = `${dayName}, ${date}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+            
+            // Update all date-time elements
+            const dateTimeElements = document.querySelectorAll('.date-time');
+            dateTimeElements.forEach(element => {
+                element.textContent = dateTimeString;
+            });
+        }
+
+        // Update date-time every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call
 
         // Show employee report form
         function showEmployeeReport() {
