@@ -848,7 +848,7 @@
             background: linear-gradient(90deg, var(--primary-red), var(--dark-red));
             border-radius: 4px;
             width: 0%;
-            animation: progress 3s ease-in-out infinite;
+            animation: progress 2s ease-in-out infinite;
         }
 
         @keyframes progress {
@@ -979,7 +979,7 @@
                 <p>Riwayat laporan Anda telah tersimpan secara permanen di perangkat ini.</p>
             </div>
             <div class="success-countdown" id="countdownText">
-                Kembali ke beranda dalam <span id="countdownNumber">3</span> detik...
+                Kembali ke beranda dalam <span id="countdownNumber">2</span> detik...
             </div>
         </div>
     </div>
@@ -1562,15 +1562,15 @@
             return `${dayName}, ${formattedDate}`;
         }
 
-        // Helper: Create image from preview modal content
+        // Helper: Create image from preview modal content - OPTIMIZED FOR SPEED
         async function createReportImageFromPreview(reportData) {
-            // Create a canvas element with larger dimensions for better quality
+            // Create a canvas element with optimized dimensions
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
-            // Set canvas size - LARGER for better visibility
-            const canvasWidth = 900;
-            const canvasHeight = 1400; // Reduced height since we removed the activity section
+            // Set canvas size - OPTIMIZED for better performance
+            const canvasWidth = 800;
+            const canvasHeight = 1200;
             
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
@@ -1579,17 +1579,17 @@
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Header with gradient - TEBAL
+            // Header with gradient
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
             gradient.addColorStop(0, '#DC143C');
             gradient.addColorStop(1, '#8B0000');
             
             ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, 90);
+            ctx.fillRect(0, 0, canvas.width, 70);
             
-            // Title - Changed to "Laporan Karyawan Outsourcing RSUD Talaud 2026"
+            // Title
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 32px Arial';
+            ctx.font = 'bold 28px Arial';
             ctx.textAlign = 'center';
             
             // Handle long title by wrapping it
@@ -1598,8 +1598,8 @@
             let line = '';
             let lineCount = 0;
             const maxLines = 2;
-            const lineHeight = 40;
-            const yStart = 50;
+            const lineHeight = 35;
+            const yStart = 40;
             
             for (let i = 0; i < words.length && lineCount < maxLines; i++) {
                 const testLine = line + words[i] + ' ';
@@ -1619,151 +1619,151 @@
                 ctx.fillText(line, canvas.width / 2, yStart + (lineCount * lineHeight));
             }
             
-            // Content sections - SPASI LEBAR
-            let yPos = 180;
-            const sectionHeight = 45;
+            // Content sections - OPTIMIZED SPACING
+            let yPos = 140;
+            const sectionHeight = 40;
             
             // Report type specific content
             if (reportData.reportType === 'karyawan') {
-                // Karyawan form fields - PERBAIKAN TATA LETAK
+                // Karyawan form fields - OPTIMIZED LAYOUT
                 // Section: Identitas Karyawan
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 30px Arial';
+                ctx.font = 'bold 26px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 35);
+                ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 30);
                 
-                yPos += sectionHeight + 40; // Increased spacing for better readability
+                yPos += sectionHeight + 30; // Reduced spacing for better performance
                 
-                // Form fields - TATA LETAK YANG SEJAJAR DAN JARAK JAUH
-                const labelWidth = 200;
-                const valueStartX = 30 + labelWidth + 30; // Increased spacing between label and value
-                const lineHeight = 45; // Increased line height for better readability
+                // Form fields - OPTIMIZED LAYOUT
+                const labelWidth = 180;
+                const valueStartX = 30 + labelWidth + 20; // Reduced spacing between label and value
+                const lineHeight = 40; // Reduced line height for better performance
                 
                 // Nama Karyawan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 26px Arial';
-                ctx.fillText('Nama Karyawan:', 30, yPos + 30);
-                ctx.font = '26px Arial';
-                ctx.fillText(reportData.namaKaryawan, valueStartX, yPos + 30);
-                yPos += lineHeight + 10; // Added extra spacing between fields
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Nama Karyawan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.namaKaryawan, valueStartX, yPos + 25);
+                yPos += lineHeight;
                 
                 // Jenis Karyawan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 26px Arial';
-                ctx.fillText('Jenis Karyawan:', 30, yPos + 30);
-                ctx.font = '26px Arial';
-                ctx.fillText(reportData.jenisKaryawan, valueStartX, yPos + 30);
-                yPos += lineHeight + 10;
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Jenis Karyawan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.jenisKaryawan, valueStartX, yPos + 25);
+                yPos += lineHeight;
                 
                 // Area Kerja
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 26px Arial';
-                ctx.fillText('Area Kerja:', 30, yPos + 30);
-                ctx.font = '26px Arial';
-                ctx.fillText(reportData.areaKerja, valueStartX, yPos + 30);
-                yPos += lineHeight + 10;
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Area Kerja:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.areaKerja, valueStartX, yPos + 25);
+                yPos += lineHeight;
                 
                 // Shift Kerja
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 26px Arial';
-                ctx.fillText('Shift Kerja:', 30, yPos + 30);
-                ctx.font = '26px Arial';
-                ctx.fillText(reportData.shiftKerja, valueStartX, yPos + 30);
-                yPos += 120; // Increased spacing before photo section
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Shift Kerja:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.shiftKerja, valueStartX, yPos + 25);
+                yPos += 100; // Reduced spacing before photo section
             } else {
-                // Supervisor form fields - TATA LETAK YANG SEJAJAR DAN JARAK JAUH
+                // Supervisor form fields - OPTIMIZED LAYOUT
                 // Section: Identitas Pengawas
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 30px Arial';
+                ctx.font = 'bold 26px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('IDENTITAS PENGAWAS', 30, yPos + 35);
+                ctx.fillText('IDENTITAS PENGAWAS', 30, yPos + 30);
                 
-                yPos += sectionHeight + 40; // Increased spacing for better readability
+                yPos += sectionHeight + 30; // Reduced spacing for better performance
                 
-                // Form fields - TATA LETAK YANG SEJAJAR DAN JARAK JAUH
-                const labelWidth = 200;
-                const valueStartX = 30 + labelWidth + 30; // Increased spacing between label and value
-                const lineHeight = 45; // Increased line height for better readability
+                // Form fields - OPTIMIZED LAYOUT
+                const labelWidth = 180;
+                const valueStartX = 30 + labelWidth + 20; // Reduced spacing between label and value
+                const lineHeight = 40; // Reduced line height for better performance
                 
                 // Nama Pengawas
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 26px Arial';
-                ctx.fillText('Nama Pengawas:', 30, yPos + 30);
-                ctx.font = '26px Arial';
-                ctx.fillText(reportData.namaPengawas, valueStartX, yPos + 30);
-                yPos += lineHeight + 10;
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Nama Pengawas:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.namaPengawas, valueStartX, yPos + 25);
+                yPos += lineHeight;
                 
                 // Tanggal Pengawasan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 26px Arial';
-                ctx.fillText('Tanggal Pengawasan:', 30, yPos + 30);
-                ctx.font = '26px Arial';
-                ctx.fillText(reportData.tanggalPengawasan, valueStartX, yPos + 30);
-                yPos += lineHeight + 10;
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Tanggal Pengawasan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.tanggalPengawasan, valueStartX, yPos + 25);
+                yPos += lineHeight;
                 
                 // Area Pengawasan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 26px Arial';
-                ctx.fillText('Area Pengawasan:', 30, yPos + 30);
-                ctx.font = '26px Arial';
-                ctx.fillText(reportData.areaPengawasan, valueStartX, yPos + 30);
-                yPos += lineHeight + 10;
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Area Pengawasan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.areaPengawasan, valueStartX, yPos + 25);
+                yPos += lineHeight;
                 
                 // Shift Pengawasan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 26px Arial';
-                ctx.fillText('Shift Pengawasan:', 30, yPos + 30);
-                ctx.font = '26px Arial';
-                ctx.fillText(reportData.shiftPengawasan, valueStartX, yPos + 30);
-                yPos += lineHeight + 10;
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Shift Pengawasan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.shiftPengawasan, valueStartX, yPos + 25);
+                yPos += lineHeight;
                 
                 // Section: Informasi Karyawan
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 30px Arial';
+                ctx.font = 'bold 26px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('INFORMASI KARYAWAN', 30, yPos + 35);
+                ctx.fillText('INFORMASI KARYAWAN', 30, yPos + 30);
                 
-                yPos += sectionHeight + 40;
+                yPos += sectionHeight + 30;
                 
                 // Nama Karyawan yang Diawasi
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 26px Arial';
-                ctx.fillText('Nama Karyawan:', 30, yPos + 30);
-                ctx.font = '26px Arial';
-                ctx.fillText(reportData.karyawanDiawasi, valueStartX, yPos + 30);
-                yPos += lineHeight + 10;
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Nama Karyawan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.karyawanDiawasi, valueStartX, yPos + 25);
+                yPos += lineHeight;
                 
                 // Section: Hasil Pengawasan
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 30px Arial';
+                ctx.font = 'bold 26px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('HASIL PENGAWASAN', 30, yPos + 35);
+                ctx.fillText('HASIL PENGAWASAN', 30, yPos + 30);
                 
-                yPos += sectionHeight + 25;
+                yPos += sectionHeight + 20;
                 
-                // Draw supervision text box - LEBAR
+                // Draw supervision text box - OPTIMIZED
                 ctx.fillStyle = '#ffffff';
-                ctx.fillRect(30, yPos, canvas.width - 60, 240);
+                ctx.fillRect(30, yPos, canvas.width - 60, 200);
                 
                 ctx.strokeStyle = '#DC143C';
-                ctx.lineWidth = 3;
-                ctx.strokeRect(30, yPos, canvas.width - 60, 240);
+                ctx.lineWidth = 2;
+                ctx.strokeRect(30, yPos, canvas.width - 60, 200);
                 
-                // Draw supervision text - LEBAR dengan baris yang lebih lebar
+                // Draw supervision text - OPTIMIZED
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = '22px Arial'; // Reduced font size for better fit
+                ctx.font = '20px Arial';
                 const words = reportData.hasilPengawasan.split(' ');
                 let line = '';
                 let lineCount = 0;
-                const maxLines = 8;
+                const maxLines = 7;
                 
                 for (let i = 0; i < words.length && lineCount < maxLines; i++) {
                     const testLine = line + words[i] + ' ';
@@ -1771,7 +1771,7 @@
                     const testWidth = metrics.width;
                     
                     if (testWidth > canvas.width - 100 && line.length > 0) {
-                        ctx.fillText(line, 40, yPos + 45 + (lineCount * 40));
+                        ctx.fillText(line, 40, yPos + 35 + (lineCount * 35));
                         line = words[i] + ' ';
                         lineCount++;
                     } else {
@@ -1780,10 +1780,10 @@
                 }
                 
                 if (line.length > 0 && lineCount < maxLines) {
-                    ctx.fillText(line, 40, yPos + 45 + (lineCount * 40));
+                    ctx.fillText(line, 40, yPos + 35 + (lineCount * 35));
                 }
                 
-                yPos += 260;
+                yPos += 220;
                 
                 // Add catatan evaluasi if exists
                 if (reportData.catatanEvaluasi) {
@@ -1791,27 +1791,27 @@
                     ctx.fillStyle = '#f8f9fa';
                     ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                     ctx.fillStyle = '#DC143C';
-                    ctx.font = 'bold 30px Arial';
+                    ctx.font = 'bold 26px Arial';
                     ctx.textAlign = 'left';
-                    ctx.fillText('CATATAN EVALUASI', 30, yPos + 35);
+                    ctx.fillText('CATATAN EVALUASI', 30, yPos + 30);
                     
-                    yPos += sectionHeight + 25;
+                    yPos += sectionHeight + 20;
                     
-                    // Draw evaluation text box - LEBAR
+                    // Draw evaluation text box - OPTIMIZED
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(30, yPos, canvas.width - 60, 190);
+                    ctx.fillRect(30, yPos, canvas.width - 60, 160);
                     
                     ctx.strokeStyle = '#DC143C';
-                    ctx.lineWidth = 3;
-                    ctx.strokeRect(30, yPos, canvas.width - 60, 190);
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(30, yPos, canvas.width - 60, 160);
                     
-                    // Draw evaluation text - LEBAR dengan baris yang lebih lebar
+                    // Draw evaluation text - OPTIMIZED
                     ctx.fillStyle = '#2c3e50';
-                    ctx.font = '22px Arial'; // Reduced font size for better fit
+                    ctx.font = '20px Arial';
                     const evalWords = reportData.catatanEvaluasi.split(' ');
                     let evalLine = '';
                     let evalLineCount = 0;
-                    const evalMaxLines = 7;
+                    const evalMaxLines = 6;
                     
                     for (let i = 0; i < evalWords.length && evalLineCount < evalMaxLines; i++) {
                         const testLine = evalLine + evalWords[i] + ' ';
@@ -1819,7 +1819,7 @@
                         const testWidth = metrics.width;
                         
                         if (testWidth > canvas.width - 100 && evalLine.length > 0) {
-                            ctx.fillText(evalLine, 40, yPos + 45 + (evalLineCount * 40));
+                            ctx.fillText(evalLine, 40, yPos + 35 + (evalLineCount * 35));
                             evalLine = evalWords[i] + ' ';
                             evalLineCount++;
                         } else {
@@ -1828,36 +1828,36 @@
                     }
                     
                     if (evalLine.length > 0 && evalLineCount < evalMaxLines) {
-                        ctx.fillText(evalLine, 40, yPos + 45 + (evalLineCount * 40));
+                        ctx.fillText(evalLine, 40, yPos + 35 + (evalLineCount * 35));
                     }
                     
-                    yPos += 210;
+                    yPos += 180;
                 }
             }
             
-            // Add photo if exists - PERBESARAN FOTO DAN FOOTER DI BAWAH
+            // Add photo if exists - OPTIMIZED PHOTO HANDLING
             if (reportData.foto) {
                 // Section: Dokumentasi
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 30px Arial';
+                ctx.font = 'bold 26px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('DOKUMENTASI', 30, yPos + 35);
+                ctx.fillText('DOKUMENTASI', 30, yPos + 30);
                 
-                yPos += sectionHeight + 25;
+                yPos += sectionHeight + 20;
                 
-                // Draw photo frame - LEBAR DAN TINGGI
+                // Draw photo frame - OPTIMIZED
                 ctx.fillStyle = '#ffffff';
                 const photoWidth = canvas.width - 60;
-                const photoHeight = 700;
+                const photoHeight = 600;
                 ctx.fillRect(30, yPos, photoWidth, photoHeight);
                 
                 ctx.strokeStyle = '#DC143C';
-                ctx.lineWidth = 4;
+                ctx.lineWidth = 3;
                 ctx.strokeRect(30, yPos, photoWidth, photoHeight);
                 
-                // Load and draw photo - PERBESARAN
+                // Load and draw photo - OPTIMIZED
                 const img = new Image();
                 img.src = reportData.foto;
                 
@@ -1883,27 +1883,27 @@
                 
                 ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
                 
-                // Add watermark to photo - LEBAR
+                // Add watermark to photo - OPTIMIZED
                 ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
                 const watermarkText = 'RSUD Talaud 2026';
-                ctx.font = 'bold 26px Arial';
+                ctx.font = 'bold 22px Arial';
                 const textWidth = ctx.measureText(watermarkText).width;
-                ctx.fillRect(canvas.width - textWidth - 70, yPos + photoHeight - 60, textWidth + 60, 60);
+                ctx.fillRect(canvas.width - textWidth - 60, yPos + photoHeight - 50, textWidth + 50, 50);
                 
                 ctx.fillStyle = '#ffffff';
-                ctx.fillText(watermarkText, canvas.width - textWidth - 65, yPos + photoHeight - 25);
+                ctx.fillText(watermarkText, canvas.width - textWidth - 55, yPos + photoHeight - 20);
             }
             
-            // Footer - TEBAL DAN DI BAWAH DENGAN TANGGAL LENGKAP (TANPA WAKTU)
-            const footerGradient = ctx.createLinearGradient(0, canvas.height - 70, 0, canvas.height);
+            // Footer - OPTIMIZED
+            const footerGradient = ctx.createLinearGradient(0, canvas.height - 60, 0, canvas.height);
             footerGradient.addColorStop(0, '#DC143C');
             footerGradient.addColorStop(1, '#8B0000');
             
             ctx.fillStyle = footerGradient;
-            ctx.fillRect(0, canvas.height - 70, canvas.width, 70);
+            ctx.fillRect(0, canvas.height - 60, canvas.width, 60);
             
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 24px Arial';
+            ctx.font = 'bold 20px Arial';
             ctx.textAlign = 'center';
             
             // Get current date with day name (without time)
@@ -1917,18 +1917,18 @@
             });
             
             // Footer text with full date (without time)
-            ctx.fillText('RSUD Talaud 2026', canvas.width / 2, canvas.height - 40);
+            ctx.fillText('RSUD Talaud 2026', canvas.width / 2, canvas.height - 35);
             ctx.fillText(`${dayName}, ${formattedDate}`, canvas.width / 2, canvas.height - 10);
             
-            // Convert canvas to blob with higher quality
+            // Convert canvas to blob with optimized quality
             return new Promise((resolve) => {
                 canvas.toBlob((blob) => {
                     resolve(blob);
-                }, 'image/jpeg', 0.95);
+                }, 'image/jpeg', 0.9); // Reduced quality for faster processing
             });
         }
 
-        // Helper: Create separate activity image
+        // Helper: Create separate activity image - OPTIMIZED
         async function createActivityImage(reportData) {
             // Create a canvas element to draw the activity photo
             const canvas = document.createElement('canvas');
@@ -1945,9 +1945,9 @@
                 img.onload = resolve;
             });
             
-            // Set canvas size to match photo aspect ratio
-            const maxWidth = 2200;
-            const maxHeight = 2200;
+            // Set canvas size to match photo aspect ratio - OPTIMIZED
+            const maxWidth = 1800;
+            const maxHeight = 1800;
             
             let width = img.width;
             let height = img.height;
@@ -1968,23 +1968,23 @@
             // Draw the image
             ctx.drawImage(img, 0, 0, width, height);
             
-            // Add watermark
-            ctx.font = 'bold 36px Arial';
+            // Add watermark - OPTIMIZED
+            ctx.font = 'bold 30px Arial';
             const textWidth = ctx.measureText(watermarkText).width;
             
             // Create semi-transparent background for watermark
             ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
-            ctx.fillRect(width - textWidth - 70, height - 70, textWidth + 70, 70);
+            ctx.fillRect(width - textWidth - 60, height - 60, textWidth + 60, 60);
             
             // Draw watermark text
             ctx.fillStyle = '#ffffff';
-            ctx.fillText(watermarkText, width - textWidth - 65, height - 30);
+            ctx.fillText(watermarkText, width - textWidth - 55, height - 25);
             
-            // Convert canvas to blob with higher quality
+            // Convert canvas to blob with optimized quality
             return new Promise((resolve) => {
                 canvas.toBlob((blob) => {
                     resolve(blob);
-                }, 'image/jpeg', 0.95);
+                }, 'image/jpeg', 0.9); // Reduced quality for faster processing
             });
         }
 
@@ -2011,7 +2011,7 @@
             return message;
         }
 
-        // Send message to Telegram with configuration - MODIFIED TO SEND ONLY IMAGE WITHOUT CAPTION
+        // Send message to Telegram with configuration - OPTIMIZED FOR SPEED
         async function sendToTelegram(message, photo = null, config) {
             try {
                 // Create FormData with image only (no caption)
@@ -2216,7 +2216,7 @@
             document.body.appendChild(modal);
         }
 
-        // Handle form submit laporan karyawan
+        // Handle form submit laporan karyawan - OPTIMIZED
         document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -2252,7 +2252,7 @@
             showConfirmationModal(formData);
         });
 
-        // Handle form submit laporan pengawas
+        // Handle form submit laporan pengawas - OPTIMIZED
         document.getElementById('formLaporanPengawas').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -2372,7 +2372,7 @@
             document.getElementById('confirmationModal').style.display = 'none';
         }
 
-        // Confirm and Save - MODIFIED FOR FASTER PROCESSING
+        // Confirm and Save - OPTIMIZED FOR FASTER PROCESSING
         async function confirmSave() {
             // Use the globally stored report data instead of trying to get it from DOM
             if (!currentReportData) {
@@ -2471,13 +2471,13 @@
             }
         }
 
-        // Show success overlay with motivation
+        // Show success overlay with motivation - OPTIMIZED FOR SPEED
         function showSuccessOverlay() {
             const successOverlay = document.getElementById('successOverlay');
             successOverlay.style.display = 'flex';
             
-            // Start countdown
-            let countdown = 3;
+            // Start countdown - REDUCED FROM 3 TO 2 SECONDS
+            let countdown = 2;
             const countdownElement = document.getElementById('countdownNumber');
             const countdownText = document.getElementById('countdownText');
             
