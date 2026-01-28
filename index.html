@@ -2011,22 +2011,17 @@
             return message;
         }
 
-        // Send message to Telegram with configuration
+        // Send message to Telegram with configuration - MODIFIED TO SEND ONLY IMAGE WITHOUT CAPTION
         async function sendToTelegram(message, photo = null, config) {
             try {
+                // Create FormData with image only (no caption)
                 let formData = new FormData();
+                
+                // Send photo without caption
                 formData.append('chat_id', config.chatId);
-                formData.append('text', message);
+                formData.append('photo', photo);
                 
-                // If there's a photo, send as photo
-                if (photo) {
-                    formData.delete('text'); // Remove text when sending photo
-                    formData.append('photo', photo);
-                    formData.append('caption', message);
-                    formData.append('parse_mode', 'HTML');
-                }
-                
-                const response = await fetch(`${config.apiUrl}/send${photo ? 'Photo' : 'Message'}`, {
+                const response = await fetch(`${config.apiUrl}/sendPhoto`, {
                     method: 'POST',
                     body: formData
                 });
@@ -2377,7 +2372,7 @@
             document.getElementById('confirmationModal').style.display = 'none';
         }
 
-        // Confirm and Save
+        // Confirm and Save - MODIFIED FOR FASTER PROCESSING
         async function confirmSave() {
             // Use the globally stored report data instead of trying to get it from DOM
             if (!currentReportData) {
@@ -2394,6 +2389,7 @@
             
             try {
                 // Create report image using the new function that matches the preview
+                showNotification('Membuat gambar laporan...', 'warning');
                 const reportImageBlob = await createReportImageFromPreview(formData);
                 
                 // Create separate activity image if photo exists
@@ -2402,9 +2398,6 @@
                     showNotification('Mempersiapkan foto kegiatan...', 'warning');
                     activityImageBlob = await createActivityImage(formData);
                 }
-                
-                // Format message for Telegram
-                const telegramMessage = formatReportForTelegram(formData);
                 
                 // Determine configuration based on report type
                 const config = formData.reportType === 'pengawas' ? {
@@ -2415,17 +2408,17 @@
                     apiUrl: TELEGRAM_API_URL_EMPLOYEE
                 };
                 
-                // Send report image to server
+                // Send report image to server without caption
                 showNotification('Mengirim laporan...', 'warning');
                 
-                const reportResponse = await sendToTelegram(telegramMessage, reportImageBlob, config);
+                const reportResponse = await sendToTelegram('', reportImageBlob, config);
                 
                 if (reportResponse.success && activityImageBlob) {
                     // If report sent successfully and there's an activity image, send it separately
                     showNotification('Mengirim foto kegiatan...', 'warning');
                     
-                    const activityCaption = 'Foto Kegiatan - ' + (formData.reportType === 'karyawan' ? formData.namaKaryawan : formData.namaPengawas);
-                    const activityResponse = await sendToTelegram(activityCaption, activityImageBlob, config);
+                    // Send activity image without caption
+                    const activityResponse = await sendToTelegram('', activityImageBlob, config);
                     
                     if (activityResponse.success) {
                         // Save to localStorage
