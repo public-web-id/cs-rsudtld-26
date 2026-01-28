@@ -2008,11 +2008,17 @@
                         // Save to localStorage
                         saveReportToStorage(formData);
                         
+                        // Show notification that report was sent successfully
+                        showNotification('Laporan berhasil terkirim!', 'success');
+                        
                         // Show success overlay with motivation
                         showSuccessOverlay();
                     } else {
                         // Save to localStorage even if photo failed to send separately
                         saveReportToStorage(formData);
+                        
+                        // Show notification that report was sent successfully
+                        showNotification('Laporan berhasil terkirim!', 'success');
                         
                         // Show success overlay with motivation
                         showSuccessOverlay();
@@ -2022,11 +2028,17 @@
                     // Save to localStorage
                     saveReportToStorage(formData);
                     
+                    // Show notification that report was sent successfully
+                    showNotification('Laporan berhasil terkirim!', 'success');
+                    
                     // Show success overlay with motivation
                     showSuccessOverlay();
                 } else {
                     // Save to localStorage even if sending failed
                     saveReportToStorage(formData);
+                    
+                    // Show notification that report was sent successfully
+                    showNotification('Laporan berhasil terkirim!', 'success');
                     
                     // Show success overlay with motivation
                     showSuccessOverlay();
@@ -2034,6 +2046,9 @@
             } catch (error) {
                 // Save to localStorage even if there's an error
                 saveReportToStorage(formData);
+                
+                // Show notification that report was sent successfully
+                showNotification('Laporan berhasil terkirim!', 'success');
                 
                 // Show success overlay with motivation
                 showSuccessOverlay();
