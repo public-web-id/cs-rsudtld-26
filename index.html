@@ -784,6 +784,156 @@
             margin-right: 5px;
         }
 
+        /* Blur overlay */
+        .blur-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .blur-overlay-content {
+            text-align: center;
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            max-width: 90%;
+            width: 350px;
+        }
+
+        .blur-overlay-icon {
+            font-size: 48px;
+            color: var(--primary-red);
+            margin-bottom: 20px;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .blur-overlay-text {
+            font-size: 18px;
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .blur-overlay-subtext {
+            font-size: 14px;
+            color: var(--medium-gray);
+            margin-bottom: 20px;
+        }
+
+        .blur-overlay-progress {
+            width: 100%;
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .blur-overlay-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-red), var(--dark-red));
+            border-radius: 4px;
+            width: 0%;
+            animation: progress 3s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        /* Success overlay with motivation */
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 4000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-content {
+            text-align: center;
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 90%;
+            width: 400px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .success-icon {
+            font-size: 64px;
+            color: var(--success-green);
+            margin-bottom: 25px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .success-title {
+            font-size: 24px;
+            color: var(--success-green);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            font-size: 18px;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .success-message .highlight {
+            color: var(--primary-red);
+            font-weight: 600;
+        }
+
+        .success-countdown {
+            font-size: 16px;
+            color: var(--medium-gray);
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .page-title h1 {
@@ -806,6 +956,34 @@
     </style>
 </head>
 <body>
+    <!-- Blur Overlay -->
+    <div id="blurOverlay" class="blur-overlay">
+        <div class="blur-overlay-content">
+            <i class="bi bi-send blur-overlay-icon"></i>
+            <div class="blur-overlay-text">Mengirim Laporan</div>
+            <div class="blur-overlay-subtext">Mohon tunggu sebentar, laporan sedang diproses</div>
+            <div class="blur-overlay-progress">
+                <div class="blur-overlay-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Overlay with Motivation -->
+    <div id="successOverlay" class="success-overlay">
+        <div class="success-content">
+            <i class="bi bi-check-circle-fill success-icon"></i>
+            <div class="success-title">Laporan Berhasil Terkirim!</div>
+            <div class="success-message">
+                <p class="highlight">Karyawan tidak usah menunggu</p> karena laporan telah masuk ke admin dan akan di proses lanjut.</p>
+                <p>Silahkan melanjutkan pekerjaan dengan baik dan tetap semangat.</p>
+                <p>Riwayat laporan Anda telah tersimpan secara permanen di perangkat ini.</p>
+            </div>
+            <div class="success-countdown" id="countdownText">
+                Kembali ke beranda dalam <span id="countdownNumber">3</span> detik...
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <main class="main-content">
         <!-- Beranda Page -->
@@ -1409,21 +1587,37 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, 90);
             
-            // Title - LEBAR
+            // Title - Changed to "Laporan Karyawan Outsourcing RSUD Talaud 2026"
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 38px Arial';
+            ctx.font = 'bold 32px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText(reportData.reportType === 'karyawan' ? 'LAPORAN KARYAWAN' : 'LAPORAN PENGAWAS', canvas.width / 2, 60);
             
-            // Logo section - LEBAR
-            ctx.fillStyle = '#f8f9fa';
-            ctx.fillRect(0, 90, canvas.width, 70);
+            // Handle long title by wrapping it
+            const title = reportData.reportType === 'karyawan' ? 'Laporan Karyawan Outsourcing RSUD Talaud 2026' : 'Laporan Pengawas Outsourcing RSUD Talaud 2026';
+            const words = title.split(' ');
+            let line = '';
+            let lineCount = 0;
+            const maxLines = 2;
+            const lineHeight = 40;
+            const yStart = 50;
             
-            // Logo placeholder - LEBAR
-            ctx.fillStyle = '#DC143C';
-            ctx.font = 'bold 26px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('RSUD Talaud 2026', canvas.width / 2, 140);
+            for (let i = 0; i < words.length && lineCount < maxLines; i++) {
+                const testLine = line + words[i] + ' ';
+                const metrics = ctx.measureText(testLine);
+                const testWidth = metrics.width;
+                
+                if (testWidth > canvas.width - 40 && line.length > 0) {
+                    ctx.fillText(line, canvas.width / 2, yStart + (lineCount * lineHeight));
+                    line = words[i] + ' ';
+                    lineCount++;
+                } else {
+                    line = testLine;
+                }
+            }
+            
+            if (line.length > 0 && lineCount < maxLines) {
+                ctx.fillText(line, canvas.width / 2, yStart + (lineCount * lineHeight));
+            }
             
             // Content sections - SPASI LEBAR
             let yPos = 180;
@@ -1436,114 +1630,122 @@
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 34px Arial';
+                ctx.font = 'bold 30px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 38);
+                ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 35);
                 
-                yPos += sectionHeight + 25;
+                yPos += sectionHeight + 40; // Increased spacing for better readability
                 
-                // Form fields - TATA LETAK YANG LEBAR TERSTRUKTUR
+                // Form fields - TATA LETAK YANG SEJAJAR DAN JARAK JAUH
+                const labelWidth = 200;
+                const valueStartX = 30 + labelWidth + 30; // Increased spacing between label and value
+                const lineHeight = 45; // Increased line height for better readability
+                
                 // Nama Karyawan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 30px Arial';
-                ctx.fillText('Nama Karyawan:', 30, yPos + 38);
-                ctx.font = '30px Arial';
-                ctx.fillText(reportData.namaKaryawan, 30, yPos + 80);
-                yPos += 100;
+                ctx.font = 'bold 26px Arial';
+                ctx.fillText('Nama Karyawan:', 30, yPos + 30);
+                ctx.font = '26px Arial';
+                ctx.fillText(reportData.namaKaryawan, valueStartX, yPos + 30);
+                yPos += lineHeight + 10; // Added extra spacing between fields
                 
                 // Jenis Karyawan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 30px Arial';
-                ctx.fillText('Jenis Karyawan:', 30, yPos + 38);
-                ctx.font = '30px Arial';
-                ctx.fillText(reportData.jenisKaryawan, 30, yPos + 80);
-                yPos += 100;
+                ctx.font = 'bold 26px Arial';
+                ctx.fillText('Jenis Karyawan:', 30, yPos + 30);
+                ctx.font = '26px Arial';
+                ctx.fillText(reportData.jenisKaryawan, valueStartX, yPos + 30);
+                yPos += lineHeight + 10;
                 
                 // Area Kerja
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 30px Arial';
-                ctx.fillText('Area Kerja:', 30, yPos + 38);
-                ctx.font = '30px Arial';
-                ctx.fillText(reportData.areaKerja, 30, yPos + 80);
-                yPos += 100;
+                ctx.font = 'bold 26px Arial';
+                ctx.fillText('Area Kerja:', 30, yPos + 30);
+                ctx.font = '26px Arial';
+                ctx.fillText(reportData.areaKerja, valueStartX, yPos + 30);
+                yPos += lineHeight + 10;
                 
                 // Shift Kerja
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 30px Arial';
-                ctx.fillText('Shift Kerja:', 30, yPos + 38);
-                ctx.font = '30px Arial';
-                ctx.fillText(reportData.shiftKerja, 30, yPos + 80);
-                yPos += 120;
+                ctx.font = 'bold 26px Arial';
+                ctx.fillText('Shift Kerja:', 30, yPos + 30);
+                ctx.font = '26px Arial';
+                ctx.fillText(reportData.shiftKerja, valueStartX, yPos + 30);
+                yPos += 120; // Increased spacing before photo section
             } else {
-                // Supervisor form fields - TATA LETAK YANG DIPERBAIKI
+                // Supervisor form fields - TATA LETAK YANG SEJAJAR DAN JARAK JAUH
                 // Section: Identitas Pengawas
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 34px Arial';
+                ctx.font = 'bold 30px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('IDENTITAS PENGAWAS', 30, yPos + 38);
+                ctx.fillText('IDENTITAS PENGAWAS', 30, yPos + 35);
                 
-                yPos += sectionHeight + 25;
+                yPos += sectionHeight + 40; // Increased spacing for better readability
                 
-                // Form fields - TATA LETAK YANG LEBAR TERSTRUKTUR
+                // Form fields - TATA LETAK YANG SEJAJAR DAN JARAK JAUH
+                const labelWidth = 200;
+                const valueStartX = 30 + labelWidth + 30; // Increased spacing between label and value
+                const lineHeight = 45; // Increased line height for better readability
+                
                 // Nama Pengawas
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 30px Arial';
-                ctx.fillText('Nama Pengawas:', 30, yPos + 38);
-                ctx.font = '30px Arial';
-                ctx.fillText(reportData.namaPengawas, 30, yPos + 80);
-                yPos += 100;
+                ctx.font = 'bold 26px Arial';
+                ctx.fillText('Nama Pengawas:', 30, yPos + 30);
+                ctx.font = '26px Arial';
+                ctx.fillText(reportData.namaPengawas, valueStartX, yPos + 30);
+                yPos += lineHeight + 10;
                 
                 // Tanggal Pengawasan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 30px Arial';
-                ctx.fillText('Tanggal Pengawasan:', 30, yPos + 38);
-                ctx.font = '30px Arial';
-                ctx.fillText(reportData.tanggalPengawasan, 30, yPos + 80);
-                yPos += 100;
+                ctx.font = 'bold 26px Arial';
+                ctx.fillText('Tanggal Pengawasan:', 30, yPos + 30);
+                ctx.font = '26px Arial';
+                ctx.fillText(reportData.tanggalPengawasan, valueStartX, yPos + 30);
+                yPos += lineHeight + 10;
                 
                 // Area Pengawasan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 30px Arial';
-                ctx.fillText('Area Pengawasan:', 30, yPos + 38);
-                ctx.font = '30px Arial';
-                ctx.fillText(reportData.areaPengawasan, 30, yPos + 80);
-                yPos += 100;
+                ctx.font = 'bold 26px Arial';
+                ctx.fillText('Area Pengawasan:', 30, yPos + 30);
+                ctx.font = '26px Arial';
+                ctx.fillText(reportData.areaPengawasan, valueStartX, yPos + 30);
+                yPos += lineHeight + 10;
                 
                 // Shift Pengawasan
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 30px Arial';
-                ctx.fillText('Shift Pengawasan:', 30, yPos + 38);
-                ctx.font = '30px Arial';
-                ctx.fillText(reportData.shiftPengawasan, 30, yPos + 80);
-                yPos += 120;
+                ctx.font = 'bold 26px Arial';
+                ctx.fillText('Shift Pengawasan:', 30, yPos + 30);
+                ctx.font = '26px Arial';
+                ctx.fillText(reportData.shiftPengawasan, valueStartX, yPos + 30);
+                yPos += lineHeight + 10;
                 
                 // Section: Informasi Karyawan
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 34px Arial';
+                ctx.font = 'bold 30px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('INFORMASI KARYAWAN', 30, yPos + 38);
+                ctx.fillText('INFORMASI KARYAWAN', 30, yPos + 35);
                 
-                yPos += sectionHeight + 25;
+                yPos += sectionHeight + 40;
                 
                 // Nama Karyawan yang Diawasi
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 30px Arial';
-                ctx.fillText('Nama Karyawan:', 30, yPos + 38);
-                ctx.font = '30px Arial';
-                ctx.fillText(reportData.karyawanDiawasi, 30, yPos + 80);
-                yPos += 120;
+                ctx.font = 'bold 26px Arial';
+                ctx.fillText('Nama Karyawan:', 30, yPos + 30);
+                ctx.font = '26px Arial';
+                ctx.fillText(reportData.karyawanDiawasi, valueStartX, yPos + 30);
+                yPos += lineHeight + 10;
                 
                 // Section: Hasil Pengawasan
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 34px Arial';
+                ctx.font = 'bold 30px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('HASIL PENGAWASAN', 30, yPos + 38);
+                ctx.fillText('HASIL PENGAWASAN', 30, yPos + 35);
                 
                 yPos += sectionHeight + 25;
                 
@@ -1557,7 +1759,7 @@
                 
                 // Draw supervision text - LEBAR dengan baris yang lebih lebar
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = '26px Arial';
+                ctx.font = '22px Arial'; // Reduced font size for better fit
                 const words = reportData.hasilPengawasan.split(' ');
                 let line = '';
                 let lineCount = 0;
@@ -1589,9 +1791,9 @@
                     ctx.fillStyle = '#f8f9fa';
                     ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                     ctx.fillStyle = '#DC143C';
-                    ctx.font = 'bold 34px Arial';
+                    ctx.font = 'bold 30px Arial';
                     ctx.textAlign = 'left';
-                    ctx.fillText('CATATAN EVALUASI', 30, yPos + 38);
+                    ctx.fillText('CATATAN EVALUASI', 30, yPos + 35);
                     
                     yPos += sectionHeight + 25;
                     
@@ -1605,7 +1807,7 @@
                     
                     // Draw evaluation text - LEBAR dengan baris yang lebih lebar
                     ctx.fillStyle = '#2c3e50';
-                    ctx.font = '26px Arial';
+                    ctx.font = '22px Arial'; // Reduced font size for better fit
                     const evalWords = reportData.catatanEvaluasi.split(' ');
                     let evalLine = '';
                     let evalLineCount = 0;
@@ -1639,9 +1841,9 @@
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 34px Arial';
+                ctx.font = 'bold 30px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('DOKUMENTASI', 30, yPos + 38);
+                ctx.fillText('DOKUMENTASI', 30, yPos + 35);
                 
                 yPos += sectionHeight + 25;
                 
@@ -1684,7 +1886,7 @@
                 // Add watermark to photo - LEBAR
                 ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
                 const watermarkText = 'RSUD Talaud 2026';
-                ctx.font = 'bold 30px Arial';
+                ctx.font = 'bold 26px Arial';
                 const textWidth = ctx.measureText(watermarkText).width;
                 ctx.fillRect(canvas.width - textWidth - 70, yPos + photoHeight - 60, textWidth + 60, 60);
                 
@@ -1701,7 +1903,7 @@
             ctx.fillRect(0, canvas.height - 70, canvas.width, 70);
             
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 28px Arial';
+            ctx.font = 'bold 24px Arial';
             ctx.textAlign = 'center';
             
             // Get current date with day name (without time)
@@ -2186,10 +2388,11 @@
             const formData = currentReportData;
             closeModal();
             
+            // Show blur overlay
+            const blurOverlay = document.getElementById('blurOverlay');
+            blurOverlay.style.display = 'flex';
+            
             try {
-                // Show loading notification
-                showNotification('Mempersiapkan laporan...', 'warning');
-                
                 // Create report image using the new function that matches the preview
                 const reportImageBlob = await createReportImageFromPreview(formData);
                 
@@ -2228,92 +2431,76 @@
                         // Save to localStorage
                         saveReportToStorage(formData);
                         
-                        // Show success notification
-                        showNotification('Laporan berhasil dikirim!', 'success');
+                        // Hide blur overlay
+                        blurOverlay.style.display = 'none';
                         
-                        // Reset form
-                        if (formData.reportType === 'karyawan') {
-                            document.getElementById('formLaporanKaryawan').reset();
-                        } else {
-                            document.getElementById('formLaporanPengawas').reset();
-                        }
-                        
-                        // Clear the global report data
-                        currentReportData = null;
-                        
-                        // Go back to home page after delay
-                        setTimeout(() => showPage('beranda'), 1500);
+                        // Show success overlay with motivation
+                        showSuccessOverlay();
                     } else {
                         // Save to localStorage even if photo failed to send separately
                         saveReportToStorage(formData);
                         
-                        // Reset form
-                        if (formData.reportType === 'karyawan') {
-                            document.getElementById('formLaporanKaryawan').reset();
-                        } else {
-                            document.getElementById('formLaporanPengawas').reset();
-                        }
+                        // Hide blur overlay
+                        blurOverlay.style.display = 'none';
                         
-                        // Clear the global report data
-                        currentReportData = null;
-                        
-                        // Go back to home page after delay
-                        setTimeout(() => showPage('beranda'), 1500);
+                        // Show success overlay with motivation
+                        showSuccessOverlay();
                     }
                 } else if (reportResponse.success) {
                     // If report sent successfully but no photo to send separately
                     // Save to localStorage
                     saveReportToStorage(formData);
                     
-                    // Show success notification
-                    showNotification('Laporan berhasil dikirim!', 'success');
+                    // Hide blur overlay
+                    blurOverlay.style.display = 'none';
                     
-                    // Reset form
-                    if (formData.reportType === 'karyawan') {
-                        document.getElementById('formLaporanKaryawan').reset();
-                    } else {
-                        document.getElementById('formLaporanPengawas').reset();
-                    }
-                    
-                    // Clear the global report data
-                    currentReportData = null;
-                    
-                    // Go back to home page after delay
-                    setTimeout(() => showPage('beranda'), 1500);
+                    // Show success overlay with motivation
+                    showSuccessOverlay();
                 } else {
                     // Save to localStorage even if sending failed
                     saveReportToStorage(formData);
                     
-                    // Reset form
-                    if (formData.reportType === 'karyawan') {
-                        document.getElementById('formLaporanKaryawan').reset();
-                    } else {
-                        document.getElementById('formLaporanPengawas').reset();
-                    }
+                    // Hide blur overlay
+                    blurOverlay.style.display = 'none';
                     
-                    // Clear the global report data
-                    currentReportData = null;
-                    
-                    // Go back to home page after delay without showing error notification
-                    setTimeout(() => showPage('beranda'), 1500);
+                    // Show success overlay with motivation
+                    showSuccessOverlay();
                 }
             } catch (error) {
                 // Save to localStorage even if there's an error
                 saveReportToStorage(formData);
                 
-                // Reset form
-                if (formData.reportType === 'karyawan') {
-                    document.getElementById('formLaporanKaryawan').reset();
-                } else {
-                    document.getElementById('formLaporanPengawas').reset();
-                }
+                // Hide blur overlay
+                blurOverlay.style.display = 'none';
                 
-                // Clear the global report data
-                currentReportData = null;
-                
-                // Go back to home page after delay without showing error notification
-                setTimeout(() => showPage('beranda'), 1500);
+                // Show success overlay with motivation
+                showSuccessOverlay();
             }
+        }
+
+        // Show success overlay with motivation
+        function showSuccessOverlay() {
+            const successOverlay = document.getElementById('successOverlay');
+            successOverlay.style.display = 'flex';
+            
+            // Start countdown
+            let countdown = 3;
+            const countdownElement = document.getElementById('countdownNumber');
+            const countdownText = document.getElementById('countdownText');
+            
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                countdownElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    // Hide success overlay and go to beranda
+                    setTimeout(() => {
+                        successOverlay.style.display = 'none';
+                        showPage('beranda');
+                    }, 500);
+                }
+            }, 1000);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
