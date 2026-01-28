@@ -1446,7 +1446,7 @@
                     ctx.fillStyle = '#ffffff';
                     ctx.fillText(watermarkText, canvas.width - textWidth - 55, yPos + photoHeight - 20);
                     
-                    yPos += photoHeight + 40; // Increased spacing after photo
+                    yPos += photoHeight + 10; // Reduced spacing after photo to place footer directly below
                 }
             } else {
                 // Supervisor form fields - OPTIMIZED LAYOUT
@@ -1668,17 +1668,17 @@
                     ctx.fillStyle = '#ffffff';
                     ctx.fillText(watermarkText, canvas.width - textWidth - 55, yPos + photoHeight - 20);
                     
-                    yPos += photoHeight + 40; // Increased spacing after photo
+                    yPos += photoHeight + 10; // Reduced spacing after photo to place footer directly below
                 }
             }
             
-            // Footer - OPTIMIZED
-            const footerGradient = ctx.createLinearGradient(0, canvas.height - 60, 0, canvas.height);
+            // Footer - POSITIONED DIRECTLY BELOW PHOTO
+            const footerGradient = ctx.createLinearGradient(0, yPos + 10, 0, yPos + 70);
             footerGradient.addColorStop(0, '#DC143C');
             footerGradient.addColorStop(1, '#8B0000');
             
             ctx.fillStyle = footerGradient;
-            ctx.fillRect(0, canvas.height - 60, canvas.width, 60);
+            ctx.fillRect(0, yPos + 10, canvas.width, 60);
             
             ctx.fillStyle = '#ffffff';
             ctx.font = 'bold 20px Arial';
@@ -1695,8 +1695,8 @@
             });
             
             // Footer text with full date (without time)
-            ctx.fillText('RSUD Talaud 2026', canvas.width / 2, canvas.height - 35);
-            ctx.fillText(`${dayName}, ${formattedDate}`, canvas.width / 2, canvas.height - 10);
+            ctx.fillText('RSUD Talaud 2026', canvas.width / 2, yPos + 35);
+            ctx.fillText(`${dayName}, ${formattedDate}`, canvas.width / 2, yPos + 60);
             
             // Convert canvas to blob with optimized quality
             return new Promise((resolve) => {
