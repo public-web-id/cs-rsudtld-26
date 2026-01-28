@@ -177,6 +177,75 @@
             color: var(--dark-gray);
             font-size: 16px;
             line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .info-section {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary-red);
+        }
+
+        .info-section h4 {
+            color: var(--primary-red);
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-section p {
+            color: var(--dark-gray);
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .info-section ul {
+            color: var(--dark-gray);
+            font-size: 16px;
+            line-height: 1.6;
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+
+        .info-section li {
+            margin-bottom: 8px;
+        }
+
+        .info-section .highlight {
+            color: var(--primary-red);
+            font-weight: 600;
+        }
+
+        .warning-section {
+            background-color: #fff3cd;
+            border-left: 4px solid var(--warning-yellow);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .warning-section h4 {
+            color: #856404;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning-section p {
+            color: #856404;
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 0;
         }
 
         /* Report Type Selection */
@@ -734,7 +803,27 @@
             <!-- Welcome Section -->
             <div class="welcome-section">
                 <h3><i class="bi bi-house-heart"></i> Selamat Datang</h3>
-                <p>Silakan gunakan menu di bawah untuk membuat laporan kegiatan harian Anda. Laporan akan disimpan secara lokal di perangkat ini dan dikirim untuk diproses lebih lanjut.</p>
+                <p>Silakan gunakan menu di bawah untuk membuat laporan kegiatan harian Anda. Laporan akan disimpan secara permanen di perangkat ini dan dikirim untuk diproses lebih lanjut. Harap jangan menghapus aplikasi agar riwayat laporan Anda tidak hilang.</p>
+            </div>
+
+            <!-- Working Hours Information -->
+            <div class="info-section">
+                <h4><i class="bi bi-clock-history"></i> Jam Kerja</h4>
+                <p>Berikut adalah informasi jam kerja untuk berbagai jenis karyawan:</p>
+                <ul>
+                    <li><span class="highlight">Cleaning Service (Ruangan Rawat Inap & Rawat Jalan) serta Penata Halaman:</span> Senin sampai Sabtu</li>
+                    <li><span class="highlight">Limbah RS:</span> Senin sampai Minggu</li>
+                    <li><span class="highlight">Karyawan IPSRS:</span> 24 jam menyesuaikan jadwal ruangan</li>
+                    <li><span class="highlight">Administrasi:</span> Senin sampai Jumat</li>
+                </ul>
+            </div>
+
+            <!-- Warning Section - Perhatian Penting -->
+            <div class="warning-section">
+                <h4><i class="bi bi-exclamation-triangle"></i> Perhatian Penting</h4>
+                <p><strong>Aturan Kehadiran:</strong> Anda wajib melaporkan kegiatan harian setiap hari bekerja.</p>
+                <p><strong>Sanksi:</strong> Jika Anda tidak bekerja selama 2 hari berturut-turut tanpa memberikan keterangan yang jelas, kontrak kerja Anda akan dihentikan oleh perusahaan.</p>
+                <p><strong>Penting:</strong> Pastikan selapapun kondisinya, selalu lakukan pelaporan kegiatan harian Anda agar kontrak kerja tetap berjalan.</p>
             </div>
         </div>
 
