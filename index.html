@@ -649,6 +649,19 @@
             font-weight: 500;
         }
 
+        /* Photo preview */
+        .photo-preview {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 2px solid var(--light-gray);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .page-title h1 {
@@ -682,7 +695,7 @@
                 <p>Riwayat laporan Anda telah tersimpan secara permanen di perangkat ini.</p>
             </div>
             <div class="success-countdown" id="countdownText">
-                Kembali ke beranda dalam <span id="countdownNumber">1</span> detik...
+                Kembali ke beranda dalam <span id="countdownNumber">3</span> detik...
             </div>
         </div>
     </div>
@@ -857,8 +870,9 @@
                             <i class="bi bi-image-fill"></i> Dokumentasi
                         </h3>
                         <div class="form-group">
-                            <label class="form-label">Upload Foto (Opsional)</label>
-                            <input type="file" class="form-control" id="fotoLaporan" accept="image/*">
+                            <label class="form-label">Upload Foto Kegiatan</label>
+                            <input type="file" class="form-control" id="fotoLaporan" accept="image/*" onchange="previewPhoto('fotoLaporan', 'fotoPreviewKaryawan')">
+                            <div class="photo-preview" id="fotoPreviewKaryawan"></div>
                         </div>
                     </div>
                     
@@ -973,8 +987,9 @@
                             <i class="bi bi-image-fill"></i> Dokumentasi
                         </h3>
                         <div class="form-group">
-                            <label class="form-label">Upload Foto (Opsional)</label>
-                            <input type="file" class="form-control" id="fotoPengawasan" accept="image/*">
+                            <label class="form-label">Upload Foto Kegiatan</label>
+                            <input type="file" class="form-control" id="fotoPengawasan" accept="image/*" onchange="previewPhoto('fotoPengawasan', 'fotoPreviewPengawas')">
+                            <div class="photo-preview" id="fotoPreviewPengawas"></div>
                         </div>
                     </div>
                     
@@ -1209,6 +1224,24 @@
             }, 2000); // Reduced timeout for faster feedback
         }
 
+        // Preview photo function
+        function previewPhoto(inputId, previewId) {
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview Foto">`;
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.innerHTML = '';
+            }
+        }
+
         // Helper: Convert File to Base64
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
@@ -1252,7 +1285,7 @@
             
             // Set canvas size - OPTIMIZED for better performance
             const canvasWidth = 800;
-            const canvasHeight = 1200;
+            const canvasHeight = 1800; // Increased height to accommodate larger photo
             
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
@@ -1353,7 +1386,68 @@
                 ctx.fillText('Shift Kerja:', 30, yPos + 25);
                 ctx.font = '22px Arial';
                 ctx.fillText(reportData.shiftKerja, valueStartX, yPos + 25);
-                yPos += 100; // Reduced spacing before photo section
+                yPos += 30; // Reduced spacing before photo section
+                
+                // Add photo section with frame - DOUBLED SIZE
+                if (reportData.foto) {
+                    ctx.fillStyle = '#f8f9fa';
+                    ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                    ctx.fillStyle = '#DC143C';
+                    ctx.font = 'bold 26px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('FOTO KEGIATAN', 30, yPos + 30);
+                    
+                    yPos += sectionHeight + 20;
+                    
+                    // Draw photo frame - DOUBLED SIZE
+                    const photoWidth = canvas.width - 60;
+                    const photoHeight = 800; // Doubled from 400 to 800
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(30, yPos, photoWidth, photoHeight);
+                    
+                    ctx.strokeStyle = '#DC143C';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(30, yPos, photoWidth, photoHeight);
+                    
+                    // Load and draw photo
+                    const img = new Image();
+                    img.src = reportData.foto;
+                    
+                    // Calculate aspect ratio to fit in frame
+                    const imgAspectRatio = img.width / img.height;
+                    const frameAspectRatio = photoWidth / photoHeight;
+                    
+                    let drawWidth, drawHeight, drawX, drawY;
+                    
+                    if (imgAspectRatio > frameAspectRatio) {
+                        // Image is wider than frame
+                        drawWidth = photoWidth;
+                        drawHeight = drawWidth / imgAspectRatio;
+                        drawX = 30;
+                        drawY = yPos + (photoHeight - drawHeight) / 2;
+                    } else {
+                        // Image is taller than frame
+                        drawHeight = photoHeight;
+                        drawWidth = drawHeight * imgAspectRatio;
+                        drawX = 30 + (photoWidth - drawWidth) / 2;
+                        drawY = yPos;
+                    }
+                    
+                    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+                    
+                    // Add watermark to photo
+                    ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
+                    const watermarkText = 'RSUD Talaud 2026';
+                    ctx.font = 'bold 22px Arial';
+                    const textWidth = ctx.measureText(watermarkText).width;
+                    ctx.fillRect(canvas.width - textWidth - 60, yPos + photoHeight - 50, textWidth + 50, 50);
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(watermarkText, canvas.width - textWidth - 55, yPos + photoHeight - 20);
+                    
+                    yPos += photoHeight + 40; // Increased spacing after photo
+                }
             } else {
                 // Supervisor form fields - OPTIMIZED LAYOUT
                 // Section: Identitas Pengawas
@@ -1515,65 +1609,67 @@
                     
                     yPos += 180;
                 }
-            }
-            
-            // Add photo if exists - OPTIMIZED PHOTO HANDLING
-            if (reportData.foto) {
-                // Section: Dokumentasi
-                ctx.fillStyle = '#f8f9fa';
-                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
-                ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 26px Arial';
-                ctx.textAlign = 'left';
-                ctx.fillText('DOKUMENTASI', 30, yPos + 30);
                 
-                yPos += sectionHeight + 20;
-                
-                // Draw photo frame - OPTIMIZED
-                ctx.fillStyle = '#ffffff';
-                const photoWidth = canvas.width - 60;
-                const photoHeight = 600;
-                ctx.fillRect(30, yPos, photoWidth, photoHeight);
-                
-                ctx.strokeStyle = '#DC143C';
-                ctx.lineWidth = 3;
-                ctx.strokeRect(30, yPos, photoWidth, photoHeight);
-                
-                // Load and draw photo - OPTIMIZED
-                const img = new Image();
-                img.src = reportData.foto;
-                
-                // Calculate aspect ratio to fit in frame
-                const imgAspectRatio = img.width / img.height;
-                const frameAspectRatio = photoWidth / photoHeight;
-                
-                let drawWidth, drawHeight, drawX, drawY;
-                
-                if (imgAspectRatio > frameAspectRatio) {
-                    // Image is wider than frame
-                    drawWidth = photoWidth;
-                    drawHeight = drawWidth / imgAspectRatio;
-                    drawX = 30;
-                    drawY = yPos + (photoHeight - drawHeight) / 2;
-                } else {
-                    // Image is taller than frame
-                    drawHeight = photoHeight;
-                    drawWidth = drawHeight * imgAspectRatio;
-                    drawX = 30 + (photoWidth - drawWidth) / 2;
-                    drawY = yPos;
+                // Add photo section with frame - DOUBLED SIZE
+                if (reportData.foto) {
+                    ctx.fillStyle = '#f8f9fa';
+                    ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                    ctx.fillStyle = '#DC143C';
+                    ctx.font = 'bold 26px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('FOTO KEGIATAN', 30, yPos + 30);
+                    
+                    yPos += sectionHeight + 20;
+                    
+                    // Draw photo frame - DOUBLED SIZE
+                    const photoWidth = canvas.width - 60;
+                    const photoHeight = 800; // Doubled from 400 to 800
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(30, yPos, photoWidth, photoHeight);
+                    
+                    ctx.strokeStyle = '#DC143C';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(30, yPos, photoWidth, photoHeight);
+                    
+                    // Load and draw photo
+                    const img = new Image();
+                    img.src = reportData.foto;
+                    
+                    // Calculate aspect ratio to fit in frame
+                    const imgAspectRatio = img.width / img.height;
+                    const frameAspectRatio = photoWidth / photoHeight;
+                    
+                    let drawWidth, drawHeight, drawX, drawY;
+                    
+                    if (imgAspectRatio > frameAspectRatio) {
+                        // Image is wider than frame
+                        drawWidth = photoWidth;
+                        drawHeight = drawWidth / imgAspectRatio;
+                        drawX = 30;
+                        drawY = yPos + (photoHeight - drawHeight) / 2;
+                    } else {
+                        // Image is taller than frame
+                        drawHeight = photoHeight;
+                        drawWidth = drawHeight * imgAspectRatio;
+                        drawX = 30 + (photoWidth - drawWidth) / 2;
+                        drawY = yPos;
+                    }
+                    
+                    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+                    
+                    // Add watermark to photo
+                    ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
+                    const watermarkText = 'RSUD Talaud 2026';
+                    ctx.font = 'bold 22px Arial';
+                    const textWidth = ctx.measureText(watermarkText).width;
+                    ctx.fillRect(canvas.width - textWidth - 60, yPos + photoHeight - 50, textWidth + 50, 50);
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(watermarkText, canvas.width - textWidth - 55, yPos + photoHeight - 20);
+                    
+                    yPos += photoHeight + 40; // Increased spacing after photo
                 }
-                
-                ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
-                
-                // Add watermark to photo - OPTIMIZED
-                ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
-                const watermarkText = 'RSUD Talaud 2026';
-                ctx.font = 'bold 22px Arial';
-                const textWidth = ctx.measureText(watermarkText).width;
-                ctx.fillRect(canvas.width - textWidth - 60, yPos + photoHeight - 50, textWidth + 50, 50);
-                
-                ctx.fillStyle = '#ffffff';
-                ctx.fillText(watermarkText, canvas.width - textWidth - 55, yPos + photoHeight - 20);
             }
             
             // Footer - OPTIMIZED
@@ -1601,66 +1697,6 @@
             // Footer text with full date (without time)
             ctx.fillText('RSUD Talaud 2026', canvas.width / 2, canvas.height - 35);
             ctx.fillText(`${dayName}, ${formattedDate}`, canvas.width / 2, canvas.height - 10);
-            
-            // Convert canvas to blob with optimized quality
-            return new Promise((resolve) => {
-                canvas.toBlob((blob) => {
-                    resolve(blob);
-                }, 'image/jpeg', 0.9); // Reduced quality for faster processing
-            });
-        }
-
-        // Helper: Create separate activity image - OPTIMIZED
-        async function createActivityImage(reportData) {
-            // Create a canvas element to draw the activity photo
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            // Create a watermark
-            const watermarkText = 'RSUD Talaud 2026';
-            
-            // Load the image
-            const img = new Image();
-            img.src = reportData.foto;
-            
-            await new Promise((resolve) => {
-                img.onload = resolve;
-            });
-            
-            // Set canvas size to match photo aspect ratio - OPTIMIZED
-            const maxWidth = 1800;
-            const maxHeight = 1800;
-            
-            let width = img.width;
-            let height = img.height;
-            
-            if (width > maxWidth) {
-                height = height * (maxWidth / width);
-                width = maxWidth;
-            }
-            
-            if (height > maxHeight) {
-                width = width * (maxHeight / height);
-                height = maxHeight;
-            }
-            
-            canvas.width = width;
-            canvas.height = height;
-            
-            // Draw the image
-            ctx.drawImage(img, 0, 0, width, height);
-            
-            // Add watermark - OPTIMIZED
-            ctx.font = 'bold 30px Arial';
-            const textWidth = ctx.measureText(watermarkText).width;
-            
-            // Create semi-transparent background for watermark
-            ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
-            ctx.fillRect(width - textWidth - 60, height - 60, textWidth + 60, 60);
-            
-            // Draw watermark text
-            ctx.fillStyle = '#ffffff';
-            ctx.fillText(watermarkText, width - textWidth - 55, height - 25);
             
             // Convert canvas to blob with optimized quality
             return new Promise((resolve) => {
@@ -1979,14 +2015,8 @@
                 // Show notification that we're sending
                 showNotification('Mengirim laporan...', 'warning');
                 
-                // Create report image
+                // Create report image with photo embedded
                 const reportImageBlob = await createReportImageFromPreview(formData);
-                
-                // Create separate activity image if photo exists
-                let activityImageBlob = null;
-                if (formData.foto) {
-                    activityImageBlob = await createActivityImage(formData);
-                }
                 
                 // Determine configuration based on report type
                 const config = formData.reportType === 'pengawas' ? {
@@ -2000,31 +2030,7 @@
                 // Send report image to server without caption
                 const reportResponse = await sendToTelegram('', reportImageBlob, config);
                 
-                if (reportResponse.success && activityImageBlob) {
-                    // If report sent successfully and there's an activity image, send it separately
-                    const activityResponse = await sendToTelegram('', activityImageBlob, config);
-                    
-                    if (activityResponse.success) {
-                        // Save to localStorage
-                        saveReportToStorage(formData);
-                        
-                        // Show notification that report was sent successfully
-                        showNotification('Laporan berhasil terkirim!', 'success');
-                        
-                        // Show success overlay with motivation
-                        showSuccessOverlay();
-                    } else {
-                        // Save to localStorage even if photo failed to send separately
-                        saveReportToStorage(formData);
-                        
-                        // Show notification that report was sent successfully
-                        showNotification('Laporan berhasil terkirim!', 'success');
-                        
-                        // Show success overlay with motivation
-                        showSuccessOverlay();
-                    }
-                } else if (reportResponse.success) {
-                    // If report sent successfully but no photo to send separately
+                if (reportResponse.success) {
                     // Save to localStorage
                     saveReportToStorage(formData);
                     
@@ -2060,8 +2066,8 @@
             const successOverlay = document.getElementById('successOverlay');
             successOverlay.style.display = 'flex';
             
-            // Start countdown - REDUCED FROM 3 TO 1 SECOND
-            let countdown = 1;
+            // Start countdown - SET TO 3 SECONDS AS REQUESTED
+            let countdown = 3;
             const countdownElement = document.getElementById('countdownNumber');
             const countdownText = document.getElementById('countdownText');
             
