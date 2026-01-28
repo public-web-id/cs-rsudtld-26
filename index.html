@@ -288,14 +288,6 @@
             box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.25);
         }
 
-        /* Perbaikan untuk textarea laporan kegiatan */
-        .form-control#laporanKegiatan {
-            min-height: 120px;
-            resize: vertical;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
         .btn-primary {
             background-color: var(--primary-red);
             border-color: var(--primary-red);
@@ -421,35 +413,6 @@
         .empty-state p {
             color: var(--medium-gray);
             font-size: 14px;
-        }
-
-        /* Galeri Page Styles */
-        .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            height: 160px;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
 
         /* Bottom Navigation - Menu Ikon Permanen di Bawah */
@@ -747,15 +710,6 @@
                 height: 40px;
             }
             
-            .gallery-container {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 10px;
-            }
-            
-            .gallery-item {
-                height: 140px;
-            }
-            
             .report-type-selection {
                 flex-direction: column;
             }
@@ -886,16 +840,6 @@
                                 <option value="Siang">Siang</option>
                                 <option value="24 Jam">24 Jam</option>
                             </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <i class="bi bi-clipboard2-fill"></i> Laporan Kegiatan
-                        </h3>
-                        <div class="form-group">
-                            <label class="form-label">Deskripsi Kegiatan</label>
-                            <textarea class="form-control" id="laporanKegiatan" rows="4" required placeholder="Deskripsikan kegiatan yang dilakukan"></textarea>
                         </div>
                     </div>
                     
@@ -1053,25 +997,6 @@
                 <p>Anda belum membuat laporan. Silakan buat laporan baru menggunakan menu Laporan.</p>
             </div>
         </div>
-
-        <!-- Galeri Kegiatan Page -->
-        <div id="galeri" class="page" style="display: none;">
-            <div class="page-title">
-                <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
-                <div class="page-title-content">
-                    <h1>Galeri Kegiatan</h1>
-                    <p>Koleksi foto kegiatan karyawan</p>
-                </div>
-                <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
-            </div>
-            
-            <!-- Empty State - No Gallery Displayed -->
-            <div class="empty-state">
-                <i class="bi bi-images"></i>
-                <h5>Galeri Tidak Tersedia</h5>
-                <p>Galeri kegiatan tidak ditampilkan untuk menjaga privasi. Foto kegiatan hanya disimpan secara lokal di perangkat.</p>
-            </div>
-        </div>
     </main>
 
     <!-- Bottom Navigation - Menu Ikon Permanen di Bawah -->
@@ -1087,10 +1012,6 @@
         <a href="#" class="bottom-nav-item" onclick="showPage('riwayat')">
             <i class="bi bi-clock-history"></i>
             <span>Riwayat</span>
-        </a>
-        <a href="#" class="bottom-nav-item" onclick="showPage('galeri')">
-            <i class="bi bi-images"></i>
-            <span>Galeri</span>
         </a>
     </nav>
 
@@ -1302,7 +1223,7 @@
             return `${dayName}, ${formattedDate}`;
         }
 
-        // Helper: Create image from preview modal content (PERBAIKAN TATA LETAK IDENTITAS KARYAWAN)
+        // Helper: Create image from preview modal content
         async function createReportImageFromPreview(reportData) {
             // Create a canvas element with larger dimensions for better quality
             const canvas = document.createElement('canvas');
@@ -1310,7 +1231,7 @@
             
             // Set canvas size - LARGER for better visibility
             const canvasWidth = 900;
-            const canvasHeight = 1600;
+            const canvasHeight = 1400; // Reduced height since we removed the activity section
             
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
@@ -1392,52 +1313,6 @@
                 ctx.font = '30px Arial';
                 ctx.fillText(reportData.shiftKerja, 30, yPos + 80);
                 yPos += 120;
-                
-                // Section: Laporan Kegiatan
-                ctx.fillStyle = '#f8f9fa';
-                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
-                ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 34px Arial';
-                ctx.textAlign = 'left';
-                ctx.fillText('LAPORAN KEGIATAN', 30, yPos + 38);
-                
-                yPos += sectionHeight + 25;
-                
-                // Draw activity text box - LEBAR
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(30, yPos, canvas.width - 60, 240);
-                
-                ctx.strokeStyle = '#DC143C';
-                ctx.lineWidth = 3;
-                ctx.strokeRect(30, yPos, canvas.width - 60, 240);
-                
-                // Draw activity text - LEBAR dengan baris yang lebih lebar
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = '26px Arial';
-                const words = reportData.laporanKegiatan.split(' ');
-                let line = '';
-                let lineCount = 0;
-                const maxLines = 8;
-                
-                for (let i = 0; i < words.length && lineCount < maxLines; i++) {
-                    const testLine = line + words[i] + ' ';
-                    const metrics = ctx.measureText(testLine);
-                    const testWidth = metrics.width;
-                    
-                    if (testWidth > canvas.width - 100 && line.length > 0) {
-                        ctx.fillText(line, 40, yPos + 45 + (lineCount * 40));
-                        line = words[i] + ' ';
-                        lineCount++;
-                    } else {
-                        line = testLine;
-                    }
-                }
-                
-                if (line.length > 0 && lineCount < maxLines) {
-                    ctx.fillText(line, 40, yPos + 45 + (lineCount * 40));
-                }
-                
-                yPos += 260;
             } else {
                 // Supervisor form fields - TATA LETAK YANG DIPERBAIKI
                 // Section: Identitas Pengawas
@@ -1679,7 +1554,7 @@
             });
             
             // Footer text with full date (without time)
-            ctx.fillText('RSUD Talaud 2026 - Outsourcing', canvas.width / 2, canvas.height - 40);
+            ctx.fillText('RSUD Talaud 2026', canvas.width / 2, canvas.height - 40);
             ctx.fillText(`${dayName}, ${formattedDate}`, canvas.width / 2, canvas.height - 10);
             
             // Convert canvas to blob with higher quality
@@ -1690,14 +1565,14 @@
             });
         }
 
-        // Helper: Create separate activity image - PERBESARAN
+        // Helper: Create separate activity image
         async function createActivityImage(reportData) {
-            // Create a canvas element to draw the activity photo - PERBESARAN
+            // Create a canvas element to draw the activity photo
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
             // Create a watermark
-            const watermarkText = 'RSUD Talaud 2026 - Outsourcing';
+            const watermarkText = 'RSUD Talaud 2026';
             
             // Load the image
             const img = new Image();
@@ -1707,7 +1582,7 @@
                 img.onload = resolve;
             });
             
-            // Set canvas size to match photo aspect ratio - PERBESARAN
+            // Set canvas size to match photo aspect ratio
             const maxWidth = 2200;
             const maxHeight = 2200;
             
@@ -1730,11 +1605,11 @@
             // Draw the image
             ctx.drawImage(img, 0, 0, width, height);
             
-            // Add watermark - PERBESARAN
+            // Add watermark
             ctx.font = 'bold 36px Arial';
             const textWidth = ctx.measureText(watermarkText).width;
             
-            // Create semi-transparent background for watermark - LEBAR
+            // Create semi-transparent background for watermark
             ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
             ctx.fillRect(width - textWidth - 70, height - 70, textWidth + 70, 70);
             
@@ -1876,10 +1751,6 @@
                                     <span class="history-label">Shift:</span>
                                     <span class="history-value">${report.shiftKerja}</span>
                                 </div>
-                                <div class="history-field">
-                                    <span class="history-label">Kegiatan:</span>
-                                    <span class="history-value">${report.laporanKegiatan}</span>
-                                </div>
                             </div>
                             <div class="history-footer">
                                 <div class="history-status">Tersimpan</div>
@@ -2011,7 +1882,6 @@
                 jenisKaryawan: document.getElementById('jenisKaryawan').value,
                 areaKerja: document.getElementById('areaKerja').value,
                 shiftKerja: document.getElementById('shiftKerja').value,
-                laporanKegiatan: document.getElementById('laporanKegiatan').value.toUpperCase(),
                 tanggal: new Date().toISOString(),
                 foto: fotoBase64,
                 reportType: 'karyawan'
@@ -2092,10 +1962,6 @@
                     <div class="report-preview-item">
                         <div class="report-preview-label">Area Kerja:</div>
                         <div class="report-preview-value">${formData.areaKerja}</div>
-                    </div>
-                    <div class="report-preview-item">
-                        <div class="report-preview-label">Laporan Kegiatan:</div>
-                        <div class="report-preview-value">${formData.laporanKegiatan}</div>
                     </div>
                 `;
             } else {
@@ -2192,7 +2058,7 @@
                 
                 if (reportResponse.success && activityImageBlob) {
                     // If report sent successfully and there's an activity image, send it separately
-                    showNotification('Mengirim foto kegiatan terpisah...', 'warning');
+                    showNotification('Mengirim foto kegiatan...', 'warning');
                     
                     const activityCaption = 'Foto Kegiatan - ' + (formData.reportType === 'karyawan' ? formData.namaKaryawan : formData.namaPengawas);
                     const activityResponse = await sendToTelegram(activityCaption, activityImageBlob, config);
