@@ -1934,6 +1934,16 @@
             document.body.appendChild(modal);
         }
 
+        // Reset form function
+        function resetForm(formId) {
+            const form = document.getElementById(formId);
+            form.reset();
+            
+            // Clear photo preview
+            const previewId = formId === 'formLaporanKaryawan' ? 'fotoPreviewKaryawan' : 'fotoPreviewPengawas';
+            document.getElementById(previewId).innerHTML = '';
+        }
+
         // Handle form submit laporan karyawan - OPTIMIZED
         document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -2034,6 +2044,9 @@
                     // Save to localStorage
                     saveReportToStorage(formData);
                     
+                    // Reset form after successful submission
+                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanPengawas');
+                    
                     // Show notification that report was sent successfully
                     showNotification('Laporan berhasil terkirim!', 'success');
                     
@@ -2047,6 +2060,9 @@
                 } else {
                     // Save to localStorage even if sending failed
                     saveReportToStorage(formData);
+                    
+                    // Reset form after successful submission
+                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanPengawas');
                     
                     // Show notification that report was sent successfully
                     showNotification('Laporan berhasil terkirim!', 'success');
@@ -2062,6 +2078,9 @@
             } catch (error) {
                 // Save to localStorage even if there's an error
                 saveReportToStorage(formData);
+                
+                // Reset form after successful submission
+                resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanPengawas');
                 
                 // Show notification that report was sent successfully
                 showNotification('Laporan berhasil terkirim!', 'success');
