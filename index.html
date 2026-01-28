@@ -724,24 +724,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* Offline Mode Indicator */
-        .offline-indicator {
-            position: fixed;
-            top: 70px;
-            right: 15px;
-            background-color: var(--warning-yellow);
-            color: var(--dark-gray);
-            padding: 8px 15px;
-            border-radius: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            z-index: 1500;
-        }
-
         /* Loading Spinner */
         .spinner-border {
             width: 1rem;
@@ -781,12 +763,6 @@
     </style>
 </head>
 <body>
-    <!-- Offline Mode Indicator -->
-    <div class="offline-indicator">
-        <i class="bi bi-wifi-off"></i>
-        <span>Mode Offline</span>
-    </div>
-
     <!-- Main Content -->
     <main class="main-content">
         <!-- Beranda Page -->
@@ -796,7 +772,7 @@
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
                 <div class="page-title-content">
                     <h1>Outsourcing RSUD Talaud 2026</h1>
-                    <p>Sistem Pelaporan Karyawan (Mode Offline)</p>
+                    <p>Sistem Pelaporan Karyawan</p>
                 </div>
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
@@ -804,7 +780,7 @@
             <!-- Welcome Section -->
             <div class="welcome-section">
                 <h3><i class="bi bi-house-heart"></i> Selamat Datang</h3>
-                <p>Silakan gunakan menu di bawah untuk membuat laporan kegiatan harian Anda. Laporan akan disimpan secara lokal di perangkat ini dan dikirim ke Telegram dalam format gambar form dan foto terpisah.</p>
+                <p>Silakan gunakan menu di bawah untuk membuat laporan kegiatan harian Anda. Laporan akan disimpan secara lokal di perangkat ini dan dikirim untuk diproses lebih lanjut.</p>
             </div>
         </div>
 
@@ -2209,8 +2185,8 @@
                     apiUrl: TELEGRAM_API_URL_EMPLOYEE
                 };
                 
-                // Send report image to Telegram
-                showNotification('Mengirim laporan ke Telegram...', 'warning');
+                // Send report image to server
+                showNotification('Mengirim laporan...', 'warning');
                 
                 const reportResponse = await sendToTelegram(telegramMessage, reportImageBlob, config);
                 
@@ -2226,7 +2202,7 @@
                         saveReportToStorage(formData);
                         
                         // Show success notification
-                        showNotification('Laporan berhasil dikirim ke Telegram!', 'success');
+                        showNotification('Laporan berhasil dikirim!', 'success');
                         
                         // Reset form
                         if (formData.reportType === 'karyawan') {
@@ -2265,7 +2241,7 @@
                     saveReportToStorage(formData);
                     
                     // Show success notification
-                    showNotification('Laporan berhasil dikirim ke Telegram!', 'success');
+                    showNotification('Laporan berhasil dikirim!', 'success');
                     
                     // Reset form
                     if (formData.reportType === 'karyawan') {
@@ -2280,8 +2256,8 @@
                     // Go back to home page after delay
                     setTimeout(() => showPage('beranda'), 1500);
                 } else {
-                    // Handle Telegram error
-                    showNotification(`Gagal mengirim ke Telegram: ${reportResponse.error}`, 'error');
+                    // Handle error
+                    showNotification(`Gagal mengirim laporan: ${reportResponse.error}`, 'error');
                 }
             } catch (error) {
                 console.error('Error sending report:', error);
