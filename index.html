@@ -1285,7 +1285,7 @@
             
             // Set canvas size - OPTIMIZED for better performance
             const canvasWidth = 800;
-            const canvasHeight = 1800; // Increased height to accommodate larger photo
+            let canvasHeight = 1400; // Reduced initial height for better performance
             
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
@@ -1672,13 +1672,13 @@
                 }
             }
             
-            // Footer - POSITIONED DIRECTLY BELOW PHOTO
-            const footerGradient = ctx.createLinearGradient(0, yPos + 10, 0, yPos + 70);
+            // Footer - POSITIONED DIRECTLY AT THE BOTTOM
+            const footerGradient = ctx.createLinearGradient(0, canvasHeight - 60, 0, canvasHeight);
             footerGradient.addColorStop(0, '#DC143C');
             footerGradient.addColorStop(1, '#8B0000');
             
             ctx.fillStyle = footerGradient;
-            ctx.fillRect(0, yPos + 10, canvas.width, 60);
+            ctx.fillRect(0, canvasHeight - 60, canvas.width, 60);
             
             ctx.fillStyle = '#ffffff';
             ctx.font = 'bold 20px Arial';
@@ -1695,8 +1695,8 @@
             });
             
             // Footer text with full date (without time)
-            ctx.fillText('RSUD Talaud 2026', canvas.width / 2, yPos + 35);
-            ctx.fillText(`${dayName}, ${formattedDate}`, canvas.width / 2, yPos + 60);
+            ctx.fillText('RSUD Talaud 2026', canvas.width / 2, canvasHeight - 25);
+            ctx.fillText(`${dayName}, ${formattedDate}`, canvas.width / 2, canvasHeight - 5);
             
             // Convert canvas to blob with optimized quality
             return new Promise((resolve) => {
