@@ -774,10 +774,10 @@
                     <h4>Laporan Karyawan</h4>
                     <p>Buat laporan kegiatan harian sebagai karyawan outsourcing</p>
                 </div>
-                <div class="report-type-card" onclick="showSupervisorPinModal()">
-                    <i class="bi bi-clipboard-check"></i>
-                    <h4>Laporan Pengawas</h4>
-                    <p>Buat laporan pengawasan dan evaluasi kinerja</p>
+                <div class="report-type-card" onclick="showKinerjaReport()">
+                    <i class="bi bi-graph-up"></i>
+                    <h4>Laporan Kinerja</h4>
+                    <p>Buat laporan kinerja karyawan dengan cepat</p>
                 </div>
             </div>
         </div>
@@ -839,6 +839,7 @@
                                 <option value="Isolasi">Isolasi</option>
                                 <option value="IPAL">IPAL</option>
                                 <option value="IPSRS">IPSRS</option>
+                                <option value="Instalasi Gizi">Instalasi Gizi</option>
                                 <option value="Kantor/Manajemen">Kantor/Manajemen</option>
                                 <option value="Kasir">Kasir</option>
                                 <option value="NICU">NICU</option>
@@ -885,39 +886,49 @@
             </div>
         </div>
 
-        <!-- Form Laporan Pengawas -->
-        <div id="laporanPengawas" class="page" style="display: none;">
+        <!-- Form Laporan Kinerja (Disederhanakan tanpa komentar dan dokumentasi) -->
+        <div id="laporanKinerja" class="page" style="display: none;">
             <div class="page-title">
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
                 <div class="page-title-content">
-                    <h1>Form Laporan Pengawas</h1>
-                    <p>Sistem Pelaporan Karyawan</p>
+                    <h1>Form Laporan Kinerja Karyawan</h1>
+                    <p>Sistem Pelaporan Kinerja</p>
                     <div class="real-time-info">
                         <i class="bi bi-calendar3"></i>
-                        <span class="date-time" id="laporanPengawasDateTime"></span>
+                        <span class="date-time" id="laporanKinerjaDateTime"></span>
                     </div>
                 </div>
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
             
             <div class="form-container">
-                <form id="formLaporanPengawas">
+                <form id="formLaporanKinerja">
                     <div class="form-section">
                         <h3 class="section-title">
-                            <i class="bi bi-person-badge-fill"></i> Identitas Pengawas
+                            <i class="bi bi-person-fill"></i> Identitas Karyawan
                         </h3>
                         <div class="form-group">
-                            <label class="form-label">Pengawas</label>
-                            <input type="text" class="form-control" id="namaPengawas" required placeholder="Andriski Mangalo" value="Andriski Mangalo">
+                            <label class="form-label">Nama Karyawan</label>
+                            <input type="text" class="form-control" id="namaKaryawanKinerja" required placeholder="Masukkan nama karyawan">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Tanggal Pengawasan</label>
-                            <input type="date" class="form-control" id="tanggalPengawasan" required>
+                            <label class="form-label">Jenis Karyawan</label>
+                            <select class="form-select" id="jenisKaryawanKinerja" required>
+                                <option value="">Pilih Jenis Karyawan</option>
+                                <option value="Administrasi">Administrasi</option>
+                                <option value="Cleaning Service">Cleaning Service</option>
+                                <option value="Operator IPAL">Operator IPAL</option>
+                                <option value="Penata Halaman">Penata Halaman</option>
+                                <option value="Juru Masak">Juru Masak</option>
+                                <option value="Limbah RS">Limbah RS</option>
+                                <option value="Laundry">Laundry</option>
+                                <option value="Teknisi IPSRS">Teknisi IPSRS</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Area Pengawasan</label>
-                            <select class="form-select" id="areaPengawasan" required>
-                                <option value="">Pilih Area Pengawasan</option>
+                            <label class="form-label">Area Kerja/Ruangan</label>
+                            <select class="form-select" id="areaKerjaKinerja" required>
+                                <option value="">Pilih Area Kerja</option>
                                 <option value="Apotek/Gudang Apotek">Apotek/Gudang Apotek</option>
                                 <option value="Bedah">Bedah</option>
                                 <option value="Bedah Sentral">Bedah Sentral</option>
@@ -932,6 +943,7 @@
                                 <option value="Isolasi">Isolasi</option>
                                 <option value="IPAL">IPAL</option>
                                 <option value="IPSRS">IPSRS</option>
+                                <option value="Instalasi Gizi">Instalasi Gizi</option>
                                 <option value="Kantor/Manajemen">Kantor/Manajemen</option>
                                 <option value="Kasir">Kasir</option>
                                 <option value="NICU">NICU</option>
@@ -947,8 +959,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Shift Pengawasan</label>
-                            <select class="form-select" id="shiftPengawasan" required>
+                            <label class="form-label">Shift Kerja</label>
+                            <select class="form-select" id="shiftKerjaKinerja" required>
                                 <option value="">Pilih Shift</option>
                                 <option value="Malam">Malam</option>
                                 <option value="Pagi">Pagi</option>
@@ -960,42 +972,79 @@
                     
                     <div class="form-section">
                         <h3 class="section-title">
-                            <i class="bi bi-people-fill"></i> Informasi Karyawan
+                            <i class="bi bi-clipboard-check"></i> Evaluasi Kinerja
                         </h3>
                         <div class="form-group">
-                            <label class="form-label">Nama Karyawan yang Diawasi</label>
-                            <input type="text" class="form-control" id="karyawanDiawasi" required placeholder="Masukkan nama karyawan yang diawasi">
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <i class="bi bi-clipboard2-check-fill"></i> Hasil Pengawasan
-                        </h3>
-                        <div class="form-group">
-                            <label class="form-label">Hasil Pengawasan</label>
-                            <textarea class="form-control" id="hasilPengawasan" rows="4" required placeholder="Deskripsikan hasil pengawasan yang dilakukan"></textarea>
+                            <label class="form-label">Kehadiran</label>
+                            <select class="form-select" id="kehadiran" required>
+                                <option value="">Pilih Kehadiran</option>
+                                <option value="Tepat Waktu">Tepat Waktu</option>
+                                <option value="Terlambat">Terlambat</option>
+                                <option value="Izin">Izin</option>
+                                <option value="Sakit">Sakit</option>
+                                <option value="Alpha">Alpha</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Catatan Evaluasi</label>
-                            <textarea class="form-control" id="catatanEvaluasi" rows="3" placeholder="Tambahkan catatan evaluasi jika diperlukan"></textarea>
+                            <label class="form-label">Kualitas Pekerjaan</label>
+                            <select class="form-select" id="kualitasPekerjaan" required>
+                                <option value="">Pilih Kualitas Pekerjaan</option>
+                                <option value="Sangat Baik">Sangat Baik</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Cukup">Cukup</option>
+                                <option value="Kurang">Kurang</option>
+                                <option value="Sangat Kurang">Sangat Kurang</option>
+                            </select>
                         </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <i class="bi bi-image-fill"></i> Dokumentasi
-                        </h3>
                         <div class="form-group">
-                            <label class="form-label">Upload Foto Kegiatan</label>
-                            <input type="file" class="form-control" id="fotoPengawasan" accept="image/*" onchange="previewPhoto('fotoPengawasan', 'fotoPreviewPengawas')">
-                            <div class="photo-preview" id="fotoPreviewPengawas"></div>
+                            <label class="form-label">Kepatuhan Aturan</label>
+                            <select class="form-select" id="kepatuhanAturan" required>
+                                <option value="">Pilih Kepatuhan Aturan</option>
+                                <option value="Sangat Baik">Sangat Baik</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Cukup">Cukup</option>
+                                <option value="Kurang">Kurang</option>
+                                <option value="Sangat Kurang">Sangat Kurang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kerjasama Tim</label>
+                            <select class="form-select" id="kerjasamaTim" required>
+                                <option value="">Pilih Kerjasama Tim</option>
+                                <option value="Sangat Baik">Sangat Baik</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Cukup">Cukup</option>
+                                <option value="Kurang">Kurang</option>
+                                <option value="Sangat Kurang">Sangat Kurang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Inisiatif</label>
+                            <select class="form-select" id="inisiatif" required>
+                                <option value="">Pilih Inisiatif</option>
+                                <option value="Sangat Baik">Sangat Baik</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Cukup">Cukup</option>
+                                <option value="Kurang">Kurang</option>
+                                <option value="Sangat Kurang">Sangat Kurang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kepatuhan Prosedur Keamanan</label>
+                            <select class="form-select" id="kepatuhanKeamanan" required>
+                                <option value="">Pilih Kepatuhan Prosedur Keamanan</option>
+                                <option value="Sangat Baik">Sangat Baik</option>
+                                <option value="Baik">Baik</option>
+                                <option value="Cukup">Cukup</option>
+                                <option value="Kurang">Kurang</option>
+                                <option value="Sangat Kurang">Sangat Kurang</option>
+                            </select>
                         </div>
                     </div>
                     
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-send"></i> Kirim Laporan
+                            <i class="bi bi-send"></i> Kirim Laporan Kinerja
                         </button>
                     </div>
                 </form>
@@ -1052,30 +1101,6 @@
         <i class="bi bi-check-circle"></i> <span id="notificationText"></span>
     </div>
 
-    <!-- PIN Confirmation Modal -->
-    <div id="pinModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Konfirmasi PIN Pengawas</h3>
-                <span class="close" onclick="closePinModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p>Masukkan PIN 4 digit untuk mengakses form laporan pengawas:</p>
-                <div class="pin-container">
-                    <input type="text" maxlength="1" class="pin-input" id="pin1" onkeyup="moveToNext(this, 'pin2')">
-                    <input type="text" maxlength="1" class="pin-input" id="pin2" onkeyup="moveToNext(this, 'pin3')">
-                    <input type="text" maxlength="1" class="pin-input" id="pin3" onkeyup="moveToNext(this, 'pin4')">
-                    <input type="text" maxlength="1" class="pin-input" id="pin4" onkeyup="checkPin()">
-                </div>
-                <div class="pin-error" id="pinError">PIN yang Anda masukkan salah. Silakan coba lagi.</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closePinModal()">Batal</button>
-                <button type="button" class="btn btn-primary-modal" onclick="verifyPin()">Verifikasi</button>
-            </div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // ==========================================
@@ -1086,15 +1111,9 @@
         const TELEGRAM_BOT_TOKEN_EMPLOYEE = "8355189455:AAGqJXf_OCoPWx11CSyeUk4fLhif156HjX4";
         const TELEGRAM_API_URL_EMPLOYEE = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_EMPLOYEE}`;
         
-        // Konfigurasi untuk laporan pengawas (sesuai permintaan)
-        const TELEGRAM_CHAT_ID_SUPERVISOR = "-1003822735476";
-        const TELEGRAM_BOT_TOKEN_SUPERVISOR = "8300283586:AAFhk9F9ZouK_gB9m0nbm5kFyzgFblgho1s";
-        const TELEGRAM_API_URL_SUPERVISOR = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_SUPERVISOR}`;
-        
         // ==========================================
         // OFFLINE MODE CONFIGURATION
         // ==========================================
-        const SUPERVISOR_PIN = "1234";
         let currentReportType = "";
         let currentReportData = null; // Store current report data globally
 
@@ -1149,58 +1168,10 @@
             showPage('laporanKaryawan');
         }
 
-        // Show supervisor PIN modal
-        function showSupervisorPinModal() {
-            document.getElementById('pinModal').style.display = 'block';
-            // Reset PIN inputs
-            document.getElementById('pin1').value = '';
-            document.getElementById('pin2').value = '';
-            document.getElementById('pin3').value = '';
-            document.getElementById('pin4').value = '';
-            document.getElementById('pinError').style.display = 'none';
-            document.getElementById('pin1').focus();
-        }
-
-        // Close PIN modal
-        function closePinModal() {
-            document.getElementById('pinModal').style.display = 'none';
-        }
-
-        // Move to next PIN input
-        function moveToNext(current, nextFieldID) {
-            if (current.value.length >= 1) {
-                document.getElementById(nextFieldID).focus();
-            }
-        }
-
-        // Check PIN when last digit is entered
-        function checkPin() {
-            if (document.getElementById('pin4').value.length >= 1) {
-                verifyPin();
-            }
-        }
-
-        // Verify PIN
-        function verifyPin() {
-            const pin1 = document.getElementById('pin1').value;
-            const pin2 = document.getElementById('pin2').value;
-            const pin3 = document.getElementById('pin3').value;
-            const pin4 = document.getElementById('pin4').value;
-            const enteredPin = pin1 + pin2 + pin3 + pin4;
-            
-            if (enteredPin === SUPERVISOR_PIN) {
-                closePinModal();
-                currentReportType = "pengawas";
-                showPage('laporanPengawas');
-            } else {
-                document.getElementById('pinError').style.display = 'block';
-                // Reset PIN inputs
-                document.getElementById('pin1').value = '';
-                document.getElementById('pin2').value = '';
-                document.getElementById('pin3').value = '';
-                document.getElementById('pin4').value = '';
-                document.getElementById('pin1').focus();
-            }
+        // Show kinerja report form
+        function showKinerjaReport() {
+            currentReportType = "kinerja";
+            showPage('laporanKinerja');
         }
 
         // Show notification
@@ -1308,7 +1279,9 @@
             ctx.textAlign = 'center';
             
             // Handle long title by wrapping it
-            const title = reportData.reportType === 'karyawan' ? 'Laporan Karyawan Outsourcing RSUD Talaud 2026' : 'Laporan Pengawas Outsourcing RSUD Talaud 2026';
+            const title = reportData.reportType === 'karyawan' ? 'Laporan Karyawan Outsourcing RSUD Talaud 2026' : 
+                         'Laporan Kinerja Karyawan Outsourcing RSUD Talaud 2026';
+            
             const words = title.split(' ');
             let line = '';
             let lineCount = 0;
@@ -1448,15 +1421,15 @@
                     
                     yPos += photoHeight + 10; // Reduced spacing after photo to place footer directly below
                 }
-            } else {
-                // Supervisor form fields - OPTIMIZED LAYOUT
-                // Section: Identitas Pengawas
+            } else if (reportData.reportType === 'kinerja') {
+                // Kinerja form fields - OPTIMIZED LAYOUT (tanpa komentar dan dokumentasi)
+                // Section: Identitas Karyawan
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
                 ctx.font = 'bold 26px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('IDENTITAS PENGAWAS', 30, yPos + 30);
+                ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 30);
                 
                 yPos += sectionHeight + 30; // Reduced spacing for better performance
                 
@@ -1465,211 +1438,100 @@
                 const valueStartX = 30 + labelWidth + 20; // Reduced spacing between label and value
                 const lineHeight = 40; // Reduced line height for better performance
                 
-                // Pengawas
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Pengawas:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.namaPengawas, valueStartX, yPos + 25);
-                yPos += lineHeight;
-                
-                // Tanggal Pengawasan
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Tanggal Pengawasan:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.tanggalPengawasan, valueStartX, yPos + 25);
-                yPos += lineHeight;
-                
-                // Area Pengawasan
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Area Pengawasan:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.areaPengawasan, valueStartX, yPos + 25);
-                yPos += lineHeight;
-                
-                // Shift Pengawasan
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Shift Pengawasan:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.shiftPengawasan, valueStartX, yPos + 25);
-                yPos += lineHeight;
-                
-                // Section: Informasi Karyawan
-                ctx.fillStyle = '#f8f9fa';
-                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
-                ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 26px Arial';
-                ctx.textAlign = 'left';
-                ctx.fillText('INFORMASI KARYAWAN', 30, yPos + 30);
-                
-                yPos += sectionHeight + 30;
-                
-                // Nama Karyawan yang Diawasi
+                // Nama Karyawan
                 ctx.fillStyle = '#2c3e50';
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Nama Karyawan:', 30, yPos + 25);
                 ctx.font = '22px Arial';
-                ctx.fillText(reportData.karyawanDiawasi, valueStartX, yPos + 25);
+                ctx.fillText(reportData.namaKaryawanKinerja, valueStartX, yPos + 25);
                 yPos += lineHeight;
                 
-                // Section: Hasil Pengawasan
+                // Jenis Karyawan
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Jenis Karyawan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.jenisKaryawanKinerja, valueStartX, yPos + 25);
+                yPos += lineHeight;
+                
+                // Area Kerja
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Area Kerja:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.areaKerjaKinerja, valueStartX, yPos + 25);
+                yPos += lineHeight;
+                
+                // Shift Kerja
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Shift Kerja:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.shiftKerjaKinerja, valueStartX, yPos + 25);
+                yPos += 40;
+                
+                // Section: Evaluasi Kinerja
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
                 ctx.font = 'bold 26px Arial';
                 ctx.textAlign = 'left';
-                ctx.fillText('HASIL PENGAWASAN', 30, yPos + 30);
+                ctx.fillText('EVALUASI KINERJA', 30, yPos + 30);
                 
                 yPos += sectionHeight + 20;
                 
-                // Draw supervision text box - OPTIMIZED
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(30, yPos, canvas.width - 60, 200);
+                // Evaluation fields - OPTIMIZED LAYOUT
+                const evalLabelWidth = 200;
+                const evalValueStartX = 30 + evalLabelWidth + 20;
+                const evalLineHeight = 35;
                 
-                ctx.strokeStyle = '#DC143C';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(30, yPos, canvas.width - 60, 200);
-                
-                // Draw supervision text - OPTIMIZED
+                // Kehadiran
                 ctx.fillStyle = '#2c3e50';
-                ctx.font = '20px Arial';
-                const words = reportData.hasilPengawasan.split(' ');
-                let line = '';
-                let lineCount = 0;
-                const maxLines = 7;
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Kehadiran:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.kehadiran, evalValueStartX, yPos + 25);
+                yPos += evalLineHeight;
                 
-                for (let i = 0; i < words.length && lineCount < maxLines; i++) {
-                    const testLine = line + words[i] + ' ';
-                    const metrics = ctx.measureText(testLine);
-                    const testWidth = metrics.width;
-                    
-                    if (testWidth > canvas.width - 100 && line.length > 0) {
-                        ctx.fillText(line, 40, yPos + 35 + (lineCount * 35));
-                        line = words[i] + ' ';
-                        lineCount++;
-                    } else {
-                        line = testLine;
-                    }
-                }
+                // Kualitas Pekerjaan
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Kualitas Pekerjaan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.kualitasPekerjaan, evalValueStartX, yPos + 25);
+                yPos += evalLineHeight;
                 
-                if (line.length > 0 && lineCount < maxLines) {
-                    ctx.fillText(line, 40, yPos + 35 + (lineCount * 35));
-                }
+                // Kepatuhan Aturan
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Kepatuhan Aturan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.kepatuhanAturan, evalValueStartX, yPos + 25);
+                yPos += evalLineHeight;
                 
-                yPos += 220;
+                // Kerjasama Tim
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Kerjasama Tim:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.kerjasamaTim, evalValueStartX, yPos + 25);
+                yPos += evalLineHeight;
                 
-                // Add catatan evaluasi if exists
-                if (reportData.catatanEvaluasi) {
-                    // Section: Catatan Evaluasi
-                    ctx.fillStyle = '#f8f9fa';
-                    ctx.fillRect(0, yPos, canvas.width, sectionHeight);
-                    ctx.fillStyle = '#DC143C';
-                    ctx.font = 'bold 26px Arial';
-                    ctx.textAlign = 'left';
-                    ctx.fillText('CATATAN EVALUASI', 30, yPos + 30);
-                    
-                    yPos += sectionHeight + 20;
-                    
-                    // Draw evaluation text box - OPTIMIZED
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(30, yPos, canvas.width - 60, 160);
-                    
-                    ctx.strokeStyle = '#DC143C';
-                    ctx.lineWidth = 2;
-                    ctx.strokeRect(30, yPos, canvas.width - 60, 160);
-                    
-                    // Draw evaluation text - OPTIMIZED
-                    ctx.fillStyle = '#2c3e50';
-                    ctx.font = '20px Arial';
-                    const evalWords = reportData.catatanEvaluasi.split(' ');
-                    let evalLine = '';
-                    let evalLineCount = 0;
-                    const evalMaxLines = 6;
-                    
-                    for (let i = 0; i < evalWords.length && evalLineCount < evalMaxLines; i++) {
-                        const testLine = evalLine + evalWords[i] + ' ';
-                        const metrics = ctx.measureText(testLine);
-                        const testWidth = metrics.width;
-                        
-                        if (testWidth > canvas.width - 100 && evalLine.length > 0) {
-                            ctx.fillText(evalLine, 40, yPos + 35 + (evalLineCount * 35));
-                            evalLine = evalWords[i] + ' ';
-                            evalLineCount++;
-                        } else {
-                            evalLine = testLine;
-                        }
-                    }
-                    
-                    if (evalLine.length > 0 && evalLineCount < evalMaxLines) {
-                        ctx.fillText(evalLine, 40, yPos + 35 + (evalLineCount * 35));
-                    }
-                    
-                    yPos += 180;
-                }
+                // Inisiatif
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Inisiatif:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.inisiatif, evalValueStartX, yPos + 25);
+                yPos += evalLineHeight;
                 
-                // Add photo section with frame - DOUBLED SIZE
-                if (reportData.foto) {
-                    ctx.fillStyle = '#f8f9fa';
-                    ctx.fillRect(0, yPos, canvas.width, sectionHeight);
-                    ctx.fillStyle = '#DC143C';
-                    ctx.font = 'bold 26px Arial';
-                    ctx.textAlign = 'left';
-                    ctx.fillText('FOTO KEGIATAN', 30, yPos + 30);
-                    
-                    yPos += sectionHeight + 20;
-                    
-                    // Draw photo frame - DOUBLED SIZE
-                    const photoWidth = canvas.width - 60;
-                    const photoHeight = 800; // Doubled from 400 to 800
-                    
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(30, yPos, photoWidth, photoHeight);
-                    
-                    ctx.strokeStyle = '#DC143C';
-                    ctx.lineWidth = 3;
-                    ctx.strokeRect(30, yPos, photoWidth, photoHeight);
-                    
-                    // Load and draw photo
-                    const img = new Image();
-                    img.src = reportData.foto;
-                    
-                    // Calculate aspect ratio to fit in frame
-                    const imgAspectRatio = img.width / img.height;
-                    const frameAspectRatio = photoWidth / photoHeight;
-                    
-                    let drawWidth, drawHeight, drawX, drawY;
-                    
-                    if (imgAspectRatio > frameAspectRatio) {
-                        // Image is wider than frame
-                        drawWidth = photoWidth;
-                        drawHeight = drawWidth / imgAspectRatio;
-                        drawX = 30;
-                        drawY = yPos + (photoHeight - drawHeight) / 2;
-                    } else {
-                        // Image is taller than frame
-                        drawHeight = photoHeight;
-                        drawWidth = drawHeight * imgAspectRatio;
-                        drawX = 30 + (photoWidth - drawWidth) / 2;
-                        drawY = yPos;
-                    }
-                    
-                    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
-                    
-                    // Add watermark to photo
-                    ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
-                    const watermarkText = 'RSUD Talaud 2026';
-                    ctx.font = 'bold 22px Arial';
-                    const textWidth = ctx.measureText(watermarkText).width;
-                    ctx.fillRect(canvas.width - textWidth - 60, yPos + photoHeight - 50, textWidth + 50, 50);
-                    
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillText(watermarkText, canvas.width - textWidth - 55, yPos + photoHeight - 20);
-                    
-                    yPos += photoHeight + 10; // Reduced spacing after photo to place footer directly below
-                }
+                // Kepatuhan Prosedur Keamanan
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Kepatuhan Prosedur Keamanan:', 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(reportData.kepatuhanKeamanan, evalValueStartX, yPos + 25);
+                yPos += 40;
             }
             
             // Footer - POSITIONED DIRECTLY AT THE BOTTOM
@@ -1709,19 +1571,24 @@
         // Format report for Telegram (simplified since the image contains all details)
         function formatReportForTelegram(reportData) {
             const timestamp = formatDate(reportData.tanggal);
-            let message = `<b>Laporan ${reportData.reportType === 'karyawan' ? 'Karyawan' : 'Pengawas'} - ${timestamp}</b>\n\n`;
+            let message = `<b>Laporan ${reportData.reportType === 'karyawan' ? 'Karyawan' : 'Kinerja'} - ${timestamp}</b>\n\n`;
             
             if (reportData.reportType === 'karyawan') {
                 message += `<b>Nama:</b> ${reportData.namaKaryawan}\n`;
                 message += `<b>Jenis:</b> ${reportData.jenisKaryawan}\n`;
                 message += `<b>Area:</b> ${reportData.areaKerja}\n`;
                 message += `<b>Shift:</b> ${reportData.shiftKerja}\n`;
-            } else {
-                message += `<b>Pengawas:</b> ${reportData.namaPengawas}\n`;
-                message += `<b>Tanggal:</b> ${reportData.tanggalPengawasan}\n`;
-                message += `<b>Area:</b> ${reportData.areaPengawasan}\n`;
-                message += `<b>Shift:</b> ${reportData.shiftPengawasan}\n`;
-                message += `<b>Karyawan:</b> ${reportData.karyawanDiawasi}\n`;
+            } else if (reportData.reportType === 'kinerja') {
+                message += `<b>Nama:</b> ${reportData.namaKaryawanKinerja}\n`;
+                message += `<b>Jenis:</b> ${reportData.jenisKaryawanKinerja}\n`;
+                message += `<b>Area:</b> ${reportData.areaKerjaKinerja}\n`;
+                message += `<b>Shift:</b> ${reportData.shiftKerjaKinerja}\n`;
+                message += `<b>Kehadiran:</b> ${reportData.kehadiran}\n`;
+                message += `<b>Kualitas:</b> ${reportData.kualitasPekerjaan}\n`;
+                message += `<b>Kepatuhan:</b> ${reportData.kepatuhanAturan}\n`;
+                message += `<b>Kerjasama:</b> ${reportData.kerjasamaTim}\n`;
+                message += `<b>Inisiatif:</b> ${reportData.inisiatif}\n`;
+                message += `<b>Keamanan:</b> ${reportData.kepatuhanKeamanan}\n`;
             }
             
             message += `\n<b>Detail lengkap ada di gambar laporan.</b>`;
@@ -1835,43 +1702,53 @@
                                 </div>
                             </div>
                         `;
-                    } else {
+                    } else if (report.reportType === 'kinerja') {
                         historyItem.innerHTML = `
                             <div class="history-header">
-                                <div class="history-title">Laporan Pengawas</div>
+                                <div class="history-title">Laporan Kinerja</div>
                                 <div class="history-date">${formattedDate}</div>
                             </div>
                             <div class="history-content">
                                 <div class="history-field">
-                                    <span class="history-label">Pengawas:</span>
-                                    <span class="history-value">${report.namaPengawas}</span>
+                                    <span class="history-label">Nama Karyawan:</span>
+                                    <span class="history-value">${report.namaKaryawanKinerja}</span>
                                 </div>
                                 <div class="history-field">
-                                    <span class="history-label">Tanggal Pengawasan:</span>
-                                    <span class="history-value">${report.tanggalPengawasan}</span>
+                                    <span class="history-label">Jenis Karyawan:</span>
+                                    <span class="history-value">${report.jenisKaryawanKinerja}</span>
                                 </div>
                                 <div class="history-field">
-                                    <span class="history-label">Area Pengawasan:</span>
-                                    <span class="history-value">${report.areaPengawasan}</span>
+                                    <span class="history-label">Area Kerja:</span>
+                                    <span class="history-value">${report.areaKerjaKinerja}</span>
                                 </div>
                                 <div class="history-field">
                                     <span class="history-label">Shift:</span>
-                                    <span class="history-value">${report.shiftPengawasan}</span>
+                                    <span class="history-value">${report.shiftKerjaKinerja}</span>
                                 </div>
                                 <div class="history-field">
-                                    <span class="history-label">Karyawan Diawasi:</span>
-                                    <span class="history-value">${report.karyawanDiawasi}</span>
+                                    <span class="history-label">Kehadiran:</span>
+                                    <span class="history-value">${report.kehadiran}</span>
                                 </div>
                                 <div class="history-field">
-                                    <span class="history-label">Hasil Pengawasan:</span>
-                                    <span class="history-value">${report.hasilPengawasan}</span>
+                                    <span class="history-label">Kualitas Pekerjaan:</span>
+                                    <span class="history-value">${report.kualitasPekerjaan}</span>
                                 </div>
-                                ${report.catatanEvaluasi ? `
                                 <div class="history-field">
-                                    <span class="history-label">Catatan Evaluasi:</span>
-                                    <span class="history-value">${report.catatanEvaluasi}</span>
+                                    <span class="history-label">Kepatuhan Aturan:</span>
+                                    <span class="history-value">${report.kepatuhanAturan}</span>
                                 </div>
-                                ` : ''}
+                                <div class="history-field">
+                                    <span class="history-label">Kerjasama Tim:</span>
+                                    <span class="history-value">${report.kerjasamaTim}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Inisiatif:</span>
+                                    <span class="history-value">${report.inisiatif}</span>
+                                </div>
+                                <div class="history-field">
+                                    <span class="history-label">Kepatuhan Keamanan:</span>
+                                    <span class="history-value">${report.kepatuhanKeamanan}</span>
+                                </div>
                             </div>
                             <div class="history-footer">
                                 <div class="history-status">Tersimpan</div>
@@ -1940,7 +1817,7 @@
             form.reset();
             
             // Clear photo preview
-            const previewId = formId === 'formLaporanKaryawan' ? 'fotoPreviewKaryawan' : 'fotoPreviewPengawas';
+            const previewId = formId === 'formLaporanKaryawan' ? 'fotoPreviewKaryawan' : 'fotoPreviewKinerja';
             document.getElementById(previewId).innerHTML = '';
         }
 
@@ -1980,36 +1857,25 @@
             sendReport(formData);
         });
 
-        // Handle form submit laporan pengawas - OPTIMIZED
-        document.getElementById('formLaporanPengawas').addEventListener('submit', async function(e) {
+        // Handle form submit laporan kinerja - OPTIMIZED (tanpa komentar dan dokumentasi)
+        document.getElementById('formLaporanKinerja').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            const fotoInput = document.getElementById('fotoPengawasan');
-            let fotoBase64 = null;
-            
-            // Read photo if exists
-            if (fotoInput.files && fotoInput.files[0]) {
-                try {
-                    showNotification('Memproses foto...', 'warning');
-                    fotoBase64 = await fileToBase64(fotoInput.files[0]);
-                } catch (err) {
-                    showNotification('Gagal memproses foto', 'error');
-                    return;
-                }
-            }
             
             const formData = {
                 id: Date.now(),
-                namaPengawas: document.getElementById('namaPengawas').value.toUpperCase(),
-                tanggalPengawasan: document.getElementById('tanggalPengawasan').value,
-                areaPengawasan: document.getElementById('areaPengawasan').value,
-                shiftPengawasan: document.getElementById('shiftPengawasan').value,
-                karyawanDiawasi: document.getElementById('karyawanDiawasi').value.toUpperCase(),
-                hasilPengawasan: document.getElementById('hasilPengawasan').value.toUpperCase(),
-                catatanEvaluasi: document.getElementById('catatanEvaluasi').value.toUpperCase(),
+                namaKaryawanKinerja: document.getElementById('namaKaryawanKinerja').value.toUpperCase(),
+                jenisKaryawanKinerja: document.getElementById('jenisKaryawanKinerja').value,
+                areaKerjaKinerja: document.getElementById('areaKerjaKinerja').value,
+                shiftKerjaKinerja: document.getElementById('shiftKerjaKinerja').value,
+                kehadiran: document.getElementById('kehadiran').value,
+                kualitasPekerjaan: document.getElementById('kualitasPekerjaan').value,
+                kepatuhanAturan: document.getElementById('kepatuhanAturan').value,
+                kerjasamaTim: document.getElementById('kerjasamaTim').value,
+                inisiatif: document.getElementById('inisiatif').value,
+                kepatuhanKeamanan: document.getElementById('kepatuhanKeamanan').value,
                 tanggal: new Date().toISOString(),
-                foto: fotoBase64,
-                reportType: 'pengawas'
+                foto: null, // Tidak ada foto untuk laporan kinerja
+                reportType: 'kinerja'
             };
             
             // Store current report data globally
@@ -2029,10 +1895,7 @@
                 const reportImageBlob = await createReportImageFromPreview(formData);
                 
                 // Determine configuration based on report type
-                const config = formData.reportType === 'pengawas' ? {
-                    chatId: TELEGRAM_CHAT_ID_SUPERVISOR,
-                    apiUrl: TELEGRAM_API_URL_SUPERVISOR
-                } : {
+                const config = {
                     chatId: TELEGRAM_CHAT_ID_EMPLOYEE,
                     apiUrl: TELEGRAM_API_URL_EMPLOYEE
                 };
@@ -2045,53 +1908,38 @@
                     saveReportToStorage(formData);
                     
                     // Reset form after successful submission
-                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanPengawas');
+                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanKinerja');
                     
                     // Show notification that report was sent successfully
                     showNotification('Laporan berhasil terkirim!', 'success');
                     
-                    // For employee report, immediately redirect to home page
-                    if (formData.reportType === 'karyawan') {
-                        showPage('beranda');
-                    } else {
-                        // For supervisor report, show the overlay
-                        showSuccessOverlay();
-                    }
+                    // Redirect to home page
+                    showPage('beranda');
                 } else {
                     // Save to localStorage even if sending failed
                     saveReportToStorage(formData);
                     
                     // Reset form after successful submission
-                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanPengawas');
+                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanKinerja');
                     
                     // Show notification that report was sent successfully
                     showNotification('Laporan berhasil terkirim!', 'success');
                     
-                    // For employee report, immediately redirect to home page
-                    if (formData.reportType === 'karyawan') {
-                        showPage('beranda');
-                    } else {
-                        // For supervisor report, show the overlay
-                        showSuccessOverlay();
-                    }
+                    // Redirect to home page
+                    showPage('beranda');
                 }
             } catch (error) {
                 // Save to localStorage even if there's an error
                 saveReportToStorage(formData);
                 
                 // Reset form after successful submission
-                resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanPengawas');
+                resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanKinerja');
                 
                 // Show notification that report was sent successfully
                 showNotification('Laporan berhasil terkirim!', 'success');
                 
-                // For employee report, immediately redirect to home page
-                if (formData.reportType === 'karyawan') {
-                    showPage('beranda');
-                } else {
-                    // For supervisor report, show the overlay
-                    showSuccessOverlay();
-                }
+                // Redirect to home page
+                showPage('beranda');
             }
         }
 
@@ -2121,13 +1969,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Set today's date as default for supervisor report
-            const today = new Date().toISOString().split('T')[0];
-            const dateInput = document.getElementById('tanggalPengawasan');
-            if (dateInput) {
-                dateInput.value = today;
-                dateInput.max = today; // Prevent selecting future dates
-            }
+            // No need for date initialization since we removed supervisor report
         });
 
         // Prevent zoom
