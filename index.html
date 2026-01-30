@@ -877,7 +877,7 @@
             </div>
         </div>
 
-        <!-- Form Laporan Karyawan -->
+        <!-- Form Laporan Karyawan (Diperbaiki tanpa Kegiatan Harian) -->
         <div id="laporanKaryawan" class="page" style="display: none;">
             <div class="page-title">
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
@@ -900,7 +900,12 @@
                         </h3>
                         <div class="form-group">
                             <label class="form-label">Nama Karyawan</label>
-                            <input type="text" class="form-control" id="namaKaryawan" required placeholder="Masukkan nama karyawan">
+                            <div class="input-group">
+                                <select class="form-select" id="namaKaryawan" required onchange="handleEmployeeSelection(this, 'namaKaryawanInput')">
+                                    <option value="">Pilih Nama Karyawan</option>
+                                </select>
+                                <input type="text" class="form-control ms-2" id="namaKaryawanInput" style="display:none;" placeholder="Masukkan nama karyawan">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Jenis Karyawan</label>
@@ -1005,7 +1010,12 @@
                         </h3>
                         <div class="form-group">
                             <label class="form-label">Nama Karyawan</label>
-                            <input type="text" class="form-control" id="namaKaryawanKinerja" required placeholder="Masukkan nama karyawan">
+                            <div class="input-group">
+                                <select class="form-select" id="namaKaryawanKinerja" required onchange="handleEmployeeSelection(this, 'namaKaryawanKinerjaInput')">
+                                    <option value="">Pilih Nama Karyawan</option>
+                                </select>
+                                <input type="text" class="form-control ms-2" id="namaKaryawanKinerjaInput" style="display:none;" placeholder="Masukkan nama karyawan">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Jenis Karyawan</label>
@@ -1148,7 +1158,7 @@
             </div>
         </div>
 
-        <!-- Form Daftar Terima Barang (Sederhana) -->
+        <!-- Form Daftar Terima Barang (Diperbaiki tanpa Informasi Barang) -->
         <div id="laporanBarang" class="page" style="display: none;">
             <div class="page-title">
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
@@ -1171,7 +1181,12 @@
                         </h3>
                         <div class="form-group">
                             <label class="form-label">Nama Karyawan</label>
-                            <input type="text" class="form-control" id="namaKaryawanBarang" required placeholder="Masukkan nama karyawan">
+                            <div class="input-group">
+                                <select class="form-select" id="namaKaryawanBarang" required onchange="handleEmployeeSelection(this, 'namaKaryawanBarangInput')">
+                                    <option value="">Pilih Nama Karyawan</option>
+                                </select>
+                                <input type="text" class="form-control ms-2" id="namaKaryawanBarangInput" style="display:none;" placeholder="Masukkan nama karyawan">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Jenis Karyawan</label>
@@ -1324,6 +1339,76 @@
         let currentReportType = "";
         let currentReportData = null;
         let isSubmitting = false; // Flag to prevent double submission
+        
+        // Array nama karyawan yang sudah diurutkan abjad
+        const employeeNames = [
+            "AHNES RIUNG",
+            "ALFRIDA RIUNG",
+            "ANITJE MAGENDA",
+            "DEDI HUMAPI",
+            "DINA MISAH",
+            "EDUARDO SAMBE",
+            "FRCILYA TABARU",
+            "GREA LIISAN",
+            "HERINCE APITA",
+            "JHOSUA MALENDES",
+            "JUNITJE PASIAK",
+            "KRISTINA LOSOH",
+            "KRSITY ADAM",
+            "MELIANA TALUNGKE",
+            "MEYER HANA",
+            "NOLDI MAGENDA",
+            "ROSITA MAMONTO",
+            "SEYLIA BINEI",
+            "STELIANO LESSI",
+            "STEIVRA SARIPADA",
+            "SURYANA SARENDENG",
+            "TRIPENA MAMUAYA",
+            "VIKEMASYE RESSO",
+            "WEHELMINA BINEI",
+            "YOLANDA TATIBI",
+            "YOSUA TAMODIA",
+            "YUNITA BESINUNG",
+            "YOGLI NANGARO",
+            "YULIN RIUNG",
+            "YULISTA SILAA",
+            "YUNIS BAWENGKET"
+        ];
+
+        // Fungsi untuk membuat dropdown nama karyawan
+        function createEmployeeDropdown(selectId, inputId) {
+            const select = document.getElementById(selectId);
+            select.innerHTML = '<option value="">Pilih Nama Karyawan</option>';
+            
+            employeeNames.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                select.appendChild(option);
+            });
+            
+            // Tambahkan opsi "Lainnya"
+            const otherOption = document.createElement('option');
+            otherOption.value = 'lainnya';
+            otherOption.textContent = 'Lainnya (Isi Manual)';
+            select.appendChild(otherOption);
+        }
+
+        // Fungsi untuk menangani pemilihan nama karyawan
+        function handleEmployeeSelection(select, inputId) {
+            const input = document.getElementById(inputId);
+            
+            if (select.value === 'lainnya') {
+                select.style.display = 'none';
+                input.style.display = 'block';
+                input.focus();
+                input.value = '';
+            } else {
+                input.style.display = 'none';
+                select.style.display = 'block';
+                input.value = select.value;
+            }
+        }
 
         // Show page function
         function showPage(pageId) {
@@ -1487,7 +1572,7 @@
         function normalizeReport(report) {
             if (report.reportType === 'karyawan') {
                 return {
-                    name: report.namaKaryawan,
+                    name: report.namaKaryawan || report.namaKaryawanInput,
                     type: report.jenisKaryawan,
                     area: report.areaKerja,
                     shift: report.shiftKerja,
@@ -1495,18 +1580,19 @@
                 };
             } else if (report.reportType === 'kinerja') {
                 return {
-                    name: report.namaKaryawanKinerja,
+                    name: report.namaKaryawanKinerja || report.namaKaryawanKinerjaInput,
                     type: report.jenisKaryawanKinerja,
                     area: report.areaKerjaKinerja,
                     shift: report.shiftKerjaKinerja,
-                    date: report.tanggal
+                    date: report.tanggal,
+                    kehadiran: report.kehadiran,
+                    kualitas: report.kualitasPekerjaan
                 };
             } else if (report.reportType === 'barang') {
                 return {
-                    name: report.namaKaryawanBarang,
+                    name: report.namaKaryawanBarang || report.namaKaryawanBarangInput,
                     type: report.jenisKaryawanBarang,
                     area: report.areaKerjaBarang,
-                    shift: report.shiftKerjaBarang,
                     date: report.tanggal
                 };
             }
@@ -1724,12 +1810,32 @@
                             <span class="history-value">${report.areaKerjaKinerja}</span>
                         </div>
                         <div class="history-field">
+                            <span class="history-label">Shift:</span>
+                            <span class="history-value">${report.shiftKerjaKinerja}</span>
+                        </div>
+                        <div class="history-field">
                             <span class="history-label">Kehadiran:</span>
                             <span class="history-value">${report.kehadiran}</span>
                         </div>
                         <div class="history-field">
-                            <span class="history-label">Kualitas:</span>
+                            <span class="history-label">Kualitas Pekerjaan:</span>
                             <span class="history-value">${report.kualitasPekerjaan}</span>
+                        </div>
+                        <div class="history-field">
+                            <span class="history-label">Kepatuhan Aturan:</span>
+                            <span class="history-value">${report.kepatuhanAturan}</span>
+                        </div>
+                        <div class="history-field">
+                            <span class="history-label">Kerjasama Tim:</span>
+                            <span class="history-value">${report.kerjasamaTim}</span>
+                        </div>
+                        <div class="history-field">
+                            <span class="history-label">Inisiatif:</span>
+                            <span class="history-value">${report.inisiatif}</span>
+                        </div>
+                        <div class="history-field">
+                            <span class="history-label">Kepatuhan Keamanan:</span>
+                            <span class="history-value">${report.kepatuhanKeamanan}</span>
                         </div>
                     `;
                 } else if (report.reportType === 'barang') {
@@ -1809,6 +1915,22 @@
             if (previewIds[formId]) {
                 document.getElementById(previewIds[formId]).innerHTML = '';
             }
+            
+            // Reset nama karyawan dropdown dan input
+            const dropdownIds = {
+                'formLaporanKaryawan': ['namaKaryawan', 'namaKaryawanInput'],
+                'formLaporanKinerja': ['namaKaryawanKinerja', 'namaKaryawanKinerjaInput'],
+                'formLaporanBarang': ['namaKaryawanBarang', 'namaKaryawanBarangInput']
+            };
+            
+            if (dropdownIds[formId]) {
+                dropdownIds[formId].forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.style.display = '';
+                    }
+                });
+            }
         }
 
         // Helper: Create image from preview modal content - OPTIMIZED FOR SPEED
@@ -1838,9 +1960,14 @@
             ctx.font = 'bold 28px Arial';
             ctx.textAlign = 'center';
             
-            const title = reportData.reportType === 'barang' ? 'Daftar Terima Barang RSUD Talaud 2026' : 
-                         (reportData.reportType === 'karyawan' ? 'Laporan Karyawan Outsourcing RSUD Talaud 2026' : 
-                         'Laporan Kinerja Karyawan Outsourcing RSUD Talaud 2026');
+            let title = '';
+            if (reportData.reportType === 'barang') {
+                title = 'Daftar Terima Barang RSUD Talaud 2026';
+            } else if (reportData.reportType === 'karyawan') {
+                title = 'Laporan Karyawan Outsourcing RSUD Talaud 2026';
+            } else {
+                title = 'Laporan Kinerja Karyawan Outsourcing RSUD Talaud 2026';
+            }
             
             const words = title.split(' ');
             let line = '';
@@ -1889,7 +2016,7 @@
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Nama Karyawan:', 30, yPos + 25);
                 ctx.font = '22px Arial';
-                ctx.fillText(reportData.namaKaryawanBarang, valueStartX, yPos + 25);
+                ctx.fillText(reportData.namaKaryawanBarang || reportData.namaKaryawanBarangInput, valueStartX, yPos + 25);
                 yPos += lineHeight;
                 
                 ctx.fillStyle = '#2c3e50';
@@ -2031,8 +2158,118 @@
             }
         }
 
-        // Function to handle form submission and immediate reset
-        async function handleFormSubmission(formId, formData, reportType) {
+        document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Prevent double submission
+            if (isSubmitting) return;
+            isSubmitting = true;
+            
+            const namaKaryawan = document.getElementById('namaKaryawan').value;
+            const namaKaryawanInput = document.getElementById('namaKaryawanInput').value;
+            
+            const fotoInput = document.getElementById('fotoLaporan');
+            let fotoBase64 = null;
+            
+            if (fotoInput.files && fotoInput.files[0]) {
+                try {
+                    showNotification('Memproses foto...', 'warning');
+                    fotoBase64 = await fileToBase64(fotoInput.files[0]);
+                } catch (err) {
+                    showNotification('Gagal memproses foto', 'error');
+                    isSubmitting = false;
+                    return;
+                }
+            }
+            
+            const formData = {
+                id: Date.now(),
+                namaKaryawan: namaKaryawan,
+                namaKaryawanInput: namaKaryawanInput,
+                jenisKaryawan: document.getElementById('jenisKaryawan').value,
+                areaKerja: document.getElementById('areaKerja').value,
+                shiftKerja: document.getElementById('shiftKerja').value,
+                tanggal: new Date().toISOString(),
+                foto: fotoBase64,
+                reportType: 'karyawan'
+            };
+            
+            currentReportData = formData;
+            sendReport(formData);
+        });
+
+        document.getElementById('formLaporanKinerja').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Prevent double submission
+            if (isSubmitting) return;
+            isSubmitting = true;
+            
+            const namaKaryawanKinerja = document.getElementById('namaKaryawanKinerja').value;
+            const namaKaryawanKinerjaInput = document.getElementById('namaKaryawanKinerjaInput').value;
+            
+            const formData = {
+                id: Date.now(),
+                namaKaryawanKinerja: namaKaryawanKinerja,
+                namaKaryawanKinerjaInput: namaKaryawanKinerjaInput,
+                jenisKaryawanKinerja: document.getElementById('jenisKaryawanKinerja').value,
+                areaKerjaKinerja: document.getElementById('areaKerjaKinerja').value,
+                shiftKerjaKinerja: document.getElementById('shiftKerjaKinerja').value,
+                kehadiran: document.getElementById('kehadiran').value,
+                kualitasPekerjaan: document.getElementById('kualitasPekerjaan').value,
+                kepatuhanAturan: document.getElementById('kepatuhanAturan').value,
+                kerjasamaTim: document.getElementById('kerjasamaTim').value,
+                inisiatif: document.getElementById('inisiatif').value,
+                kepatuhanKeamanan: document.getElementById('kepatuhanKeamanan').value,
+                tanggal: new Date().toISOString(),
+                foto: null,
+                reportType: 'kinerja'
+            };
+            
+            currentReportData = formData;
+            sendReport(formData);
+        });
+
+        document.getElementById('formLaporanBarang').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Prevent double submission
+            if (isSubmitting) return;
+            isSubmitting = true;
+            
+            const namaKaryawanBarang = document.getElementById('namaKaryawanBarang').value;
+            const namaKaryawanBarangInput = document.getElementById('namaKaryawanBarangInput').value;
+            
+            const fotoInput = document.getElementById('fotoBarang');
+            let fotoBase64 = null;
+            
+            if (fotoInput.files && fotoInput.files[0]) {
+                try {
+                    showNotification('Memproses foto...', 'warning');
+                    fotoBase64 = await fileToBase64(fotoInput.files[0]);
+                } catch (err) {
+                    showNotification('Gagal memproses foto', 'error');
+                    isSubmitting = false;
+                    return;
+                }
+            }
+            
+            const formData = {
+                id: Date.now(),
+                namaKaryawanBarang: namaKaryawanBarang,
+                namaKaryawanBarangInput: namaKaryawanBarangInput,
+                jenisKaryawanBarang: document.getElementById('jenisKaryawanBarang').value,
+                areaKerjaBarang: document.getElementById('areaKerjaBarang').value,
+                tanggal: new Date().toISOString(),
+                foto: fotoBase64,
+                reportType: 'barang'
+            };
+            
+            currentReportData = formData;
+            sendReport(formData);
+        });
+
+        async function sendReport(formData) {
             try {
                 showNotification('Mengirim laporan...', 'warning');
                 
@@ -2053,11 +2290,16 @@
                 // Show success notification
                 showNotification('Laporan berhasil terkirim!', 'success');
                 
-                // Reset form immediately
-                resetForm(formId);
-                
-                // Navigate to beranda page
-                showPage('beranda');
+                // Reset form after a delay
+                setTimeout(() => {
+                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 
+                             (formData.reportType === 'kinerja' ? 'formLaporanKinerja' : 'formLaporanBarang'));
+                    
+                    // Navigate to beranda page after form reset
+                    setTimeout(() => {
+                        showPage('beranda');
+                    }, 500);
+                }, 2000);
                 
             } catch (error) {
                 // Save to local storage even if Telegram fails
@@ -2066,114 +2308,26 @@
                 // Show success notification
                 showNotification('Laporan berhasil terkirim!', 'success');
                 
-                // Reset form immediately
-                resetForm(formId);
-                
-                // Navigate to beranda page
-                showPage('beranda');
+                // Reset form after a delay
+                setTimeout(() => {
+                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 
+                             (formData.reportType === 'kinerja' ? 'formLaporanKinerja' : 'formLaporanBarang'));
+                    
+                    // Navigate to beranda page after form reset
+                    setTimeout(() => {
+                        showPage('beranda');
+                    }, 500);
+                }, 2000);
+            } finally {
+                isSubmitting = false;
             }
         }
 
-        // Event listeners for all forms
-        document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Prevent double submission
-            if (isSubmitting) return;
-            isSubmitting = true;
-            
-            const fotoInput = document.getElementById('fotoLaporan');
-            let fotoBase64 = null;
-            
-            if (fotoInput.files && fotoInput.files[0]) {
-                try {
-                    fotoBase64 = await fileToBase64(fotoInput.files[0]);
-                } catch (err) {
-                    showNotification('Gagal memproses foto', 'error');
-                    isSubmitting = false;
-                    return;
-                }
-            }
-            
-            const formData = {
-                id: Date.now(),
-                namaKaryawan: document.getElementById('namaKaryawan').value.toUpperCase(),
-                jenisKaryawan: document.getElementById('jenisKaryawan').value,
-                areaKerja: document.getElementById('areaKerja').value,
-                shiftKerja: document.getElementById('shiftKerja').value,
-                tanggal: new Date().toISOString(),
-                foto: fotoBase64,
-                reportType: 'karyawan'
-            };
-            
-            await handleFormSubmission('formLaporanKaryawan', formData, 'karyawan');
-            isSubmitting = false;
-        });
-
-        document.getElementById('formLaporanKinerja').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Prevent double submission
-            if (isSubmitting) return;
-            isSubmitting = true;
-            
-            const formData = {
-                id: Date.now(),
-                namaKaryawanKinerja: document.getElementById('namaKaryawanKinerja').value.toUpperCase(),
-                jenisKaryawanKinerja: document.getElementById('jenisKaryawanKinerja').value,
-                areaKerjaKinerja: document.getElementById('areaKerjaKinerja').value,
-                shiftKerjaKinerja: document.getElementById('shiftKerjaKinerja').value,
-                kehadiran: document.getElementById('kehadiran').value,
-                kualitasPekerjaan: document.getElementById('kualitasPekerjaan').value,
-                kepatuhanAturan: document.getElementById('kepatuhanAturan').value,
-                kerjasamaTim: document.getElementById('kerjasamaTim').value,
-                inisiatif: document.getElementById('inisiatif').value,
-                kepatuhanKeamanan: document.getElementById('kepatuhanKeamanan').value,
-                tanggal: new Date().toISOString(),
-                foto: null,
-                reportType: 'kinerja'
-            };
-            
-            await handleFormSubmission('formLaporanKinerja', formData, 'kinerja');
-            isSubmitting = false;
-        });
-
-        document.getElementById('formLaporanBarang').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Prevent double submission
-            if (isSubmitting) return;
-            isSubmitting = true;
-            
-            const fotoInput = document.getElementById('fotoBarang');
-            let fotoBase64 = null;
-            
-            if (fotoInput.files && fotoInput.files[0]) {
-                try {
-                    fotoBase64 = await fileToBase64(fotoInput.files[0]);
-                } catch (err) {
-                    showNotification('Gagal memproses foto', 'error');
-                    isSubmitting = false;
-                    return;
-                }
-            }
-            
-            const formData = {
-                id: Date.now(),
-                namaKaryawanBarang: document.getElementById('namaKaryawanBarang').value.toUpperCase(),
-                jenisKaryawanBarang: document.getElementById('jenisKaryawanBarang').value,
-                areaKerjaBarang: document.getElementById('areaKerjaBarang').value,
-                tanggal: new Date().toISOString(),
-                foto: fotoBase64,
-                reportType: 'barang'
-            };
-            
-            await handleFormSubmission('formLaporanBarang', formData, 'barang');
-            isSubmitting = false;
-        });
-
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialization if needed
+            // Initialize dropdowns for employee names
+            createEmployeeDropdown('namaKaryawan', 'namaKaryawanInput');
+            createEmployeeDropdown('namaKaryawanKinerja', 'namaKaryawanKinerjaInput');
+            createEmployeeDropdown('namaKaryawanBarang', 'namaKaryawanBarangInput');
         });
 
         let lastTouchEnd = 0;
