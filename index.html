@@ -642,7 +642,7 @@
             }
         }
 
-        /* Success overlay with motivation - OPTIMIZED FOR SPEED */
+        /* Success overlay with motivation */
         .success-overlay {
             position: fixed;
             top: 0;
@@ -780,12 +780,10 @@
             <i class="bi bi-check-circle-fill success-icon"></i>
             <div class="success-title">Laporan Berhasil Terkirim!</div>
             <div class="success-message">
-                <p class="highlight">Karyawan tidak usah menunggu</p> karena laporan telah masuk ke admin dan akan di proses lanjut.</p>
-                <p>Silahkan melanjutkan pekerjaan dengan baik dan tetap semangat.</p>
-                <p>Riwayat laporan Anda telah tersimpan secara permanen di perangkat ini.</p>
+                <p class="highlight">Form telah di-reset.</p> Silahkan lanjutkan input data berikutnya.</p>
             </div>
             <div class="success-countdown" id="countdownText">
-                Kembali ke beranda dalam <span id="countdownNumber">3</span> detik...
+                Menutup otomatis dalam <span id="countdownNumber">2</span> detik...
             </div>
         </div>
     </div>
@@ -877,7 +875,7 @@
             </div>
         </div>
 
-        <!-- Form Laporan Karyawan (Diperbaiki tanpa Kegiatan Harian) -->
+        <!-- Form Laporan Karyawan -->
         <div id="laporanKaryawan" class="page" style="display: none;">
             <div class="page-title">
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
@@ -987,7 +985,7 @@
             </div>
         </div>
 
-        <!-- Form Laporan Kinerja (Disederhanakan tanpa komentar dan dokumentasi) -->
+        <!-- Form Laporan Kinerja -->
         <div id="laporanKinerja" class="page" style="display: none;">
             <div class="page-title">
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
@@ -1158,7 +1156,7 @@
             </div>
         </div>
 
-        <!-- Form Daftar Terima Barang (Diperbaiki tanpa Informasi Barang) -->
+        <!-- Form Daftar Terima Barang -->
         <div id="laporanBarang" class="page" style="display: none;">
             <div class="page-title">
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
@@ -1316,10 +1314,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // ==========================================
-        // TELEGRAM CONFIGURATION
+        // TELEGRAM CONFIGURATION (UPDATED AS REQUESTED)
         // ==========================================
-        const TELEGRAM_CHAT_ID_EMPLOYEE = "-1003639056138";
-        const TELEGRAM_BOT_TOKEN_EMPLOYEE = "8421862711:AAHkv8OvzGQLjIv7Jc1BBKqAI_C10SpPNAo";
+        const TELEGRAM_CHAT_ID_EMPLOYEE = "-1003637925420";
+        const TELEGRAM_BOT_TOKEN_EMPLOYEE = "8355189455:AAGqJXf_OCoPWx11CSyeUk4fLhif156HjX4";
         const TELEGRAM_API_URL_EMPLOYEE = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_EMPLOYEE}`;
         
         // ==========================================
@@ -1903,37 +1901,50 @@
 
         function resetForm(formId) {
             const form = document.getElementById(formId);
-            form.reset();
-            
-            // Reset photo previews
-            const previewIds = {
-                'formLaporanKaryawan': 'fotoPreviewKaryawan',
-                'formLaporanKinerja': 'fotoPreviewKinerja',
-                'formLaporanBarang': 'fotoPreviewBarang'
-            };
-            
-            if (previewIds[formId]) {
-                document.getElementById(previewIds[formId]).innerHTML = '';
-            }
-            
-            // Reset nama karyawan dropdown dan input
-            const dropdownIds = {
-                'formLaporanKaryawan': ['namaKaryawan', 'namaKaryawanInput'],
-                'formLaporanKinerja': ['namaKaryawanKinerja', 'namaKaryawanKinerjaInput'],
-                'formLaporanBarang': ['namaKaryawanBarang', 'namaKaryawanBarangInput']
-            };
-            
-            if (dropdownIds[formId]) {
-                dropdownIds[formId].forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.style.display = '';
-                    }
+            if (form) {
+                form.reset();
+                
+                // Reset file inputs explicitly to ensure 'change' event fires if same file selected again
+                const fileInputs = form.querySelectorAll('input[type="file"]');
+                fileInputs.forEach(input => {
+                    input.value = '';
                 });
+
+                // Reset photo previews
+                const previewIds = {
+                    'formLaporanKaryawan': 'fotoPreviewKaryawan',
+                    'formLaporanKinerja': 'fotoPreviewKinerja',
+                    'formLaporanBarang': 'fotoPreviewBarang'
+                };
+                
+                if (previewIds[formId]) {
+                    document.getElementById(previewIds[formId]).innerHTML = '';
+                }
+                
+                // Reset nama karyawan dropdown dan input visibility
+                const dropdownIds = {
+                    'formLaporanKaryawan': ['namaKaryawan', 'namaKaryawanInput'],
+                    'formLaporanKinerja': ['namaKaryawanKinerja', 'namaKaryawanKinerjaInput'],
+                    'formLaporanBarang': ['namaKaryawanBarang', 'namaKaryawanBarangInput']
+                };
+                
+                if (dropdownIds[formId]) {
+                    const selectId = dropdownIds[formId][0];
+                    const inputId = dropdownIds[formId][1];
+                    const selectEl = document.getElementById(selectId);
+                    const inputEl = document.getElementById(inputId);
+                    
+                    if(selectEl && inputEl) {
+                        selectEl.style.display = 'block';
+                        selectEl.value = '';
+                        inputEl.style.display = 'none';
+                        inputEl.value = '';
+                    }
+                }
             }
         }
 
-        // Helper: Create image from preview modal content - OPTIMIZED FOR SPEED
+        // Helper: Create image from form data for Telegram
         async function createReportImageFromPreview(reportData) {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -1997,6 +2008,19 @@
             let yPos = 140;
             const sectionHeight = 40;
             
+            // Helper to draw label-value pairs
+            const drawField = (label, value) => {
+                const labelWidth = 220;
+                const lineHeight = 40;
+                
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText(label, 30, yPos + 25);
+                ctx.font = '22px Arial';
+                ctx.fillText(value, 30 + labelWidth, yPos + 25);
+                yPos += lineHeight;
+            };
+
             if (reportData.reportType === 'barang') {
                 // Identitas Karyawan section
                 ctx.fillStyle = '#f8f9fa';
@@ -2008,30 +2032,11 @@
                 
                 yPos += sectionHeight + 30;
                 
-                const labelWidth = 180;
-                const valueStartX = 30 + labelWidth + 20;
-                const lineHeight = 40;
-                
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Nama Karyawan:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.namaKaryawanBarang || reportData.namaKaryawanBarangInput, valueStartX, yPos + 25);
-                yPos += lineHeight;
-                
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Jenis Karyawan:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.jenisKaryawanBarang, valueStartX, yPos + 25);
-                yPos += lineHeight;
-                
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Area Kerja:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.areaKerjaBarang, valueStartX, yPos + 25);
-                yPos += 60;
+                const name = reportData.namaKaryawanBarang || reportData.namaKaryawanBarangInput;
+                drawField('Nama Karyawan:', name);
+                drawField('Jenis Karyawan:', reportData.jenisKaryawanBarang);
+                drawField('Area Kerja:', reportData.areaKerjaBarang);
+                yPos += 30;
                 
                 // Add photo if available
                 if (reportData.foto) {
@@ -2087,9 +2092,112 @@
                     
                     yPos += photoHeight + 10;
                 }
-            } else {
-                // Existing code for karyawan and kinerja reports
-                // ... (keep the existing code for non-barang reports)
+            } else if (reportData.reportType === 'karyawan') {
+                // Identitas Karyawan section
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                ctx.fillStyle = '#DC143C';
+                ctx.font = 'bold 26px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 30);
+                
+                yPos += sectionHeight + 30;
+
+                const name = reportData.namaKaryawan || reportData.namaKaryawanInput;
+                drawField('Nama Karyawan:', name);
+                drawField('Jenis Karyawan:', reportData.jenisKaryawan);
+                drawField('Area Kerja:', reportData.areaKerja);
+                drawField('Shift Kerja:', reportData.shiftKerja);
+                yPos += 30;
+
+                // Add photo if available
+                if (reportData.foto) {
+                    ctx.fillStyle = '#f8f9fa';
+                    ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                    ctx.fillStyle = '#DC143C';
+                    ctx.font = 'bold 26px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText('FOTO KEGIATAN', 30, yPos + 30);
+                    
+                    yPos += sectionHeight + 20;
+                    
+                    const photoWidth = canvas.width - 60;
+                    const photoHeight = 600;
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(30, yPos, photoWidth, photoHeight);
+                    
+                    ctx.strokeStyle = '#DC143C';
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(30, yPos, photoWidth, photoHeight);
+                    
+                    const img = new Image();
+                    img.src = reportData.foto;
+                    
+                    const imgAspectRatio = img.width / img.height;
+                    const frameAspectRatio = photoWidth / photoHeight;
+                    
+                    let drawWidth, drawHeight, drawX, drawY;
+                    
+                    if (imgAspectRatio > frameAspectRatio) {
+                        drawWidth = photoWidth;
+                        drawHeight = drawWidth / imgAspectRatio;
+                        drawX = 30;
+                        drawY = yPos + (photoHeight - drawHeight) / 2;
+                    } else {
+                        drawHeight = photoHeight;
+                        drawWidth = drawHeight * imgAspectRatio;
+                        drawX = 30 + (photoWidth - drawWidth) / 2;
+                        drawY = yPos;
+                    }
+                    
+                    ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+                    
+                    ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
+                    const watermarkText = 'RSUD Talaud 2026';
+                    ctx.font = 'bold 22px Arial';
+                    const textWidth = ctx.measureText(watermarkText).width;
+                    ctx.fillRect(canvas.width - textWidth - 60, yPos + photoHeight - 50, textWidth + 50, 50);
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillText(watermarkText, canvas.width - textWidth - 55, yPos + photoHeight - 20);
+                    
+                    yPos += photoHeight + 10;
+                }
+            } else if (reportData.reportType === 'kinerja') {
+                // Identitas Karyawan section
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                ctx.fillStyle = '#DC143C';
+                ctx.font = 'bold 26px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 30);
+                
+                yPos += sectionHeight + 30;
+
+                const name = reportData.namaKaryawanKinerja || reportData.namaKaryawanKinerjaInput;
+                drawField('Nama Karyawan:', name);
+                drawField('Jenis Karyawan:', reportData.jenisKaryawanKinerja);
+                drawField('Area Kerja:', reportData.areaKerjaKinerja);
+                drawField('Shift Kerja:', reportData.shiftKerjaKinerja);
+                yPos += 20;
+
+                // Evaluasi section
+                ctx.fillStyle = '#f8f9fa';
+                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
+                ctx.fillStyle = '#DC143C';
+                ctx.font = 'bold 26px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('EVALUASI KINERJA', 30, yPos + 30);
+
+                yPos += sectionHeight + 30;
+
+                drawField('Kehadiran:', reportData.kehadiran);
+                drawField('Kualitas Pekerjaan:', reportData.kualitasPekerjaan);
+                drawField('Kepatuhan Aturan:', reportData.kepatuhanAturan);
+                drawField('Kerjasama Tim:', reportData.kerjasamaTim);
+                drawField('Inisiatif:', reportData.inisiatif);
+                drawField('Kepatuhan Keamanan:', reportData.kepatuhanKeamanan);
             }
             
             // Footer
@@ -2161,7 +2269,6 @@
         document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Prevent double submission
             if (isSubmitting) return;
             isSubmitting = true;
             
@@ -2195,13 +2302,12 @@
             };
             
             currentReportData = formData;
-            sendReport(formData);
+            sendReport(formData, 'formLaporanKaryawan');
         });
 
         document.getElementById('formLaporanKinerja').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Prevent double submission
             if (isSubmitting) return;
             isSubmitting = true;
             
@@ -2227,13 +2333,12 @@
             };
             
             currentReportData = formData;
-            sendReport(formData);
+            sendReport(formData, 'formLaporanKinerja');
         });
 
         document.getElementById('formLaporanBarang').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Prevent double submission
             if (isSubmitting) return;
             isSubmitting = true;
             
@@ -2266,10 +2371,10 @@
             };
             
             currentReportData = formData;
-            sendReport(formData);
+            sendReport(formData, 'formLaporanBarang');
         });
 
-        async function sendReport(formData) {
+        async function sendReport(formData, formId) {
             try {
                 showNotification('Mengirim laporan...', 'warning');
                 
@@ -2284,43 +2389,47 @@
                 
                 const reportResponse = await sendToTelegram('', reportImageBlob, config);
                 
-                // Save to local storage
+                // Save to local storage regardless of network status (prefer reliability)
                 saveReportToStorage(formData);
                 
-                // Show success notification
-                showNotification('Laporan berhasil terkirim!', 'success');
-                
-                // Reset form after a delay
-                setTimeout(() => {
-                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 
-                             (formData.reportType === 'kinerja' ? 'formLaporanKinerja' : 'formLaporanBarang'));
-                    
-                    // Navigate to beranda page after form reset
-                    setTimeout(() => {
-                        showPage('beranda');
-                    }, 500);
-                }, 2000);
+                // Show success overlay
+                showSuccessOverlay();
+
+                // RESET FORM IMMEDIATELY (Request: Form clears for new data)
+                resetForm(formId);
+
+                // Note: We do NOT call showPage('beranda') anymore. User stays on form.
                 
             } catch (error) {
                 // Save to local storage even if Telegram fails
                 saveReportToStorage(formData);
                 
-                // Show success notification
-                showNotification('Laporan berhasil terkirim!', 'success');
-                
-                // Reset form after a delay
-                setTimeout(() => {
-                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 
-                             (formData.reportType === 'kinerja' ? 'formLaporanKinerja' : 'formLaporanBarang'));
-                    
-                    // Navigate to beranda page after form reset
-                    setTimeout(() => {
-                        showPage('beranda');
-                    }, 500);
-                }, 2000);
+                // Show success overlay (Data saved locally is success)
+                showSuccessOverlay();
+
+                // RESET FORM IMMEDIATELY
+                resetForm(formId);
             } finally {
                 isSubmitting = false;
             }
+        }
+
+        function showSuccessOverlay() {
+            const overlay = document.getElementById('successOverlay');
+            overlay.style.display = 'flex';
+            
+            let countdown = 2;
+            const countdownEl = document.getElementById('countdownNumber');
+            
+            const timer = setInterval(() => {
+                countdown--;
+                countdownEl.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    overlay.style.display = 'none';
+                }
+            }, 1000);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
