@@ -976,11 +976,7 @@
                         </div>
                     </div>
                     
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-send"></i> Kirim Laporan
-                        </button>
-                    </div>
+                    <!-- Tombol Kirim Dihapus: Pengiriman Otomatis -->
                 </form>
             </div>
         </div>
@@ -1147,11 +1143,7 @@
                         </div>
                     </div>
                     
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-send"></i> Kirim Laporan Kinerja
-                        </button>
-                    </div>
+                    <!-- Tombol Kirim Dihapus: Pengiriman Otomatis -->
                 </form>
             </div>
         </div>
@@ -1247,11 +1239,7 @@
                         </div>
                     </div>
                     
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-send"></i> Kirim Laporan
-                        </button>
-                    </div>
+                    <!-- Tombol Kirim Dihapus: Pengiriman Otomatis -->
                 </form>
             </div>
         </div>
@@ -1523,6 +1511,44 @@
                 year: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit'
+            });
+        }
+
+        // ==========================================
+        // AUTO SUBMIT LOGIC
+        // ==========================================
+        
+        function validateNameField(selectId, inputId) {
+            const select = document.getElementById(selectId);
+            const input = document.getElementById(inputId);
+            
+            if (select.value === 'lainnya') {
+                return input.value.trim() !== '';
+            } else {
+                return select.value !== '' && select.value !== 'lainnya';
+            }
+        }
+
+        function setupAutoSubmit(formId, validator) {
+            const form = document.getElementById(formId);
+            const inputs = form.querySelectorAll('input, select');
+
+            const checkAndSubmit = () => {
+                if (isSubmitting) return; // Prevent double submit
+                if (validator()) {
+                    // Disable inputs briefly to prevent changes during processing
+                    inputs.forEach(el => el.disabled = true);
+                    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                }
+            };
+
+            // Listen for changes on all inputs
+            inputs.forEach(input => {
+                input.addEventListener('change', checkAndSubmit);
+                // Also listen for 'input' on text fields for real-time typing
+                if(input.type === 'text') {
+                    input.addEventListener('input', checkAndSubmit);
+                }
             });
         }
 
@@ -1941,6 +1967,10 @@
                         inputEl.value = '';
                     }
                 }
+
+                // Re-enable inputs in case they were disabled by auto-submit
+                const inputs = form.querySelectorAll('input, select');
+                inputs.forEach(el => el.disabled = false);
             }
         }
 
@@ -2437,6 +2467,41 @@
             createEmployeeDropdown('namaKaryawan', 'namaKaryawanInput');
             createEmployeeDropdown('namaKaryawanKinerja', 'namaKaryawanKinerjaInput');
             createEmployeeDropdown('namaKaryawanBarang', 'namaKaryawanBarangInput');
+
+            // Setup Auto Submit Listeners
+            // 1. Form Laporan Karyawan: Nama, Jenis, Area, Shift, Foto
+            setupAutoSubmit('formLaporanKaryawan', () => {
+                const nameValid = validateNameField('namaKaryawan', 'namaKaryawanInput');
+                const otherValid = document.getElementById('jenisKaryawan').value &&
+                                   document.getElementById('areaKerja').value &&
+                                   document.getElementById('shiftKerja').value;
+                const photoValid = document.getElementById('fotoLaporan').files.length > 0;
+                return nameValid && otherValid && photoValid;
+            });
+
+            // 2. Form Laporan Kinerja: Nama, Jenis, Area, Shift, Kehadiran, Kualitas, Kepatuhan, Kerjasama, Inisiatif, Kepatuhan Keamanan
+            setupAutoSubmit('formLaporanKinerja', () => {
+                const nameValid = validateNameField('namaKaryawanKinerja', 'namaKaryawanKinerjaInput');
+                const otherValid = document.getElementById('jenisKaryawanKinerja').value &&
+                                   document.getElementById('areaKerjaKinerja').value &&
+                                   document.getElementById('shiftKerjaKinerja').value &&
+                                   document.getElementById('kehadiran').value &&
+                                   document.getElementById('kualitasPekerjaan').value &&
+                                   document.getElementById('kepatuhanAturan').value &&
+                                   document.getElementById('kerjasamaTim').value &&
+                                   document.getElementById('inisiatif').value &&
+                                   document.getElementById('kepatuhanKeamanan').value;
+                return nameValid && otherValid;
+            });
+
+            // 3. Form Laporan Barang: Nama, Jenis, Area, Foto
+            setupAutoSubmit('formLaporanBarang', () => {
+                const nameValid = validateNameField('namaKaryawanBarang', 'namaKaryawanBarangInput');
+                const otherValid = document.getElementById('jenisKaryawanBarang').value &&
+                                   document.getElementById('areaKerjaBarang').value;
+                const photoValid = document.getElementById('fotoBarang').files.length > 0;
+                return nameValid && otherValid && photoValid;
+            });
         });
 
         let lastTouchEnd = 0;
