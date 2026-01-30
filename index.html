@@ -407,26 +407,6 @@
             margin-bottom: 15px;
         }
 
-        .btn-success {
-            background-color: var(--success-green);
-            border-color: var(--success-green);
-            padding: 8px 15px;
-            font-size: 14px;
-            margin-top: 10px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-danger {
-            background-color: var(--danger-red);
-            border-color: var(--danger-red);
-            padding: 8px 15px;
-            font-size: 14px;
-        }
-
         /* Riwayat Page Styles - Customized */
         .history-back-btn {
             margin-bottom: 15px;
@@ -768,82 +748,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Barang item styles */
-        .barang-item {
-            background-color: var(--light-gray);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .barang-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .barang-title {
-            font-weight: 600;
-            color: var(--primary-red);
-            font-size: 16px;
-        }
-
-        .barang-number {
-            background-color: var(--primary-red);
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .barang-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .barang-row .form-group {
-            flex: 1;
-            margin-bottom: 0;
-        }
-
-        .btn-remove-barang {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--danger-red);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .btn-add-barang {
-            background-color: var(--success-green);
-            border-color: var(--success-green);
-            padding: 10px 20px;
-            font-size: 14px;
-            margin-top: 10px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .page-title h1 {
@@ -865,10 +769,6 @@
             
             .history-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .barang-row {
-                flex-direction: column;
             }
         }
     </style>
@@ -1248,7 +1148,7 @@
             </div>
         </div>
 
-        <!-- Form Daftar Terima Barang -->
+        <!-- Form Daftar Terima Barang (Sederhana) -->
         <div id="laporanBarang" class="page" style="display: none;">
             <div class="page-title">
                 <img src="https://z-cdn-media.chatglm.cn/files/e8eeeb63-91db-4aba-846e-a668ffcce588.png?auth_key=1869369634-33607f0815054dd480ad50924e93be9e-0-fa826bc662af2f6175504c8eeb725f06" alt="Logo Kabupaten Talaud" class="page-logo">
@@ -1321,18 +1221,6 @@
                                 <option value="Laboratorium">Laboratorium</option>
                             </select>
                         </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <i class="bi bi-box-seam"></i> Daftar Barang
-                        </h3>
-                        <div id="barangContainer">
-                            <!-- Barang items will be added here dynamically -->
-                        </div>
-                        <button type="button" class="btn btn-success btn-add-barang" onclick="addBarangItem()">
-                            <i class="bi bi-plus-circle"></i> Tambah Barang
-                        </button>
                     </div>
                     
                     <div class="form-section">
@@ -1436,7 +1324,6 @@
         let currentReportType = "";
         let currentReportData = null;
         let isSubmitting = false; // Flag to prevent double submission
-        let barangItemCount = 0; // Counter for barang items
 
         // Show page function
         function showPage(pageId) {
@@ -1495,11 +1382,6 @@
 
         function showBarangReport() {
             currentReportType = "barang";
-            // Reset barang items
-            barangItemCount = 0;
-            document.getElementById('barangContainer').innerHTML = '';
-            // Add first barang item
-            addBarangItem();
             showPage('laporanBarang');
         }
 
@@ -1559,77 +1441,6 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
-        }
-
-        // ==========================================
-        // BARANG ITEM MANAGEMENT
-        // ==========================================
-        function addBarangItem() {
-            barangItemCount++;
-            const barangContainer = document.getElementById('barangContainer');
-            
-            const barangItem = document.createElement('div');
-            barangItem.className = 'barang-item';
-            barangItem.id = `barang-${barangItemCount}`;
-            
-            barangItem.innerHTML = `
-                <div class="barang-header">
-                    <div class="barang-title">Barang ${barangItemCount}</div>
-                    <div class="barang-number">${barangItemCount}</div>
-                    <button type="button" class="btn-remove-barang" onclick="removeBarangItem(${barangItemCount})">
-                        <i class="bi bi-x"></i>
-                    </button>
-                </div>
-                <div class="barang-row">
-                    <div class="form-group">
-                        <label class="form-label">Jenis Barang</label>
-                        <input type="text" class="form-control" name="jenisBarang${barangItemCount}" required placeholder="Masukkan jenis barang">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Jumlah Barang</label>
-                        <input type="number" class="form-control" name="jumlahBarang${barangItemCount}" required placeholder="Masukkan jumlah" min="1">
-                    </div>
-                </div>
-            `;
-            
-            barangContainer.appendChild(barangItem);
-        }
-
-        function removeBarangItem(id) {
-            const barangItem = document.getElementById(`barang-${id}`);
-            if (barangItem) {
-                barangItem.remove();
-                // Renumber remaining items
-                renumberBarangItems();
-            }
-        }
-
-        function renumberBarangItems() {
-            const barangContainer = document.getElementById('barangContainer');
-            const items = barangContainer.querySelectorAll('.barang-item');
-            
-            items.forEach((item, index) => {
-                const newIndex = index + 1;
-                item.id = `barang-${newIndex}`;
-                
-                // Update header
-                const title = item.querySelector('.barang-title');
-                title.textContent = `Barang ${newIndex}`;
-                
-                const number = item.querySelector('.barang-number');
-                number.textContent = newIndex;
-                
-                // Update form inputs
-                const inputs = item.querySelectorAll('input');
-                inputs.forEach(input => {
-                    const name = input.name;
-                    if (name) {
-                        input.name = name.replace(/\d+/, newIndex);
-                    }
-                });
-            });
-            
-            barangItemCount = items.length;
         }
 
         // ==========================================
@@ -1923,27 +1734,11 @@
                     `;
                 } else if (report.reportType === 'barang') {
                     typeLabel = 'Daftar Terima Barang';
-                    let barangListHTML = '';
-                    
-                    // Generate barang list from the report
-                    for (let i = 1; i <= report.barangCount; i++) {
-                        const jenisBarang = report[`jenisBarang${i}`];
-                        const jumlahBarang = report[`jumlahBarang${i}`];
-                        
-                        barangListHTML += `
-                            <div class="history-field">
-                                <span class="history-label">Barang ${i}:</span>
-                                <span class="history-value">${jenisBarang} (${jumlahBarang} pcs)</span>
-                            </div>
-                        `;
-                    }
-                    
                     contentHTML = `
                         <div class="history-field">
                             <span class="history-label">Area Kerja:</span>
                             <span class="history-value">${report.areaKerjaBarang}</span>
                         </div>
-                        ${barangListHTML}
                     `;
                 }
 
@@ -2004,12 +1799,6 @@
             const form = document.getElementById(formId);
             form.reset();
             
-            // Reset barang items
-            if (formId === 'formLaporanBarang') {
-                barangItemCount = 0;
-                document.getElementById('barangContainer').innerHTML = '';
-            }
-            
             // Reset photo previews
             const previewIds = {
                 'formLaporanKaryawan': 'fotoPreviewKaryawan',
@@ -2027,12 +1816,8 @@
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
-            // Calculate canvas height based on number of barang items
-            const barangCount = reportData.barangCount || 0;
-            const barangHeight = barangCount * 120; // 120px per barang item
-            const canvasHeight = 1400 + barangHeight;
-            
             const canvasWidth = 800;
+            const canvasHeight = 1400;
             
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
@@ -2121,44 +1906,8 @@
                 ctx.fillText(reportData.areaKerjaBarang, valueStartX, yPos + 25);
                 yPos += 60;
                 
-                // Daftar Barang section
-                ctx.fillStyle = '#f8f9fa';
-                ctx.fillRect(0, yPos, canvas.width, sectionHeight);
-                ctx.fillStyle = '#DC143C';
-                ctx.font = 'bold 26px Arial';
-                ctx.textAlign = 'left';
-                ctx.fillText('DAFTAR BARANG', 30, yPos + 30);
-                
-                yPos += sectionHeight + 30;
-                
-                // Draw each barang item
-                for (let i = 1; i <= barangCount; i++) {
-                    const jenisBarang = reportData[`jenisBarang${i}`];
-                    const jumlahBarang = reportData[`jumlahBarang${i}`];
-                    
-                    // Barang item background
-                    ctx.fillStyle = '#f0f0f0';
-                    ctx.fillRect(30, yPos, canvas.width - 60, 100);
-                    
-                    ctx.strokeStyle = '#DC143C';
-                    ctx.lineWidth = 2;
-                    ctx.strokeRect(30, yPos, canvas.width - 60, 100);
-                    
-                    // Barang item content
-                    ctx.fillStyle = '#2c3e50';
-                    ctx.font = 'bold 22px Arial';
-                    ctx.fillText(`Barang ${i}: ${jenisBarang}`, 50, yPos + 30);
-                    
-                    ctx.font = '20px Arial';
-                    ctx.fillText(`Jumlah: ${jumlahBarang} pcs`, 50, yPos + 55);
-                    
-                    yPos += 110; // 100px height + 10px spacing
-                }
-                
                 // Add photo if available
                 if (reportData.foto) {
-                    yPos += 30;
-                    
                     ctx.fillStyle = '#f8f9fa';
                     ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                     ctx.fillStyle = '#DC143C';
@@ -2353,19 +2102,6 @@
             if (isSubmitting) return;
             isSubmitting = true;
             
-            // Collect barang data
-            const barangItems = document.querySelectorAll('.barang-item');
-            const barangData = {};
-            let barangCount = 0;
-            
-            barangItems.forEach((item, index) => {
-                const inputs = item.querySelectorAll('input');
-                inputs.forEach(input => {
-                    barangData[input.name] = input.value;
-                });
-                barangCount++;
-            });
-            
             const fotoInput = document.getElementById('fotoBarang');
             let fotoBase64 = null;
             
@@ -2385,8 +2121,6 @@
                 namaKaryawanBarang: document.getElementById('namaKaryawanBarang').value.toUpperCase(),
                 jenisKaryawanBarang: document.getElementById('jenisKaryawanBarang').value,
                 areaKerjaBarang: document.getElementById('areaKerjaBarang').value,
-                barangCount: barangCount,
-                ...barangData,
                 tanggal: new Date().toISOString(),
                 foto: fotoBase64,
                 reportType: 'barang'
@@ -2451,10 +2185,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize first barang item when page loads
-            if (document.getElementById('laporanBarang').style.display !== 'none') {
-                addBarangItem();
-            }
+            // Initialization if needed
         });
 
         let lastTouchEnd = 0;
