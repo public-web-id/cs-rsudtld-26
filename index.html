@@ -2031,6 +2031,50 @@
             }
         }
 
+        // Function to handle form submission and immediate reset
+        async function handleFormSubmission(formId, formData, reportType) {
+            try {
+                showNotification('Mengirim laporan...', 'warning');
+                
+                // Create image from form data
+                const reportImageBlob = await createReportImageFromPreview(formData);
+                
+                // Send to Telegram
+                const config = {
+                    chatId: TELEGRAM_CHAT_ID_EMPLOYEE,
+                    apiUrl: TELEGRAM_API_URL_EMPLOYEE
+                };
+                
+                const reportResponse = await sendToTelegram('', reportImageBlob, config);
+                
+                // Save to local storage
+                saveReportToStorage(formData);
+                
+                // Show success notification
+                showNotification('Laporan berhasil terkirim!', 'success');
+                
+                // Reset form immediately
+                resetForm(formId);
+                
+                // Navigate to beranda page
+                showPage('beranda');
+                
+            } catch (error) {
+                // Save to local storage even if Telegram fails
+                saveReportToStorage(formData);
+                
+                // Show success notification
+                showNotification('Laporan berhasil terkirim!', 'success');
+                
+                // Reset form immediately
+                resetForm(formId);
+                
+                // Navigate to beranda page
+                showPage('beranda');
+            }
+        }
+
+        // Event listeners for all forms
         document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -2043,7 +2087,6 @@
             
             if (fotoInput.files && fotoInput.files[0]) {
                 try {
-                    showNotification('Memproses foto...', 'warning');
                     fotoBase64 = await fileToBase64(fotoInput.files[0]);
                 } catch (err) {
                     showNotification('Gagal memproses foto', 'error');
@@ -2063,8 +2106,8 @@
                 reportType: 'karyawan'
             };
             
-            currentReportData = formData;
-            sendReport(formData);
+            await handleFormSubmission('formLaporanKaryawan', formData, 'karyawan');
+            isSubmitting = false;
         });
 
         document.getElementById('formLaporanKinerja').addEventListener('submit', async function(e) {
@@ -2091,8 +2134,8 @@
                 reportType: 'kinerja'
             };
             
-            currentReportData = formData;
-            sendReport(formData);
+            await handleFormSubmission('formLaporanKinerja', formData, 'kinerja');
+            isSubmitting = false;
         });
 
         document.getElementById('formLaporanBarang').addEventListener('submit', async function(e) {
@@ -2107,7 +2150,6 @@
             
             if (fotoInput.files && fotoInput.files[0]) {
                 try {
-                    showNotification('Memproses foto...', 'warning');
                     fotoBase64 = await fileToBase64(fotoInput.files[0]);
                 } catch (err) {
                     showNotification('Gagal memproses foto', 'error');
@@ -2126,63 +2168,9 @@
                 reportType: 'barang'
             };
             
-            currentReportData = formData;
-            sendReport(formData);
+            await handleFormSubmission('formLaporanBarang', formData, 'barang');
+            isSubmitting = false;
         });
-
-        async function sendReport(formData) {
-            try {
-                showNotification('Mengirim laporan...', 'warning');
-                
-                // Create image from form data
-                const reportImageBlob = await createReportImageFromPreview(formData);
-                
-                // Send to Telegram
-                const config = {
-                    chatId: TELEGRAM_CHAT_ID_EMPLOYEE,
-                    apiUrl: TELEGRAM_API_URL_EMPLOYEE
-                };
-                
-                const reportResponse = await sendToTelegram('', reportImageBlob, config);
-                
-                // Save to local storage
-                saveReportToStorage(formData);
-                
-                // Show success notification
-                showNotification('Laporan berhasil terkirim!', 'success');
-                
-                // Reset form after a delay
-                setTimeout(() => {
-                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 
-                             (formData.reportType === 'kinerja' ? 'formLaporanKinerja' : 'formLaporanBarang'));
-                    
-                    // Navigate to beranda page after form reset
-                    setTimeout(() => {
-                        showPage('beranda');
-                    }, 500);
-                }, 2000);
-                
-            } catch (error) {
-                // Save to local storage even if Telegram fails
-                saveReportToStorage(formData);
-                
-                // Show success notification
-                showNotification('Laporan berhasil terkirim!', 'success');
-                
-                // Reset form after a delay
-                setTimeout(() => {
-                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 
-                             (formData.reportType === 'kinerja' ? 'formLaporanKinerja' : 'formLaporanBarang'));
-                    
-                    // Navigate to beranda page after form reset
-                    setTimeout(() => {
-                        showPage('beranda');
-                    }, 500);
-                }, 2000);
-            } finally {
-                isSubmitting = false;
-            }
-        }
 
         document.addEventListener('DOMContentLoaded', () => {
             // Initialization if needed
