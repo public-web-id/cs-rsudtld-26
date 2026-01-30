@@ -112,8 +112,8 @@
         }
 
         .page-logo {
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid rgba(255, 255, 255, 0.3);
@@ -146,8 +146,8 @@
         }
 
         .page-title .logo-right {
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid rgba(255, 255, 255, 0.3);
@@ -399,11 +399,81 @@
             box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);
         }
 
-        /* Riwayat Page Styles */
-        .history-container {
-            margin-top: 20px;
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            padding: 8px 15px;
+            font-size: 14px;
+            margin-bottom: 15px;
         }
 
+        /* Riwayat Page Styles - Customized */
+        .history-back-btn {
+            margin-bottom: 15px;
+            display: none; /* Hidden by default */
+        }
+        
+        .history-header-title {
+            color: var(--primary-red);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+            padding-bottom: 10px;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        /* Category & Employee Cards */
+        .history-card-item {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid var(--light-gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 120px;
+        }
+
+        .history-card-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-red);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .history-card-icon {
+            font-size: 32px;
+            color: var(--primary-red);
+            margin-bottom: 10px;
+        }
+
+        .history-card-title {
+            font-weight: 600;
+            color: var(--dark-gray);
+            font-size: 16px;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .history-card-count {
+            font-size: 12px;
+            color: var(--medium-gray);
+            background-color: var(--light-gray);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        /* History Report Items (Detailed View) */
         .history-item {
             background-color: var(--white);
             border-radius: 8px;
@@ -673,12 +743,16 @@
             }
             
             .page-logo {
-                width: 40px;
-                height: 40px;
+                width: 35px;
+                height: 35px;
             }
             
             .report-type-selection {
                 flex-direction: column;
+            }
+            
+            .history-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -1065,13 +1139,18 @@
                 </div>
                 <img src="https://z-cdn-media.chatglm.cn/files/d5a31111-e79f-406f-9c31-a71f6bf5e72d.png?auth_key=1869369634-ebd2d760cbe84bd1b54a3d72851d8f42-0-c320d702f01d0d94e6042dd3dc574f92" alt="Logo Keamanan dan Kesehatan Kerja" class="page-logo logo-right">
             </div>
-            
-            <!-- History Container -->
-            <div class="history-container" id="historyContainer">
-                <!-- History items will be inserted here -->
+
+            <!-- Back Button Navigation -->
+            <button id="historyBackBtn" class="btn btn-secondary history-back-btn" onclick="handleHistoryBack()">
+                <i class="bi bi-arrow-left"></i> Kembali
+            </button>
+
+            <!-- Dynamic Content Container -->
+            <div id="historyDynamicContainer">
+                <!-- Content injected via JS -->
             </div>
-            
-            <!-- Empty State - No Reports Displayed -->
+
+            <!-- Empty State -->
             <div class="empty-state" id="emptyState" style="display: none;">
                 <i class="bi bi-inbox"></i>
                 <h5>Belum Ada Riwayat Laporan</h5>
@@ -1106,16 +1185,21 @@
         // ==========================================
         // TELEGRAM CONFIGURATION
         // ==========================================
-        // Konfigurasi untuk laporan karyawan
         const TELEGRAM_CHAT_ID_EMPLOYEE = "-1003637925420";
         const TELEGRAM_BOT_TOKEN_EMPLOYEE = "8355189455:AAGqJXf_OCoPWx11CSyeUk4fLhif156HjX4";
         const TELEGRAM_API_URL_EMPLOYEE = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_EMPLOYEE}`;
         
         // ==========================================
-        // OFFLINE MODE CONFIGURATION
+        // STATE MANAGEMENT FOR HISTORY
         // ==========================================
+        let historyState = {
+            level: 0, // 0: Categories, 1: Employees, 2: Details
+            selectedType: null,
+            selectedName: null
+        };
+
         let currentReportType = "";
-        let currentReportData = null; // Store current report data globally
+        let currentReportData = null;
 
         // Show page function
         function showPage(pageId) {
@@ -1133,6 +1217,8 @@
             
             // Load history if riwayat page is shown
             if (pageId === 'riwayat') {
+                // Reset history state when entering the tab from scratch
+                resetHistoryState();
                 loadHistory();
             }
         }
@@ -1151,30 +1237,25 @@
             
             const dateTimeString = `${dayName}, ${date}/${month}/${year} ${hours}:${minutes}:${seconds}`;
             
-            // Update all date-time elements
             const dateTimeElements = document.querySelectorAll('.date-time');
             dateTimeElements.forEach(element => {
                 element.textContent = dateTimeString;
             });
         }
 
-        // Update date-time every second
         setInterval(updateDateTime, 1000);
-        updateDateTime(); // Initial call
+        updateDateTime();
 
-        // Show employee report form
         function showEmployeeReport() {
             currentReportType = "karyawan";
             showPage('laporanKaryawan');
         }
 
-        // Show kinerja report form
         function showKinerjaReport() {
             currentReportType = "kinerja";
             showPage('laporanKinerja');
         }
 
-        // Show notification
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
             const notificationText = document.getElementById('notificationText');
@@ -1192,10 +1273,9 @@
             
             setTimeout(() => {
                 notification.style.display = 'none';
-            }, 2000); // Reduced timeout for faster feedback
+            }, 2000);
         }
 
-        // Preview photo function
         function previewPhoto(inputId, previewId) {
             const input = document.getElementById(inputId);
             const preview = document.getElementById(previewId);
@@ -1223,7 +1303,6 @@
             });
         }
 
-        // Helper: Format Date
         function formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleDateString('id-ID', {
@@ -1235,28 +1314,298 @@
             });
         }
 
-        // Helper: Get Full Date with Day Name
-        function getFullDateWithDay(dateString) {
-            const date = new Date(dateString);
-            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-            const dayName = days[date.getDay()];
-            const formattedDate = date.toLocaleDateString('id-ID', {
-                day: '2-digit',
-                month: 'long',
-                year: 'numeric'
+        // ==========================================
+        // HISTORY LOGIC - CATEGORIZED
+        // ==========================================
+
+        function resetHistoryState() {
+            historyState = { level: 0, selectedType: null, selectedName: null };
+            document.getElementById('historyBackBtn').style.display = 'none';
+        }
+
+        function handleHistoryBack() {
+            if (historyState.level === 2) {
+                // Go back to Employee List
+                renderEmployeeList(historyState.selectedType);
+                historyState.level = 1;
+            } else if (historyState.level === 1) {
+                // Go back to Categories
+                renderCategories();
+                historyState.level = 0;
+                document.getElementById('historyBackBtn').style.display = 'none';
+            }
+        }
+
+        function loadHistory() {
+            // Get reports
+            const reports = JSON.parse(localStorage.getItem('reports')) || [];
+            const container = document.getElementById('historyDynamicContainer');
+            const emptyState = document.getElementById('emptyState');
+
+            if (reports.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            
+            // Start rendering based on current state (initially Level 0)
+            renderCategories();
+        }
+
+        // Helper to normalize report data (handling Karyawan vs Kinerja fields)
+        function normalizeReport(report) {
+            if (report.reportType === 'karyawan') {
+                return {
+                    name: report.namaKaryawan,
+                    type: report.jenisKaryawan,
+                    area: report.areaKerja,
+                    shift: report.shiftKerja,
+                    date: report.tanggal
+                };
+            } else {
+                return {
+                    name: report.namaKaryawanKinerja,
+                    type: report.jenisKaryawanKinerja,
+                    area: report.areaKerjaKinerja,
+                    shift: report.shiftKerjaKinerja,
+                    date: report.tanggal
+                };
+            }
+        }
+
+        // Level 1: Render Categories
+        function renderCategories() {
+            const reports = JSON.parse(localStorage.getItem('reports')) || [];
+            const container = document.getElementById('historyDynamicContainer');
+            container.innerHTML = '';
+
+            // Group by Type
+            const grouped = {};
+            reports.forEach(r => {
+                const data = normalizeReport(r);
+                if (!grouped[data.type]) {
+                    grouped[data.type] = new Set();
+                }
+                grouped[data.type].add(data.name);
             });
-            return `${dayName}, ${formattedDate}`;
+
+            // Create Header
+            const header = document.createElement('div');
+            header.className = 'history-header-title';
+            header.textContent = 'Pilih Jenis Karyawan';
+            container.appendChild(header);
+
+            const grid = document.createElement('div');
+            grid.className = 'history-grid';
+
+            Object.keys(grouped).forEach(type => {
+                const count = grouped[type].size;
+                const card = document.createElement('div');
+                card.className = 'history-card-item';
+                card.onclick = () => {
+                    historyState.selectedType = type;
+                    historyState.level = 1;
+                    document.getElementById('historyBackBtn').style.display = 'block';
+                    renderEmployeeList(type);
+                };
+
+                // Icon mapping based on type (simplified)
+                let iconClass = 'bi-person-badge';
+                if(type.toLowerCase().includes('clean')) iconClass = 'bi-trash3';
+                if(type.toLowerCase().includes('ipal')) iconClass = 'bi-water';
+                if(type.toLowerCase().includes('teknisi')) iconClass = 'bi-tools';
+                if(type.toLowerCase().includes('masak')) iconClass = 'bi-fire';
+                if(type.toLowerCase().includes('laundry')) iconClass = 'bi-box2-seam';
+                if(type.toLowerCase().includes('admin')) iconClass = 'bi-file-earmark-text';
+
+                card.innerHTML = `
+                    <i class="bi ${iconClass} history-card-icon"></i>
+                    <div class="history-card-title">${type}</div>
+                    <div class="history-card-count">${count} Karyawan</div>
+                `;
+                grid.appendChild(card);
+            });
+
+            container.appendChild(grid);
+        }
+
+        // Level 2: Render Employee List for a specific Type
+        function renderEmployeeList(type) {
+            const reports = JSON.parse(localStorage.getItem('reports')) || [];
+            const container = document.getElementById('historyDynamicContainer');
+            container.innerHTML = '';
+
+            // Filter and Group by Name
+            const employees = {};
+            reports.forEach(r => {
+                const data = normalizeReport(r);
+                if (data.type === type) {
+                    if (!employees[data.name]) {
+                        employees[data.name] = 0;
+                    }
+                    employees[data.name]++;
+                }
+            });
+
+            // Header
+            const header = document.createElement('div');
+            header.className = 'history-header-title';
+            header.innerHTML = `<span style="color:var(--medium-gray); font-size:14px; font-weight:400;">Jenis: ${type}</span><br>Karyawan`;
+            container.appendChild(header);
+
+            const grid = document.createElement('div');
+            grid.className = 'history-grid';
+
+            Object.keys(employees).forEach(name => {
+                const count = employees[name];
+                const card = document.createElement('div');
+                card.className = 'history-card-item';
+                card.onclick = () => {
+                    historyState.selectedName = name;
+                    historyState.level = 2;
+                    renderEmployeeReports(name, type);
+                };
+
+                card.innerHTML = `
+                    <i class="bi bi-person-fill history-card-icon"></i>
+                    <div class="history-card-title">${name}</div>
+                    <div class="history-card-count">${count} Laporan</div>
+                `;
+                grid.appendChild(card);
+            });
+
+            container.appendChild(grid);
+        }
+
+        // Level 3: Render Specific Reports for a Name
+        function renderEmployeeReports(name, type) {
+            const reports = JSON.parse(localStorage.getItem('reports')) || [];
+            const container = document.getElementById('historyDynamicContainer');
+            container.innerHTML = '';
+
+            // Header
+            const header = document.createElement('div');
+            header.className = 'history-header-title';
+            header.innerHTML = `<span style="color:var(--medium-gray); font-size:14px; font-weight:400;">${type}</span><br>${name}`;
+            container.appendChild(header);
+
+            const listContainer = document.createElement('div');
+
+            // Filter reports
+            const filteredReports = reports.filter(r => {
+                const data = normalizeReport(r);
+                return data.name === name && data.type === type;
+            });
+
+            // Reverse to show newest first
+            filteredReports.reverse().forEach(report => {
+                const formattedDate = formatDate(report.tanggal);
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                // Determine report type label
+                const typeLabel = report.reportType === 'karyawan' ? 'Laporan Karyawan' : 'Laporan Kinerja';
+                
+                let contentHTML = '';
+
+                if (report.reportType === 'karyawan') {
+                    contentHTML = `
+                        <div class="history-field">
+                            <span class="history-label">Area Kerja:</span>
+                            <span class="history-value">${report.areaKerja}</span>
+                        </div>
+                        <div class="history-field">
+                            <span class="history-label">Shift:</span>
+                            <span class="history-value">${report.shiftKerja}</span>
+                        </div>
+                    `;
+                } else {
+                    contentHTML = `
+                        <div class="history-field">
+                            <span class="history-label">Area Kerja:</span>
+                            <span class="history-value">${report.areaKerjaKinerja}</span>
+                        </div>
+                        <div class="history-field">
+                            <span class="history-label">Kehadiran:</span>
+                            <span class="history-value">${report.kehadiran}</span>
+                        </div>
+                        <div class="history-field">
+                            <span class="history-label">Kualitas:</span>
+                            <span class="history-value">${report.kualitasPekerjaan}</span>
+                        </div>
+                    `;
+                }
+
+                historyItem.innerHTML = `
+                    <div class="history-header">
+                        <div class="history-title">${typeLabel}</div>
+                        <div class="history-date">${formattedDate}</div>
+                    </div>
+                    <div class="history-content">
+                        ${contentHTML}
+                    </div>
+                    <div class="history-footer">
+                        <div class="history-status">Tersimpan</div>
+                        <div class="history-actions">
+                            ${report.foto ? `<button class="history-action-btn" onclick="viewImage('${report.foto}')"><i class="bi bi-image"></i></button>` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                listContainer.appendChild(historyItem);
+            });
+
+            container.appendChild(listContainer);
+        }
+
+        // View image in modal
+        function viewImage(imageSrc) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.zIndex = '9999';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.style.maxWidth = '95%';
+            img.style.maxHeight = '95%';
+            img.style.borderRadius = '8px';
+            img.style.boxShadow = '0 0 20px rgba(0,0,0,0.5)';
+            
+            modal.onclick = function() {
+                document.body.removeChild(modal);
+            };
+
+            modal.appendChild(img);
+            document.body.appendChild(modal);
+        }
+
+        function resetForm(formId) {
+            const form = document.getElementById(formId);
+            form.reset();
+            
+            const previewId = formId === 'formLaporanKaryawan' ? 'fotoPreviewKaryawan' : 'fotoPreviewKinerja';
+            document.getElementById(previewId).innerHTML = '';
         }
 
         // Helper: Create image from preview modal content - OPTIMIZED FOR SPEED
         async function createReportImageFromPreview(reportData) {
-            // Create a canvas element with optimized dimensions
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
-            // Set canvas size - OPTIMIZED for better performance
             const canvasWidth = 800;
-            let canvasHeight = 1400; // Reduced initial height for better performance
+            let canvasHeight = 1400;
             
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
@@ -1265,11 +1614,10 @@
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Header with gradient
+            // Header
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
             gradient.addColorStop(0, '#DC143C');
             gradient.addColorStop(1, '#8B0000');
-            
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, 70);
             
@@ -1278,7 +1626,6 @@
             ctx.font = 'bold 28px Arial';
             ctx.textAlign = 'center';
             
-            // Handle long title by wrapping it
             const title = reportData.reportType === 'karyawan' ? 'Laporan Karyawan Outsourcing RSUD Talaud 2026' : 
                          'Laporan Kinerja Karyawan Outsourcing RSUD Talaud 2026';
             
@@ -1307,14 +1654,10 @@
                 ctx.fillText(line, canvas.width / 2, yStart + (lineCount * lineHeight));
             }
             
-            // Content sections - OPTIMIZED SPACING
             let yPos = 140;
             const sectionHeight = 40;
             
-            // Report type specific content
             if (reportData.reportType === 'karyawan') {
-                // Karyawan form fields - OPTIMIZED LAYOUT
-                // Section: Identitas Karyawan
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
@@ -1322,14 +1665,12 @@
                 ctx.textAlign = 'left';
                 ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 30);
                 
-                yPos += sectionHeight + 30; // Reduced spacing for better performance
+                yPos += sectionHeight + 30;
                 
-                // Form fields - OPTIMIZED LAYOUT
                 const labelWidth = 180;
-                const valueStartX = 30 + labelWidth + 20; // Reduced spacing between label and value
-                const lineHeight = 40; // Reduced line height for better performance
+                const valueStartX = 30 + labelWidth + 20;
+                const lineHeight = 40;
                 
-                // Nama Karyawan
                 ctx.fillStyle = '#2c3e50';
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Nama Karyawan:', 30, yPos + 25);
@@ -1337,7 +1678,6 @@
                 ctx.fillText(reportData.namaKaryawan, valueStartX, yPos + 25);
                 yPos += lineHeight;
                 
-                // Jenis Karyawan
                 ctx.fillStyle = '#2c3e50';
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Jenis Karyawan:', 30, yPos + 25);
@@ -1345,7 +1685,6 @@
                 ctx.fillText(reportData.jenisKaryawan, valueStartX, yPos + 25);
                 yPos += lineHeight;
                 
-                // Area Kerja
                 ctx.fillStyle = '#2c3e50';
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Area Kerja:', 30, yPos + 25);
@@ -1353,15 +1692,13 @@
                 ctx.fillText(reportData.areaKerja, valueStartX, yPos + 25);
                 yPos += lineHeight;
                 
-                // Shift Kerja
                 ctx.fillStyle = '#2c3e50';
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Shift Kerja:', 30, yPos + 25);
                 ctx.font = '22px Arial';
                 ctx.fillText(reportData.shiftKerja, valueStartX, yPos + 25);
-                yPos += 60; // Increased spacing before photo section to create more space
+                yPos += 60;
                 
-                // Add photo section with frame - DOUBLED SIZE
                 if (reportData.foto) {
                     ctx.fillStyle = '#f8f9fa';
                     ctx.fillRect(0, yPos, canvas.width, sectionHeight);
@@ -1372,9 +1709,8 @@
                     
                     yPos += sectionHeight + 20;
                     
-                    // Draw photo frame - DOUBLED SIZE
                     const photoWidth = canvas.width - 60;
-                    const photoHeight = 800; // Doubled from 400 to 800
+                    const photoHeight = 800;
                     
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(30, yPos, photoWidth, photoHeight);
@@ -1383,24 +1719,20 @@
                     ctx.lineWidth = 3;
                     ctx.strokeRect(30, yPos, photoWidth, photoHeight);
                     
-                    // Load and draw photo
                     const img = new Image();
                     img.src = reportData.foto;
                     
-                    // Calculate aspect ratio to fit in frame
                     const imgAspectRatio = img.width / img.height;
                     const frameAspectRatio = photoWidth / photoHeight;
                     
                     let drawWidth, drawHeight, drawX, drawY;
                     
                     if (imgAspectRatio > frameAspectRatio) {
-                        // Image is wider than frame
                         drawWidth = photoWidth;
                         drawHeight = drawWidth / imgAspectRatio;
                         drawX = 30;
                         drawY = yPos + (photoHeight - drawHeight) / 2;
                     } else {
-                        // Image is taller than frame
                         drawHeight = photoHeight;
                         drawWidth = drawHeight * imgAspectRatio;
                         drawX = 30 + (photoWidth - drawWidth) / 2;
@@ -1409,7 +1741,6 @@
                     
                     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
                     
-                    // Add watermark to photo
                     ctx.fillStyle = 'rgba(220, 20, 60, 0.7)';
                     const watermarkText = 'RSUD Talaud 2026';
                     ctx.font = 'bold 22px Arial';
@@ -1419,11 +1750,9 @@
                     ctx.fillStyle = '#ffffff';
                     ctx.fillText(watermarkText, canvas.width - textWidth - 55, yPos + photoHeight - 20);
                     
-                    yPos += photoHeight + 10; // Reduced spacing after photo to place footer directly below
+                    yPos += photoHeight + 10;
                 }
             } else if (reportData.reportType === 'kinerja') {
-                // Kinerja form fields - OPTIMIZED LAYOUT (tanpa komentar dan dokumentasi)
-                // Section: Identitas Karyawan
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
@@ -1431,14 +1760,12 @@
                 ctx.textAlign = 'left';
                 ctx.fillText('IDENTITAS KARYAWAN', 30, yPos + 30);
                 
-                yPos += sectionHeight + 30; // Reduced spacing for better performance
+                yPos += sectionHeight + 30;
                 
-                // Form fields - OPTIMIZED LAYOUT
                 const labelWidth = 180;
-                const valueStartX = 30 + labelWidth + 20; // Reduced spacing between label and value
-                const lineHeight = 40; // Reduced line height for better performance
+                const valueStartX = 30 + labelWidth + 20;
+                const lineHeight = 40;
                 
-                // Nama Karyawan
                 ctx.fillStyle = '#2c3e50';
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Nama Karyawan:', 30, yPos + 25);
@@ -1446,7 +1773,6 @@
                 ctx.fillText(reportData.namaKaryawanKinerja, valueStartX, yPos + 25);
                 yPos += lineHeight;
                 
-                // Jenis Karyawan
                 ctx.fillStyle = '#2c3e50';
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Jenis Karyawan:', 30, yPos + 25);
@@ -1454,7 +1780,6 @@
                 ctx.fillText(reportData.jenisKaryawanKinerja, valueStartX, yPos + 25);
                 yPos += lineHeight;
                 
-                // Area Kerja
                 ctx.fillStyle = '#2c3e50';
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Area Kerja:', 30, yPos + 25);
@@ -1462,7 +1787,6 @@
                 ctx.fillText(reportData.areaKerjaKinerja, valueStartX, yPos + 25);
                 yPos += lineHeight;
                 
-                // Shift Kerja
                 ctx.fillStyle = '#2c3e50';
                 ctx.font = 'bold 22px Arial';
                 ctx.fillText('Shift Kerja:', 30, yPos + 25);
@@ -1470,7 +1794,6 @@
                 ctx.fillText(reportData.shiftKerjaKinerja, valueStartX, yPos + 25);
                 yPos += 40;
                 
-                // Section: Evaluasi Kinerja
                 ctx.fillStyle = '#f8f9fa';
                 ctx.fillRect(0, yPos, canvas.width, sectionHeight);
                 ctx.fillStyle = '#DC143C';
@@ -1480,61 +1803,31 @@
                 
                 yPos += sectionHeight + 20;
                 
-                // Evaluation fields - OPTIMIZED LAYOUT
                 const evalLabelWidth = 200;
                 const evalValueStartX = 30 + evalLabelWidth + 20;
                 const evalLineHeight = 35;
                 
-                // Kehadiran
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Kehadiran:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.kehadiran, evalValueStartX, yPos + 25);
-                yPos += evalLineHeight;
+                const fields = [
+                    { label: 'Kehadiran:', value: reportData.kehadiran },
+                    { label: 'Kualitas Pekerjaan:', value: reportData.kualitasPekerjaan },
+                    { label: 'Kepatuhan Aturan:', value: reportData.kepatuhanAturan },
+                    { label: 'Kerjasama Tim:', value: reportData.kerjasamaTim },
+                    { label: 'Inisiatif:', value: reportData.inisiatif },
+                    { label: 'Kepatuhan Keamanan:', value: reportData.kepatuhanKeamanan },
+                ];
+
+                fields.forEach(field => {
+                    ctx.fillStyle = '#2c3e50';
+                    ctx.font = 'bold 22px Arial';
+                    ctx.fillText(field.label, 30, yPos + 25);
+                    ctx.font = '22px Arial';
+                    ctx.fillText(field.value, evalValueStartX, yPos + 25);
+                    yPos += evalLineHeight;
+                });
                 
-                // Kualitas Pekerjaan
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Kualitas Pekerjaan:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.kualitasPekerjaan, evalValueStartX, yPos + 25);
-                yPos += evalLineHeight;
-                
-                // Kepatuhan Aturan
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Kepatuhan Aturan:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.kepatuhanAturan, evalValueStartX, yPos + 25);
-                yPos += evalLineHeight;
-                
-                // Kerjasama Tim
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Kerjasama Tim:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.kerjasamaTim, evalValueStartX, yPos + 25);
-                yPos += evalLineHeight;
-                
-                // Inisiatif
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Inisiatif:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.inisiatif, evalValueStartX, yPos + 25);
-                yPos += evalLineHeight;
-                
-                // Kepatuhan Prosedur Keamanan
-                ctx.fillStyle = '#2c3e50';
-                ctx.font = 'bold 22px Arial';
-                ctx.fillText('Kepatuhan Prosedur Keamanan:', 30, yPos + 25);
-                ctx.font = '22px Arial';
-                ctx.fillText(reportData.kepatuhanKeamanan, evalValueStartX, yPos + 25);
                 yPos += 40;
             }
             
-            // Footer - POSITIONED DIRECTLY AT THE BOTTOM
             const footerGradient = ctx.createLinearGradient(0, canvasHeight - 60, 0, canvasHeight);
             footerGradient.addColorStop(0, '#DC143C');
             footerGradient.addColorStop(1, '#8B0000');
@@ -1546,7 +1839,6 @@
             ctx.font = 'bold 20px Arial';
             ctx.textAlign = 'center';
             
-            // Get current date with day name (without time)
             const currentDate = new Date(reportData.tanggal);
             const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
             const dayName = days[currentDate.getDay()];
@@ -1556,53 +1848,20 @@
                 year: 'numeric'
             });
             
-            // Footer text with full date (without time)
             ctx.fillText('RSUD Talaud 2026', canvas.width / 2, canvasHeight - 25);
             ctx.fillText(`${dayName}, ${formattedDate}`, canvas.width / 2, canvasHeight - 5);
             
-            // Convert canvas to blob with optimized quality
             return new Promise((resolve) => {
                 canvas.toBlob((blob) => {
                     resolve(blob);
-                }, 'image/jpeg', 0.9); // Reduced quality for faster processing
+                }, 'image/jpeg', 0.9);
             });
         }
 
-        // Format report for Telegram (simplified since the image contains all details)
-        function formatReportForTelegram(reportData) {
-            const timestamp = formatDate(reportData.tanggal);
-            let message = `<b>Laporan ${reportData.reportType === 'karyawan' ? 'Karyawan' : 'Kinerja'} - ${timestamp}</b>\n\n`;
-            
-            if (reportData.reportType === 'karyawan') {
-                message += `<b>Nama:</b> ${reportData.namaKaryawan}\n`;
-                message += `<b>Jenis:</b> ${reportData.jenisKaryawan}\n`;
-                message += `<b>Area:</b> ${reportData.areaKerja}\n`;
-                message += `<b>Shift:</b> ${reportData.shiftKerja}\n`;
-            } else if (reportData.reportType === 'kinerja') {
-                message += `<b>Nama:</b> ${reportData.namaKaryawanKinerja}\n`;
-                message += `<b>Jenis:</b> ${reportData.jenisKaryawanKinerja}\n`;
-                message += `<b>Area:</b> ${reportData.areaKerjaKinerja}\n`;
-                message += `<b>Shift:</b> ${reportData.shiftKerjaKinerja}\n`;
-                message += `<b>Kehadiran:</b> ${reportData.kehadiran}\n`;
-                message += `<b>Kualitas:</b> ${reportData.kualitasPekerjaan}\n`;
-                message += `<b>Kepatuhan:</b> ${reportData.kepatuhanAturan}\n`;
-                message += `<b>Kerjasama:</b> ${reportData.kerjasamaTim}\n`;
-                message += `<b>Inisiatif:</b> ${reportData.inisiatif}\n`;
-                message += `<b>Keamanan:</b> ${reportData.kepatuhanKeamanan}\n`;
-            }
-            
-            message += `\n<b>Detail lengkap ada di gambar laporan.</b>`;
-            
-            return message;
-        }
-
-        // Send message to Telegram with configuration - OPTIMIZED FOR SPEED
+        // Send message to Telegram
         async function sendToTelegram(message, photo = null, config) {
             try {
-                // Create FormData with image only (no caption)
                 let formData = new FormData();
-                
-                // Send photo without caption
                 formData.append('chat_id', config.chatId);
                 formData.append('photo', photo);
                 
@@ -1623,212 +1882,23 @@
             }
         }
 
-        // Save report to localStorage
         function saveReportToStorage(reportData) {
-            // Get existing reports from localStorage
             let reports = JSON.parse(localStorage.getItem('reports')) || [];
-            
-            // Add new report to the beginning of the array
             reports.unshift(reportData);
-            
-            // Save updated reports to localStorage
             localStorage.setItem('reports', JSON.stringify(reports));
             
-            // Limit to 50 most recent reports to prevent storage issues
             if (reports.length > 50) {
                 reports = reports.slice(0, 50);
                 localStorage.setItem('reports', JSON.stringify(reports));
             }
         }
 
-        // Load reports from localStorage
-        function loadHistory() {
-            const historyContainer = document.getElementById('historyContainer');
-            const emptyState = document.getElementById('emptyState');
-            
-            // Get reports from localStorage
-            const reports = JSON.parse(localStorage.getItem('reports')) || [];
-            
-            // Clear existing history
-            historyContainer.innerHTML = '';
-            
-            if (reports.length === 0) {
-                // Show empty state if no reports
-                emptyState.style.display = 'block';
-                historyContainer.style.display = 'none';
-            } else {
-                // Hide empty state and show history
-                emptyState.style.display = 'none';
-                historyContainer.style.display = 'block';
-                
-                // Add each report to the history container
-                reports.forEach(report => {
-                    const historyItem = document.createElement('div');
-                    historyItem.className = 'history-item';
-                    
-                    // Format date
-                    const reportDate = new Date(report.tanggal);
-                    const formattedDate = formatDate(report.tanggal);
-                    
-                    // Create history item HTML based on report type
-                    if (report.reportType === 'karyawan') {
-                        historyItem.innerHTML = `
-                            <div class="history-header">
-                                <div class="history-title">Laporan Karyawan</div>
-                                <div class="history-date">${formattedDate}</div>
-                            </div>
-                            <div class="history-content">
-                                <div class="history-field">
-                                    <span class="history-label">Nama Karyawan:</span>
-                                    <span class="history-value">${report.namaKaryawan}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Jenis Karyawan:</span>
-                                    <span class="history-value">${report.jenisKaryawan}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Area Kerja:</span>
-                                    <span class="history-value">${report.areaKerja}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Shift:</span>
-                                    <span class="history-value">${report.shiftKerja}</span>
-                                </div>
-                            </div>
-                            <div class="history-footer">
-                                <div class="history-status">Tersimpan</div>
-                                <div class="history-actions">
-                                    ${report.foto ? `<button class="history-action-btn" onclick="viewImage('${report.foto}')"><i class="bi bi-image"></i></button>` : ''}
-                                </div>
-                            </div>
-                        `;
-                    } else if (report.reportType === 'kinerja') {
-                        historyItem.innerHTML = `
-                            <div class="history-header">
-                                <div class="history-title">Laporan Kinerja</div>
-                                <div class="history-date">${formattedDate}</div>
-                            </div>
-                            <div class="history-content">
-                                <div class="history-field">
-                                    <span class="history-label">Nama Karyawan:</span>
-                                    <span class="history-value">${report.namaKaryawanKinerja}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Jenis Karyawan:</span>
-                                    <span class="history-value">${report.jenisKaryawanKinerja}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Area Kerja:</span>
-                                    <span class="history-value">${report.areaKerjaKinerja}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Shift:</span>
-                                    <span class="history-value">${report.shiftKerjaKinerja}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Kehadiran:</span>
-                                    <span class="history-value">${report.kehadiran}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Kualitas Pekerjaan:</span>
-                                    <span class="history-value">${report.kualitasPekerjaan}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Kepatuhan Aturan:</span>
-                                    <span class="history-value">${report.kepatuhanAturan}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Kerjasama Tim:</span>
-                                    <span class="history-value">${report.kerjasamaTim}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Inisiatif:</span>
-                                    <span class="history-value">${report.inisiatif}</span>
-                                </div>
-                                <div class="history-field">
-                                    <span class="history-label">Kepatuhan Keamanan:</span>
-                                    <span class="history-value">${report.kepatuhanKeamanan}</span>
-                                </div>
-                            </div>
-                            <div class="history-footer">
-                                <div class="history-status">Tersimpan</div>
-                                <div class="history-actions">
-                                    ${report.foto ? `<button class="history-action-btn" onclick="viewImage('${report.foto}')"><i class="bi bi-image"></i></button>` : ''}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    
-                    historyContainer.appendChild(historyItem);
-                });
-            }
-        }
-
-        // View image in modal
-        function viewImage(imageSrc) {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.style.display = 'block';
-            
-            const modalContent = document.createElement('div');
-            modalContent.className = 'modal-content';
-            modalContent.style.maxWidth = '90%';
-            modalContent.style.margin = '5% auto';
-            
-            const modalHeader = document.createElement('div');
-            modalHeader.className = 'modal-header';
-            
-            const modalTitle = document.createElement('h3');
-            modalTitle.className = 'modal-title';
-            modalTitle.textContent = 'Foto Laporan';
-            
-            const closeBtn = document.createElement('span');
-            closeBtn.className = 'close';
-            closeBtn.innerHTML = '&times;';
-            closeBtn.onclick = function() {
-                document.body.removeChild(modal);
-            };
-            
-            modalHeader.appendChild(modalTitle);
-            modalHeader.appendChild(closeBtn);
-            
-            const modalBody = document.createElement('div');
-            modalBody.className = 'modal-body';
-            modalBody.style.textAlign = 'center';
-            
-            const img = document.createElement('img');
-            img.src = imageSrc;
-            img.style.maxWidth = '100%';
-            img.style.maxHeight = '70vh';
-            img.style.borderRadius = '8px';
-            
-            modalBody.appendChild(img);
-            
-            modalContent.appendChild(modalHeader);
-            modalContent.appendChild(modalBody);
-            modal.appendChild(modalContent);
-            
-            document.body.appendChild(modal);
-        }
-
-        // Reset form function
-        function resetForm(formId) {
-            const form = document.getElementById(formId);
-            form.reset();
-            
-            // Clear photo preview
-            const previewId = formId === 'formLaporanKaryawan' ? 'fotoPreviewKaryawan' : 'fotoPreviewKinerja';
-            document.getElementById(previewId).innerHTML = '';
-        }
-
-        // Handle form submit laporan karyawan - OPTIMIZED
         document.getElementById('formLaporanKaryawan').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const fotoInput = document.getElementById('fotoLaporan');
             let fotoBase64 = null;
             
-            // Read photo if exists
             if (fotoInput.files && fotoInput.files[0]) {
                 try {
                     showNotification('Memproses foto...', 'warning');
@@ -1850,14 +1920,10 @@
                 reportType: 'karyawan'
             };
             
-            // Store current report data globally
             currentReportData = formData;
-            
-            // Directly send the report
             sendReport(formData);
         });
 
-        // Handle form submit laporan kinerja - OPTIMIZED (tanpa komentar dan dokumentasi)
         document.getElementById('formLaporanKinerja').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -1874,105 +1940,45 @@
                 inisiatif: document.getElementById('inisiatif').value,
                 kepatuhanKeamanan: document.getElementById('kepatuhanKeamanan').value,
                 tanggal: new Date().toISOString(),
-                foto: null, // Tidak ada foto untuk laporan kinerja
+                foto: null,
                 reportType: 'kinerja'
             };
             
-            // Store current report data globally
             currentReportData = formData;
-            
-            // Directly send the report
             sendReport(formData);
         });
 
-        // Send report directly - OPTIMIZED FOR SPEED
         async function sendReport(formData) {
             try {
-                // Show notification that we're sending
                 showNotification('Mengirim laporan...', 'warning');
                 
-                // Create report image with photo embedded
                 const reportImageBlob = await createReportImageFromPreview(formData);
                 
-                // Determine configuration based on report type
                 const config = {
                     chatId: TELEGRAM_CHAT_ID_EMPLOYEE,
                     apiUrl: TELEGRAM_API_URL_EMPLOYEE
                 };
                 
-                // Send report image to server without caption
                 const reportResponse = await sendToTelegram('', reportImageBlob, config);
                 
-                if (reportResponse.success) {
-                    // Save to localStorage
-                    saveReportToStorage(formData);
-                    
-                    // Reset form after successful submission
-                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanKinerja');
-                    
-                    // Show notification that report was sent successfully
-                    showNotification('Laporan berhasil terkirim!', 'success');
-                    
-                    // Redirect to home page
-                    showPage('beranda');
-                } else {
-                    // Save to localStorage even if sending failed
-                    saveReportToStorage(formData);
-                    
-                    // Reset form after successful submission
-                    resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanKinerja');
-                    
-                    // Show notification that report was sent successfully
-                    showNotification('Laporan berhasil terkirim!', 'success');
-                    
-                    // Redirect to home page
-                    showPage('beranda');
-                }
-            } catch (error) {
-                // Save to localStorage even if there's an error
+                // Regardless of telegram success/fail, save locally and reset
                 saveReportToStorage(formData);
-                
-                // Reset form after successful submission
                 resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanKinerja');
-                
-                // Show notification that report was sent successfully
                 showNotification('Laporan berhasil terkirim!', 'success');
+                showPage('beranda');
                 
-                // Redirect to home page
+            } catch (error) {
+                saveReportToStorage(formData);
+                resetForm(formData.reportType === 'karyawan' ? 'formLaporanKaryawan' : 'formLaporanKinerja');
+                showNotification('Laporan berhasil terkirim!', 'success');
                 showPage('beranda');
             }
         }
 
-        // Show success overlay with motivation - OPTIMIZED FOR SPEED
-        function showSuccessOverlay() {
-            const successOverlay = document.getElementById('successOverlay');
-            successOverlay.style.display = 'flex';
-            
-            // Start countdown - SET TO 3 SECONDS AS REQUESTED
-            let countdown = 3;
-            const countdownElement = document.getElementById('countdownNumber');
-            const countdownText = document.getElementById('countdownText');
-            
-            const countdownInterval = setInterval(() => {
-                countdown--;
-                countdownElement.textContent = countdown;
-                
-                if (countdown <= 0) {
-                    clearInterval(countdownInterval);
-                    // Hide success overlay and go to beranda
-                    setTimeout(() => {
-                        successOverlay.style.display = 'none';
-                        showPage('beranda');
-                    }, 300); // Reduced delay
-                }
-            }, 1000);
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            // No need for date initialization since we removed supervisor report
+            // Initialization if needed
         });
 
-        // Prevent zoom
         let lastTouchEnd = 0;
         document.addEventListener('touchend', (e) => {
             const now = Date.now();
