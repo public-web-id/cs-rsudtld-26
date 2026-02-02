@@ -12,28 +12,35 @@
             --primary-gradient: linear-gradient(135deg, #d90429 0%, #ef233c 100%);
             
             /* Warna Dasar Terang */
-            --bg-body: #f3f4f6; /* Abu-abu muda untuk background utama */
-            --bg-card: #ffffff; /* Putih untuk kartu */
-            --text-color: #1f2937; /* Abu gelap untuk teks utama */
-            --text-muted: #6b7280; /* Abu-abu untuk teks sekunder */
-            --border-color: #e5e7eb; /* Border abu-abu muda */
-            --gray-light: #f9fafb; /* Putih sangat muda untuk elemen kecil */
+            --bg-body: #f3f4f6;
+            --bg-card: #ffffff;
+            --text-color: #1f2937;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --gray-light: #f9fafb;
             
             /* Warna Input */
             --input-bg: #ffffff;
             --input-text: #111827;
             --placeholder-color: #9ca3af;
 
-            /* Shadow (Lebih lembut untuk terang) */
+            /* Shadow */
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             
-            /* Info Card (Jam di Header) */
+            /* Info Card */
             --info-card-bg: rgba(255, 255, 255, 0.95);
             --info-card-text: #d90429;
             
             /* Color Accents */
-            --success-color: #10b981; /* Hijau lembut */
+            --success-color: #10b981;
             --danger-color: #d90429;
+            --warning-color: #f59e0b;
+        }
+
+        /* SVG BACKGROUND ICONS (Data URI) */
+        :root {
+            --bg-icon-1: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23cbd5e1' stroke-width='1' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z' /%3E%3C/svg%3E");
+            --bg-icon-2: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23cbd5e1' stroke-width='1' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' /%3E%3C/svg%3E");
         }
 
         * {
@@ -46,7 +53,12 @@
 
         /* --- LAYOUT UTAMA (500px Constraint) --- */
         body {
-            background-color: #e5e7eb; /* Sedikit lebih gelap dari container agar konten pop-up */
+            background-color: #e5e7eb;
+            background-image: var(--bg-icon-1), var(--bg-icon-2);
+            background-repeat: no-repeat;
+            background-position: 5% 10%, 95% 80%;
+            background-size: 150px;
+            background-attachment: fixed;
             color: var(--text-color);
             min-height: 100vh;
             display: flex;
@@ -62,7 +74,7 @@
             min-height: 100vh;
             position: relative;
             padding-bottom: 80px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Shadow halus */
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
         }
 
         /* Header */
@@ -108,7 +120,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            backdrop-filter: blur(10px); /* Blur lebih kuat untuk mode terang */
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255,255,255,0.5);
             transition: background 0.3s, color 0.3s;
         }
@@ -126,7 +138,7 @@
             bottom: 0;
             left: 0;
             z-index: 50;
-            background: var(--bg-card); /* Navigasi putih */
+            background: var(--bg-card);
             border-top: 1px solid var(--border-color);
             box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
@@ -149,13 +161,13 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 0.65rem; 
+            font-size: 0.7rem; /* Ukuran font sedikit diperbesar karena item lebih sedikit */
             gap: 4px;
         }
 
         .nav-item svg {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             stroke: currentColor;
             fill: none;
             stroke-width: 2;
@@ -216,6 +228,119 @@
             justify-content: space-between;
         }
 
+        /* --- KOMPONEN BERANDA BARU --- */
+        .greeting-box {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .greeting-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-mini-card {
+            background: var(--gray-light);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .info-mini-card h4 {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-mini-card p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .shift-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .shift-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: #fff1f2;
+            border-radius: 8px;
+            border-left: 3px solid #d90429;
+        }
+        
+        .shift-name { font-weight: 700; font-size: 0.9rem; color: #1f2937; }
+        .shift-time { font-size: 0.85rem; color: #d90429; font-weight: 600; }
+
+        .schedule-accordion {
+            margin-top: 10px;
+        }
+        
+        .schedule-header {
+            width: 100%;
+            padding: 10px 15px;
+            background: var(--gray-light);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .schedule-body {
+            display: none; /* Hidden by default */
+            margin-top: 10px;
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .schedule-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--gray-light);
+            font-size: 0.85rem;
+        }
+        
+        .schedule-row:last-child { border-bottom: none; }
+
+        .warning-box {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            color: #92400e;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
         /* Form Elements */
         .form-group {
             margin-bottom: 18px;
@@ -247,24 +372,36 @@
         .form-control:focus {
             outline: none;
             border-color: #d90429;
-            box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.1); /* Shadow lebih transparan */
+            box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.1);
         }
 
         select.form-control {
             cursor: pointer;
             appearance: none;
-            /* Ganti warna panah menjadi gelap agar terlihat di background putih */
             background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
             background-repeat: no-repeat;
             background-position: right 12px top 50%;
             background-size: 10px auto;
         }
         
-        input[type="file"], input[type="date"] {
+        input[type="file"] {
             padding: 10px;
             border: 1px dashed var(--border-color);
             background-color: var(--input-bg);
             color: var(--input-text);
+        }
+
+        /* AI Badge */
+        .ai-badge {
+            background: linear-gradient(90deg, #8b5cf6, #d90429);
+            color: white;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
         }
 
         /* Toast Notification */
@@ -282,7 +419,7 @@
         }
 
         .toast {
-            background: #1f2937; /* Toast tetap gelap agar teks putih terbaca */
+            background: #1f2937;
             color: white;
             padding: 12px 20px;
             border-radius: 8px;
@@ -302,84 +439,6 @@
         @keyframes slideDown {
             from { transform: translateY(-100%); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* --- STYLE ABSENSI (MENU BARU) --- */
-        .period-badge {
-            background: rgba(217, 4, 41, 0.1); /* Background transparan merah */
-            color: #d90429;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            text-align: center;
-            margin-bottom: 15px;
-            border: 1px solid rgba(217, 4, 41, 0.2);
-            font-weight: 600;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%); /* Hijau solid */
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            color: white;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            line-height: 1;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .attendance-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .absensi-category-header {
-            padding: 8px 12px;
-            background: var(--gray-light);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #d90429;
-            border-left: 4px solid #d90429;
-            margin-top: 10px;
-        }
-
-        .attendance-item {
-            background: var(--bg-card);
-            padding: 12px 15px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 3px solid #10b981;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Shadow halus pada item list */
-        }
-
-        .att-name {
-            font-weight: 600;
-            color: #1f2937;
-        }
-
-        .att-count {
-            background: var(--gray-light);
-            color: #374151; /* Teks gelap */
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border: 1px solid var(--border-color);
         }
 
         /* --- STYLE RIWAYAT / HISTORY DRILL-DOWN --- */
@@ -459,7 +518,7 @@
 
         .list-item:hover {
             border-color: #d90429;
-            background: #fff1f2; /* Merah sangat muda saat hover */
+            background: #fff1f2;
             transform: translateX(5px);
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
@@ -484,7 +543,6 @@
         .item-content h4 {
             font-size: 0.95rem;
             margin-bottom: 2px;
-            color: #111827;
         }
         
         .item-content p {
@@ -618,6 +676,7 @@
 
         .card-body-img {
             padding: 20px;
+            position: relative; /* Relative untuk positioning timestamp */
         }
 
         .card-photo-container {
@@ -637,6 +696,21 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* TIMESTAMP STYLE */
+        .report-timestamp {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-family: monospace;
+            font-weight: bold;
+            pointer-events: none; /* Jangan kena klik */
         }
 
         .card-info-row {
@@ -706,26 +780,76 @@
         <main>
             <!-- BERANDA -->
             <section id="beranda" class="active">
-                <div class="card" style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-                    <svg width="64" height="64" fill="none" stroke="#d90429" viewBox="0 0 24 24" style="margin-bottom: 20px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                    <h3 style="color: #d90429; margin-bottom: 10px;">Sistem Siap Digunakan</h3>
-                    <p>Silakan pilih menu di bawah untuk mulai mengisi laporan.</p>
-                    
-                    <!-- TOMBOL RESET DATA BARU -->
-                    <button class="btn-reset" onclick="clearHistory()">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                        Reset Data (Kosongkan Riwayat)
-                    </button>
+                
+                <!-- Ucapan Selamat Datang -->
+                <div class="card greeting-box">
+                    <h3>Selamat Datang, Tim Outsourcing!</h3>
+                    <p style="font-size: 0.85rem; margin-top:5px;">Terima kasih atas kerja keras Anda. Silakan isi laporan dengan teliti.</p>
+                </div>
 
-                    <div style="margin-top:20px; font-size: 0.8rem; background: var(--gray-light); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); text-align: left;">
-                        <strong>Panduan Singkat:</strong>
-                        <ul style="list-style:none; margin-top:5px; padding-left:0; line-height:1.6;">
-                            <li>1. Klik "Reset Data" di atas untuk menghapus semua laporan lama & menunggu data baru.</li>
-                            <li>2. Lapor Kehadiran di menu Individu.</li>
-                            <li>3. Cek & Hapus salah satu laporan di menu Riwayat.</li>
-                        </ul>
+                <!-- Info Shift (Statis) -->
+                <div class="card">
+                    <div class="card-header">Informasi Shift Kerja</div>
+                    <div class="shift-list">
+                        <div class="shift-item">
+                            <span class="shift-name">SHIFT PAGI</span>
+                            <span class="shift-time">08.00 - 16.00</span>
+                        </div>
+                        <div class="shift-item">
+                            <span class="shift-name">SHIFT SORE</span>
+                            <span class="shift-time">16.00 - 00.00</span>
+                        </div>
+                        <div class="shift-item">
+                            <span class="shift-name">SHIFT MALAM</span>
+                            <span class="shift-time">00.00 - 08.00</span>
+                        </div>
+                        <div class="shift-item">
+                            <span class="shift-name">SHIFT 24 JAM</span>
+                            <span class="shift-time">08.00 - 08.00 (Besok)</span>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Jadwal Kerja (Accordion) -->
+                <div class="card">
+                    <div class="schedule-header" onclick="toggleSchedule()">
+                        <span>Jadwal Kerja Per Ruangan</span>
+                        <svg id="schedule-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="transition: transform 0.3s;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <div id="schedule-body" class="schedule-body">
+                        <div class="schedule-row">
+                            <span style="font-weight:600; color:#d90429;">IGD & UGD</span>
+                            <span>24 Jam</span>
+                        </div>
+                        <div class="schedule-row">
+                            <span style="font-weight:600; color:#d90429;">Poliklinik & Rawat Inap</span>
+                            <span>07.00 - 20.00</span>
+                        </div>
+                        <div class="schedule-row">
+                            <span style="font-weight:600; color:#d90429;">Kantor & Administrasi</span>
+                            <span>08.00 - 16.00</span>
+                        </div>
+                        <div class="schedule-row">
+                            <span style="font-weight:600; color:#d90429;">Kebersihan Umum</span>
+                            <span>Pagi / Sore / Malam</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Peringatan 2 Hari -->
+                <div class="warning-box">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="flex-shrink: 0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 2.667 1.732 3L7.268 21.992c.77 1.334 2.694 1.334 3.464 0l6.372-3.992c.77-1.333.192-2.667-1.732-3L20.66 7c-.77-1.333-2.694-1.333-3.464 0L11 4H9z"></path></svg>
+                    <div>
+                        <strong>PERHATIAN KEHADIRAN</strong><br>
+                        Jika karyawan tidak bekerja atau tanpa berita selama <strong>2 hari</strong>, maka perusahaan berhak memutuskon kontrak kerja kepada yang bersangkutan.
+                    </div>
+                </div>
+
+                <!-- Reset Data -->
+                <button class="btn-reset" onclick="clearHistory()">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    Reset Data (Kosongkan Riwayat)
+                </button>
             </section>
 
             <!-- LAPORAN KARYAWAN (INDIVIDU) -->
@@ -737,12 +861,12 @@
                             Laporan Karyawan
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="karyawan-tanggal">Tanggal Laporan</label>
-                        <input type="date" id="karyawan-tanggal" class="form-control" required>
-                    </div>
 
+                    <!-- Info AI -->
+                    <div class="ai-badge">
+                        🤖 AI Assistant: Data akan otomatis dikirim saat foto dipilih.
+                    </div>
+                    
                     <div class="form-group">
                         <label for="karyawan-nama">Nama Karyawan</label>
                         <input type="text" id="karyawan-nama" class="form-control" placeholder="Masukkan nama lengkap" required>
@@ -775,88 +899,8 @@
 
                     <div class="form-group">
                         <label for="karyawan-dokumentasi">Dokumentasi (Foto Kegiatan/Kehadiran)</label>
-                        <input type="file" id="karyawan-dokumentasi" class="form-control" accept="image/*" required>
-                    </div>
-                    
-                    <div style="background-color: #1e3a8a; padding: 10px; border-radius: 6px; text-align: center; border: 1px solid #3b82f6;">
-                        <small style="color: #93c5fd; font-weight: 600;">⚠️ PERHATIAN</small>
-                        <p style="font-size: 0.8rem; color: #dbeafe; margin: 5px 0 0 0;">
-                            Laporan akan <strong>OTOMATIS TERKIRIM & TEREKAM</strong> segera setelah foto dipilih.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- LAPORAN BARANG -->
-            <section id="laporan-barang">
-                <div class="card">
-                    <div class="card-header">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-                        Laporan Status Aset
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="barang-tanggal">Tanggal Laporan</label>
-                        <input type="date" id="barang-tanggal" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="barang-karyawan">Nama Karyawan</label>
-                        <input type="text" id="barang-karyawan" class="form-control" placeholder="Masukkan nama pelapor" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="barang-lokasi">Lokasi</label>
-                        <select id="barang-lokasi" class="form-control" required>
-                            <option value="" disabled selected>-- Pilih Lokasi --</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="barang-status">Status</label>
-                        <select id="barang-status" class="form-control" required>
-                            <option value="BAIK">BAIK</option>
-                            <option value="RUSAK RINGAN">RUSAK RINGAN</option>
-                            <option value="RUSAK BERAT">RUSAK BERAT</option>
-                            <option value="HILANG">HILANG</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="barang-dokumentasi">Dokumentasi Aset (Foto)</label>
-                        <input type="file" id="barang-dokumentasi" class="form-control" accept="image/*" required>
-                    </div>
-                    
-                    <div style="background-color: #7c2d12; padding: 10px; border-radius: 6px; text-align: center; border: 1px solid #c2410c;">
-                        <small style="color: #fdba74; font-weight: 600;">⚠️ PERHATIAN</small>
-                        <p style="font-size: 0.8rem; color: #ffedd5; margin: 5px 0 0 0;">
-                            Laporan akan <strong>OTOMATIS TERKIRIM</strong> segera setelah foto dipilih.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- MENU ABSENSI (HITUNG KEHADIRAN) -->
-            <section id="absensi">
-                <div class="card">
-                    <div class="card-header">
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                            Rekap Kehadiran
-                        </div>
-                    </div>
-
-                    <div id="period-badge" class="period-badge">
-                        Memuat Periode...
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-number" id="total-reports">0</div>
-                        <div class="stat-label">Total Kehadiran (Hari Kerja)</div>
-                    </div>
-
-                    <div class="attendance-list" id="attendance-list">
-                        <!-- List Kehadiran akan di-generate disini -->
+                        <input type="file" id="karyawan-dokumentasi" class="form-control" accept="image/*" capture="environment" required>
+                        <small style="color:var(--text-muted); display:block; margin-top:5px; font-size:0.75rem;">*Klik akan membuka kamera langsung.</small>
                     </div>
                 </div>
             </section>
@@ -867,7 +911,7 @@
                     <div class="card-header">
                         <div style="display:flex; align-items:center; gap:10px;">
                             <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Riwayat Kehadiran
+                            Riwayat Laporan
                         </div>
                         <button id="btn-clear-history" class="btn-back" style="background:transparent; border:1px solid #d90429; color:#d90429;" onclick="clearHistory()">Hapus Semua</button>
                     </div>
@@ -890,7 +934,7 @@
             </section>
         </main>
 
-        <!-- FOOTER NAV (5 ITEM) -->
+        <!-- FOOTER NAV (HANYA 3 ITEM) -->
         <footer>
             <nav>
                 <div class="nav-menu">
@@ -902,16 +946,6 @@
                     <div class="nav-item" onclick="switchTab('laporan-karyawan')">
                         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                         <span>Individu</span>
-                    </div>
-                    
-                    <div class="nav-item" onclick="switchTab('laporan-barang')">
-                        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                        <span>Aset</span>
-                    </div>
-
-                    <div class="nav-item" onclick="switchTab('absensi')">
-                        <svg viewBox="0 0 24 24"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
-                        <span>Absensi</span>
                     </div>
 
                     <div class="nav-item" onclick="switchTab('riwayat-karyawan')">
@@ -937,6 +971,9 @@
             <div class="card-photo-container">
                 <img id="card-image" src="" alt="Dokumentasi">
             </div>
+            <!-- TIMESTAMP OVERLAY (AKAN DITAMBAHIN JS) -->
+            <div id="card-timestamp" class="report-timestamp"></div>
+            
             <div id="card-dynamic-content"></div>
         </div>
         <div class="card-footer-img">
@@ -977,7 +1014,7 @@
             selectedCategory: null,
             selectedName: null,
             selectedDate: null,
-            groupedData: {} // Data yang sudah di-proses
+            groupedData: {} 
         };
 
         function formatDateIndo(dateString) {
@@ -992,13 +1029,9 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('karyawan-tanggal').value = today;
-            document.getElementById('barang-tanggal').value = today;
-
+            // Setup Dropdowns
             populateDropdowns();
             setupAutoSendKaryawan(); 
-            setupAutoSendBarang();   
             startClock();
         });
 
@@ -1018,14 +1051,18 @@
                 option.textContent = item;
                 selectArea.appendChild(option);
             });
+        }
 
-            const selectLokasiBarang = document.getElementById('barang-lokasi');
-            areaKerjaList.forEach(item => {
-                const option = document.createElement('option');
-                option.value = item;
-                option.textContent = item;
-                selectLokasiBarang.appendChild(option);
-            });
+        function toggleSchedule() {
+            const body = document.getElementById('schedule-body');
+            const arrow = document.getElementById('schedule-arrow');
+            if (body.style.display === 'block') {
+                body.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                body.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
+            }
         }
 
         function switchTab(tabId) {
@@ -1038,9 +1075,7 @@
             const tabIndexMap = {
                 'beranda': 0,
                 'laporan-karyawan': 1,
-                'laporan-barang': 2,
-                'absensi': 3,
-                'riwayat-karyawan': 4
+                'riwayat-karyawan': 2
             };
             
             if(tabIndexMap[tabId] !== undefined) {
@@ -1051,15 +1086,11 @@
                 resetHistoryState();
                 renderHistory();
             }
-
-            if(tabId === 'absensi') {
-                renderAbsensi();
-            }
         }
 
         function setupAutoSendKaryawan() {
+            // Hapus tanggal dari fields, karena input tanggal sudah dihapus
             const fields = [
-                document.getElementById('karyawan-tanggal'),
                 document.getElementById('karyawan-nama'),
                 document.getElementById('karyawan-jenis'),
                 document.getElementById('karyawan-area'),
@@ -1076,7 +1107,10 @@
             });
             
             if (isComplete) {
-                const tanggal = document.getElementById('karyawan-tanggal').value;
+                // TANGGAL OTOMATIS HARI INI
+                const tanggalObj = new Date();
+                const tanggal = tanggalObj.toISOString().split('T')[0];
+                
                 const nama = document.getElementById('karyawan-nama').value;
                 const jenis = document.getElementById('karyawan-jenis').value;
                 const area = document.getElementById('karyawan-area').value;
@@ -1084,8 +1118,7 @@
                 const file = document.getElementById('karyawan-dokumentasi').files[0];
 
                 const displayDate = formatDateIndo(tanggal);
-                const monthDate = new Date(tanggal);
-                const monthLabel = monthDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+                const monthLabel = tanggalObj.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
 
                 generateAndSendImage('KARYAWAN', {
                     title: 'LAPORAN KARYAWAN OUTSOURCING', 
@@ -1099,8 +1132,8 @@
                     ],
                     historyData: {
                         type: 'KARYAWAN',
-                        category: jenis,          // Kategori Utama
-                        subCategory: nama,         // Nama
+                        category: jenis,          
+                        subCategory: nama,         
                         location: area,
                         detail: `Shift: ${shift}`,
                         date: displayDate,
@@ -1113,7 +1146,6 @@
         }
 
         function resetEmployeeForm() {
-            document.getElementById('karyawan-tanggal').value = new Date().toISOString().split('T')[0];
             document.getElementById('karyawan-nama').value = "";
             document.getElementById('karyawan-jenis').value = "";
             document.getElementById('karyawan-area').value = "";
@@ -1121,69 +1153,9 @@
             document.getElementById('karyawan-dokumentasi').value = "";
         }
 
-        function setupAutoSendBarang() {
-            const fields = [
-                document.getElementById('barang-tanggal'),
-                document.getElementById('barang-karyawan'),
-                document.getElementById('barang-lokasi'),
-                document.getElementById('barang-status'),
-                document.getElementById('barang-dokumentasi')
-            ];
-            fields.forEach(field => field.addEventListener('change', () => checkAndSendBarang(fields)));
-        }
-
-        function checkAndSendBarang(fields) {
-            const isComplete = fields.every(f => {
-                if (f.type === 'file') return f.files.length > 0;
-                return f.value.trim() !== "";
-            });
-
-            if (isComplete) {
-                const tanggal = document.getElementById('barang-tanggal').value;
-                const karyawan = document.getElementById('barang-karyawan').value;
-                const lokasi = document.getElementById('barang-lokasi').value;
-                const status = document.getElementById('barang-status').value;
-                const fileInput = document.getElementById('barang-dokumentasi');
-
-                const displayDate = formatDateIndo(tanggal);
-                const monthDate = new Date(tanggal);
-                const monthLabel = monthDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
-
-                generateAndSendImage('BARANG', {
-                    title: 'LAPORAN STATUS ASET',
-                    imageFile: fileInput.files[0],
-                    reportDateStr: displayDate,
-                    data: [
-                        { label: 'Pelapor', value: karyawan },
-                        { label: 'Lokasi', value: lokasi },
-                        { label: 'Status', value: status, isBold: true }
-                    ],
-                    historyData: {
-                        type: 'BARANG',
-                        category: 'ASET',
-                        subCategory: lokasi, 
-                        location: status,
-                        detail: `Oleh: ${karyawan}`,
-                        date: displayDate,
-                        month: monthLabel
-                    }
-                });
-
-                resetBarangForm();
-            }
-        }
-
-        function resetBarangForm() {
-            document.getElementById('barang-tanggal').value = new Date().toISOString().split('T')[0];
-            document.getElementById('barang-karyawan').value = "";
-            document.getElementById('barang-lokasi').value = "";
-            document.getElementById('barang-status').value = "BAIK";
-            document.getElementById('barang-dokumentasi').value = "";
-        }
-
         // --- LOGIKA GENERATE GAMBAR ---
         function generateAndSendImage(type, params) {
-            showToast("⏳ Sedang membuat gambar laporan...", "info");
+            showToast("⏳ AI Assistant: Sedang memproses laporan...", "info");
 
             const card = document.getElementById('report-card');
             const cardHeader = document.querySelector('.card-header-img');
@@ -1191,11 +1163,20 @@
             const cardDate = document.getElementById('card-date');
             const cardImage = document.getElementById('card-image');
             const cardDynamicContent = document.getElementById('card-dynamic-content');
+            const cardTimestamp = document.getElementById('card-timestamp');
 
             cardTitle.innerText = params.title;
             cardDate.innerText = params.reportDateStr; 
 
             cardDynamicContent.innerHTML = '';
+
+            // Set Timestamp Overlay
+            const now = new Date();
+            const timestampString = now.toLocaleString('id-ID', { 
+                dateStyle: 'medium', 
+                timeStyle: 'short' 
+            });
+            cardTimestamp.innerText = "📅 " + timestampString;
 
             if (type === 'KARYAWAN') {
                 cardHeader.style.background = "linear-gradient(135deg, #d90429 0%, #8d0801 100%)"; 
@@ -1246,7 +1227,7 @@
             const formData = new FormData();
             formData.append('chat_id', TELEGRAM_CHAT_ID);
             formData.append('photo', blob, `laporan-${Date.now()}.png`);
-            formData.append('caption', `📷 *Laporan Terkirim*\n${historyData.detail}`); 
+            formData.append('caption', `🤖 *AI Auto-Sent*\nLaporan tercatat otomatis pada: ${historyData.date}`); 
             formData.append('parse_mode', 'Markdown');
 
             fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
@@ -1256,10 +1237,10 @@
             .then(response => response.json())
             .then(result => {
                 if (result.ok) {
-                    showToast("✅ Laporan Gambar terkirim!", "success");
+                    showToast("✅ Laporan Terkirim Otomatis!", "success");
                     saveToHistory({
                         ...historyData,
-                        dateKey: dateKey // Unik ID untuk setiap laporan
+                        dateKey: dateKey 
                     });
                 } else {
                     showToast("❌ Gagal: " + result.description, "error");
@@ -1276,102 +1257,6 @@
             let history = JSON.parse(localStorage.getItem('rsud_history') || '[]');
             history.unshift(data);
             localStorage.setItem('rsud_history', JSON.stringify(history));
-        }
-
-        // --- LOGIKA ABSENSI (UPDATE: 1 HARI = 1 LAPORAN & KATEGORI) ---
-        function renderAbsensi() {
-            const period = getPeriodDates();
-            const periodBadge = document.getElementById('period-badge');
-            const totalReportsEl = document.getElementById('total-reports');
-            const listEl = document.getElementById('attendance-list');
-            
-            periodBadge.innerText = `Periode: ${formatDateShort(period.startDate)} - ${formatDateShort(period.endDate)}`;
-            
-            // Ambil data history
-            let history = JSON.parse(localStorage.getItem('rsud_history') || '[]');
-            const attendanceList = history.filter(item => item.type === 'KARYAWAN');
-            
-            // Filter berdasarkan periode
-            const filteredList = attendanceList.filter(item => {
-                const itemDate = new Date(item.dateKey); 
-                return itemDate >= period.startDate && itemDate <= period.endDate;
-            });
-
-            // Struktur Data Baru: { "CLEANING SERVICE": { "Budi": Set("date1", "date2"), "Siti": Set(...) } }
-            const categoryData = {};
-
-            filteredList.forEach(item => {
-                const cat = item.category;
-                const name = item.subCategory;
-                const date = item.date; 
-
-                if(!categoryData[cat]) categoryData[cat] = {};
-                if(!categoryData[cat][name]) categoryData[cat][name] = new Set();
-
-                // Gunakan Set untuk memastikan 1 hari hanya dihitung 1x walaupun ada 2 laporan
-                categoryData[cat][name].add(date);
-            });
-
-            // Hitung Total Kehadiran (Sum dari size semua Set)
-            let totalDays = 0;
-            const categories = Object.keys(categoryData).sort();
-
-            categories.forEach(cat => {
-                const names = Object.keys(categoryData[cat]);
-                names.forEach(name => {
-                    totalDays += categoryData[cat][name].size;
-                });
-            });
-
-            // Render Total
-            totalReportsEl.innerText = totalDays;
-
-            // Render List Terkategorisasi
-            listEl.innerHTML = '';
-            
-            if (categories.length === 0) {
-                listEl.innerHTML = `<div class="empty-state" style="padding:20px;">Belum ada laporan di periode ini.</div>`;
-                return;
-            }
-
-            categories.forEach(cat => {
-                // Header Kategori
-                const catHeader = document.createElement('div');
-                catHeader.className = 'absensi-category-header';
-                catHeader.innerText = cat;
-                listEl.appendChild(catHeader);
-
-                // List Nama dalam Kategori
-                const names = Object.keys(categoryData[cat]).sort();
-                
-                names.forEach(name => {
-                    const daysCount = categoryData[cat][name].size;
-                    const el = document.createElement('div');
-                    el.className = 'attendance-item';
-                    el.innerHTML = `
-                        <div class="att-name">${name}</div>
-                        <div class="att-count">${daysCount} Hari</div>
-                    `;
-                    listEl.appendChild(el);
-                });
-            });
-        }
-
-        function getPeriodDates() {
-            const today = new Date();
-            const day = today.getDate();
-            let startDate, endDate;
-
-            if (day >= 28) {
-                // Periode baru mulai hari ini (Tanggal 28 bulan ini sampai 27 bulan depan)
-                startDate = new Date(today.getFullYear(), today.getMonth(), 28);
-                endDate = new Date(today.getFullYear(), today.getMonth() + 1, 27);
-            } else {
-                // Kita masih dalam periode lama (Tanggal 28 bulan lalu sampai 27 bulan ini)
-                startDate = new Date(today.getFullYear(), today.getMonth() - 1, 28);
-                endDate = new Date(today.getFullYear(), today.getMonth(), 27);
-            }
-            return { startDate, endDate };
         }
 
         // --- LOGIKA RIWAYAT BERTINGKAT (DRILL-DOWN) + DELETE ---
@@ -1583,7 +1468,7 @@
             if(confirm("Apakah Anda yakin ingin mengosongkan semua riwayat? Ini akan menghapus data lama agar sistem siap menunggu data baru.")) {
                 localStorage.removeItem('rsud_history');
                 resetHistoryState();
-                renderHistory(); // Render akan memperbarui UI menjadi "Belum ada riwayat"
+                renderHistory(); 
                 showToast("✅ Riwayat dikosongkan. Siap menunggu data baru.", "success");
             }
         }
