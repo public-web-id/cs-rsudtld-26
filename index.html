@@ -161,7 +161,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 0.7rem;
+            font-size: 0.7rem; 
             gap: 4px;
         }
 
@@ -309,7 +309,7 @@
         }
         
         .schedule-body {
-            display: none; 
+            display: none; /* Hidden by default */
             margin-top: 10px;
             background: #fff;
             border-radius: 8px;
@@ -383,43 +383,12 @@
             background-position: right 12px top 50%;
             background-size: 10px auto;
         }
-
-        /* --- CAMERA TRIGGER BUTTON STYLE --- */
-        .camera-trigger {
-            background-color: var(--gray-light);
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            padding: 30px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #374151;
-        }
-
-        .camera-trigger:hover {
-            background-color: #fff1f2;
-            border-color: #d90429;
-            color: #d90429;
-        }
-
-        .camera-trigger svg {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 10px;
-            color: #d90429;
-        }
-
-        .camera-trigger span {
-            display: block;
-            font-weight: 600;
-            font-size: 1rem;
-        }
         
-        .camera-trigger small {
-            display: block;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 5px;
+        input[type="file"] {
+            padding: 10px;
+            border: 1px dashed var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--input-text);
         }
 
         /* AI Badge */
@@ -707,7 +676,7 @@
 
         .card-body-img {
             padding: 20px;
-            position: relative; /* Relative untuk positioning timestamp */
+            position: relative;
         }
 
         .card-photo-container {
@@ -741,7 +710,7 @@
             font-size: 0.75rem;
             font-family: monospace;
             font-weight: bold;
-            pointer-events: none; 
+            pointer-events: none;
         }
 
         .card-info-row {
@@ -869,7 +838,7 @@
 
                 <!-- Peringatan 2 Hari -->
                 <div class="warning-box">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="flex-shrink: 0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 2.667 1.732 3L7.268 21.992c.77 1.334 2.694 1.334 3.464 0l6.372-3.992c.77-1.333.192-2.667-1.333-3.464 0L20.66 7c-.77-1.333-2.694-1.333-3.464 0L11 4H9z"></path></svg>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="flex-shrink: 0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 2.667 1.732 3L7.268 21.992c.77 1.334 2.694 1.334 3.464 0l6.372-3.992c.77-1.333.192-2.667-1.333-3.464 0L11 4H9z"></path></svg>
                     <div>
                         <strong>PERHATIAN KEHADIRAN</strong><br>
                         Jika karyawan tidak bekerja atau tanpa berita selama <strong>2 hari</strong>, maka perusahaan berhak memutuskon kontrak kerja kepada yang bersangkutan.
@@ -928,15 +897,17 @@
                         </select>
                     </div>
 
-                    <!-- TRIGGER KAMERA (GANTIK KOLOM FOTO) -->
-                    <div class="camera-trigger" onclick="triggerCamera()">
-                        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2 2h-2a2 2 0 0 1-2 2v-2a2 2 0 0 1 2-2h4l2 2h2zM13 5V3H8v10h8v3h2V5h-2z"></path></svg>
-                        <span>📸 KLIK DISINI UNTUK BUKA KAMERA</span>
-                        <small>Tanpa masuk galeri</small>
+                    <div class="form-group">
+                        <label for="karyawan-dokumentasi">Dokumentasi (Foto Kegiatan/Kehadiran)</label>
+                        <!-- 
+                           PERUBAHAN:
+                           1. accept="image/*" (Hanya Foto)
+                           2. Hapus atribut capture (Buka galeri)
+                           3. Tambahkan title untuk akses kamera jika didukung browser, tapi default kembali ke galeri.
+                        -->
+                        <input type="file" id="karyawan-dokumentasi" class="form-control" accept="image/*" capture="user" required>
+                        <small style="color:var(--text-muted); display:block; margin-top:5px; font-size:0.75rem;">*Hanya Foto (JPG/PNG). Klik untuk buka galeri.</small>
                     </div>
-                    
-                    <!-- INPUT FILE TERSEMBUNYI -->
-                    <input type="file" id="karyawan-dokumentasi" accept="image/*" capture="environment" style="display:none;" required>
                 </div>
             </section>
 
@@ -1006,7 +977,7 @@
             <div class="card-photo-container">
                 <img id="card-image" src="" alt="Dokumentasi">
             </div>
-            <!-- TIMESTAMP OVERLAY -->
+            <!-- TIMESTAMP OVERLAY (AKAN DITAMBAHIN JS) -->
             <div id="card-timestamp" class="report-timestamp"></div>
             
             <div id="card-dynamic-content"></div>
@@ -1045,7 +1016,7 @@
 
         // --- STATE RIWAYAT ---
         let historyState = {
-            level: 0, 
+            level: 0, // 0: Categories, 1: Names, 2: Dates, 3: Details
             selectedCategory: null,
             selectedName: null,
             selectedDate: null,
@@ -1064,6 +1035,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
+            // Setup Dropdowns
             populateDropdowns();
             setupAutoSendKaryawan(); 
             startClock();
@@ -1122,46 +1094,50 @@
             }
         }
 
-        // --- FUNGSI TRIGGER KAMERA ---
-        function triggerCamera() {
-            // Klik tombol tiruan ini akan memicu klik pada input file yang disembunyikan
-            document.getElementById('karyawan-dokumentasi').click();
-        }
-
         function setupAutoSendKaryawan() {
-            // Input file disembunyikan, jadi kita hanya perlu mendengarkan perubahannya
-            const fileInput = document.getElementById('karyawan-dokumentasi');
-            
-            // Fields wajib tanpa file
             const fields = [
                 document.getElementById('karyawan-nama'),
                 document.getElementById('karyawan-jenis'),
                 document.getElementById('karyawan-area'),
-                document.getElementById('karyawan-shift')
+                document.getElementById('karyawan-shift'),
+                document.getElementById('karyawan-dokumentasi') 
             ];
-            
-            fields.forEach(field => field.addEventListener('change', () => checkAndSendKaryawan(fields, fileInput)));
-            
-            // Listener khusus untuk file input
-            fileInput.addEventListener('change', () => {
-                checkAndSendKaryawan(fields, fileInput);
-            });
+            fields.forEach(field => field.addEventListener('change', () => checkAndSendKaryawan(fields)));
         }
 
-        function checkAndSendKaryawan(fields, fileInput) {
-            const isComplete = fields.every(f => f.value.trim() !== "");
-            const hasFile = fileInput.files.length > 0;
+        function checkAndSendKaryawan(fields) {
+            const isComplete = fields.every(f => {
+                if (f.type === 'file') {
+                    // Validasi: Pastikan ada file
+                    if (f.files.length === 0) return false;
+                    
+                    // Validasi: Hanya 1 File
+                    if (f.files.length > 1) {
+                        showToast("⚠️ Hanya boleh upload 1 foto saja. Foto sebelumnya telah diganti.", "info");
+                        // Kita lanjut dengan file terakhir, tapi beri tahu user
+                    }
+                    
+                    // Validasi: Pastikan file adalah IMAGE (bukan video/mp4)
+                    const file = f.files[0];
+                    if (!file.type.startsWith('image/')) {
+                        showToast("❌ File harus berupa Foto (JPG/PNG). Video tidak diperbolehkan.", "error");
+                        return false;
+                    }
+                    return true;
+                }
+                return f.value.trim() !== "";
+            });
             
-            if (isComplete && hasFile) {
-                // TANGGAL OTOMATIS HARI INI
-                const tanggalObj = new Date();
-                const tanggal = tanggalObj.toISOString().split('T')[0];
-                
+            if (isComplete) {
+                const file = document.getElementById('karyawan-dokumentasi').files[0];
                 const nama = document.getElementById('karyawan-nama').value;
                 const jenis = document.getElementById('karyawan-jenis').value;
                 const area = document.getElementById('karyawan-area').value;
                 const shift = document.getElementById('karyawan-shift').value;
-                const file = fileInput.files[0];
+
+                // TANGGAL OTOMATIS HARI INI
+                const tanggalObj = new Date();
+                const tanggal = tanggalObj.toISOString().split('T')[0];
 
                 const displayDate = formatDateIndo(tanggal);
                 const monthLabel = tanggalObj.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
