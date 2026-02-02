@@ -28,7 +28,7 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             
             /* Info Card */
-            --info-card-bg: rgba(255, 255, 255, 0.95);
+            --info-card-bg: rgba(255,255, 255, 0.95);
             --info-card-text: #d90429;
             
             /* Color Accents */
@@ -37,7 +37,7 @@
             --warning-color: #f59e0b;
         }
 
-        /* SVG BACKGROUND ICONS (Data URI) */
+        /* SVG BACKGROUND ICONS */
         :root {
             --bg-icon-1: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23cbd5e1' stroke-width='1' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z' /%3E%3C/svg%3E");
             --bg-icon-2: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23cbd5e1' stroke-width='1' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' /%3E%3C/svg%3E");
@@ -228,6 +228,149 @@
             justify-content: space-between;
         }
 
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s, background-color 0.3s, color 0.3s, box-shadow 0.3s;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+        
+        .form-control::placeholder {
+            color: var(--placeholder-color);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #d90429;
+            box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.1);
+        }
+
+        select.form-control {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22233233%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px top 50%;
+            background-size: 10px auto;
+        }
+        
+        input[type="file"] {
+            padding: 10px;
+            border: 1px dashed var(--border-color);
+            background-color: var(--input-bg);
+            color: var(--input-text);
+        }
+
+        /* Toast Notification */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 90%;
+            max-width: 450px;
+        }
+
+        .toast {
+            background: #1f2937;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideDown 0.3s ease-out;
+            font-size: 0.9rem;
+            border: 1px solid #374151;
+        }
+
+        .toast.success { border-left: 4px solid var(--success-color); }
+        .toast.error { border-left: 4px solid #d90429; }
+        .toast.info { border-left: 4px solid #3498db; }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* --- PREVIEW MODAL (BARU) --- */
+        #preview-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9); /* Hitam transparan */
+            z-index: 2000;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            flex-direction: column;
+            z-index: 9999;
+        }
+
+        .preview-content {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 85%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-height: 50vh; /* Agar gambar tidak lebih tinggi dari layar */
+            object-fit: contain; /* Agar gambar tidak terpotong */
+            border-radius: 10px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+        }
+
+        .btn-preview-send {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
         /* --- KOMPONEN BERANDA BARU --- */
         .greeting-box {
             background: #ecfdf5;
@@ -339,106 +482,6 @@
             display: flex;
             gap: 10px;
             align-items: flex-start;
-        }
-
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-color);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s, background-color 0.3s, color 0.3s, box-shadow 0.3s;
-            background-color: var(--input-bg);
-            color: var(--input-text);
-        }
-        
-        .form-control::placeholder {
-            color: var(--placeholder-color);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #d90429;
-            box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.1);
-        }
-
-        select.form-control {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px top 50%;
-            background-size: 10px auto;
-        }
-        
-        input[type="file"] {
-            padding: 10px;
-            border: 1px dashed var(--border-color);
-            background-color: var(--input-bg);
-            color: var(--input-text);
-        }
-
-        /* AI Badge */
-        .ai-badge {
-            background: linear-gradient(90deg, #8b5cf6, #d90429);
-            color: white;
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 12px;
-            display: inline-block;
-            margin-bottom: 15px;
-            font-weight: 700;
-            box-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
-        }
-
-        /* Toast Notification */
-        #toast-container {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 90%;
-            max-width: 450px;
-        }
-
-        .toast {
-            background: #1f2937;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideDown 0.3s ease-out;
-            font-size: 0.9rem;
-            border: 1px solid #374151;
-        }
-
-        .toast.success { border-left: 4px solid var(--success-color); }
-        .toast.error { border-left: 4px solid #d90429; }
-        .toast.info { border-left: 4px solid #3498db; }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         /* --- STYLE RIWAYAT / HISTORY DRILL-DOWN --- */
@@ -633,7 +676,7 @@
             height: auto;
             min-height: 500px; 
             background: white;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: ' sans-serif;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
@@ -676,7 +719,7 @@
 
         .card-body-img {
             padding: 20px;
-            position: relative;
+            position: relative; /* Relative untuk positioning timestamp */
         }
 
         .card-photo-container {
@@ -838,7 +881,7 @@
 
                 <!-- Peringatan 2 Hari -->
                 <div class="warning-box">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="flex-shrink: 0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 2.667 1.732 3L7.268 21.992c.77 1.334 2.694 1.334 3.464 0l6.372-3.992c.77-1.333.192-2.667-1.333-3.464 0L11 4H9z"></path></svg>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="flex-shrink: 0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 2.667 1.732 3L7.268 21.992c.77 1.334 2.694 1.334 3.464 0l6.372-3.992c.77-1.333.192-2.667-1.732-3L20.66 7c-.77-1.333-2.694-1.333-3.464 0L11 4H9z"></path></svg>
                     <div>
                         <strong>PERHATIAN KEHADIRAN</strong><br>
                         Jika karyawan tidak bekerja atau tanpa berita selama <strong>2 hari</strong>, maka perusahaan berhak memutuskon kontrak kerja kepada yang bersangkutan.
@@ -864,7 +907,7 @@
 
                     <!-- Info AI -->
                     <div class="ai-badge">
-                        🤖 AI Assistant: Data akan otomatis dikirim saat foto dipilih.
+                        🤖 AI Assistant: Kamera otomatis akan terbuka (Jangan pilih foto dari album).
                     </div>
                     
                     <div class="form-group">
@@ -899,14 +942,9 @@
 
                     <div class="form-group">
                         <label for="karyawan-dokumentasi">Dokumentasi (Foto Kegiatan/Kehadiran)</label>
-                        <!-- 
-                           PERUBAHAN:
-                           1. accept="image/*" (Hanya Foto)
-                           2. Hapus atribut capture (Buka galeri)
-                           3. Tambahkan title untuk akses kamera jika didukung browser, tapi default kembali ke galeri.
-                        -->
-                        <input type="file" id="karyawan-dokumentasi" class="form-control" accept="image/*" capture="user" required>
-                        <small style="color:var(--text-muted); display:block; margin-top:5px; font-size:0.75rem;">*Hanya Foto (JPG/PNG). Klik untuk buka galeri.</small>
+                        <!-- accept="image/*" + capture="environment" -->
+                        <input type="file" id="karyawan-dokumentasi" class="form-control" accept="image/*" capture="environment" required>
+                        <small style="color:var(--text-muted); display:block; margin-top:5px; font-size:0.75rem;">*Klik akan membuka kamera langsung. Galeri dikunci.</small>
                     </div>
                 </div>
             </section>
@@ -966,6 +1004,18 @@
     </div>
     <!-- END CONTAINER UTAMA -->
 
+    <!-- MODAL PREVIEW FOTO (Hidden) -->
+    <div id="preview-modal">
+        <div class="preview-content">
+            <h4>Preview Laporan</h4>
+            <!-- Foto yang diambil langsung muncul di sini -->
+            <img id="preview-img" src="" alt="Preview Foto">
+            <p style="color:#666; font-size:0.9rem;">Periksa apakah foto jelas dan benar.</p>
+            <!-- Tombol ini melakukan 2 hal: Menutup modal DAN menghapus file input agar user tak bisa kirim foto lama -->
+            <button class="btn-preview-send" onclick="confirmAndSend()">Tutup & Kirim</button>
+        </div>
+    </div>
+
     <!-- HIDDEN TEMPLATE GAMBAR -->
     <div id="report-card">
         <div class="card-header-img">
@@ -977,7 +1027,7 @@
             <div class="card-photo-container">
                 <img id="card-image" src="" alt="Dokumentasi">
             </div>
-            <!-- TIMESTAMP OVERLAY (AKAN DITAMBAHIN JS) -->
+            <!-- TIMESTAMP OVERLAY -->
             <div id="card-timestamp" class="report-timestamp"></div>
             
             <div id="card-dynamic-content"></div>
@@ -1034,14 +1084,11 @@
             return `${dateObj.getDate()} ${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
         }
 
+        // Variable sementara file saat tombol "Tutup & Kirim" diklik
+        let pendingFile = null; 
+
         document.addEventListener("DOMContentLoaded", () => {
             // Setup Dropdowns
-            populateDropdowns();
-            setupAutoSendKaryawan(); 
-            startClock();
-        });
-
-        function populateDropdowns() {
             const selectJenis = document.getElementById('karyawan-jenis');
             jenisKaryawanList.forEach(item => {
                 const option = document.createElement('option');
@@ -1057,7 +1104,7 @@
                 option.textContent = item;
                 selectArea.appendChild(option);
             });
-        }
+        });
 
         function toggleSchedule() {
             const body = document.getElementById('schedule-body');
@@ -1102,83 +1149,106 @@
                 document.getElementById('karyawan-shift'),
                 document.getElementById('karyawan-dokumentasi') 
             ];
-            fields.forEach(field => field.addEventListener('change', () => checkAndSendKaryawan(fields)));
+            fields.forEach(field => field.addEventListener('change', () => {
+                // Jangan langsung kirim saat input biasa. User harus lewat preview dulu.
+            }));
         }
 
-        function checkAndSendKaryawan(fields) {
-            const isComplete = fields.every(f => {
-                if (f.type === 'file') {
-                    // Validasi: Pastikan ada file
-                    if (f.files.length === 0) return false;
-                    
-                    // Validasi: Hanya 1 File
-                    if (f.files.length > 1) {
-                        showToast("⚠️ Hanya boleh upload 1 foto saja. Foto sebelumnya telah diganti.", "info");
-                        // Kita lanjut dengan file terakhir, tapi beri tahu user
-                    }
-                    
-                    // Validasi: Pastikan file adalah IMAGE (bukan video/mp4)
-                    const file = f.files[0];
-                    if (!file.type.startsWith('image/')) {
-                        showToast("❌ File harus berupa Foto (JPG/PNG). Video tidak diperbolehkan.", "error");
-                        return false;
-                    }
-                    return true;
-                }
-                return f.value.trim() !== "";
-            });
+        // Fungsi saat file di pilih (Munculkan Preview)
+        document.getElementById('karyawan-dokumentasi').addEventListener('change', function() {
+            if(this.files && this.files[0]) {
+                const file = this.files[0];
+                pendingFile = this.files[0]; // Simpan file di memori sementara
+
+                // Baca file untuk preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview-img').src = e.target.result;
+                    document.getElementById('preview-modal').style.display = 'flex'; // Munculkan modal
+                    document.getElementById('preview-modal').dataset.sourceInput = 'karyawan'; // Tandai sumber modal mana yg dipanggil (penting jika ada multi laporan)
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Fungsi saat tombol "Tutup & Kirim" di modal
+        function confirmAndSend() {
+            // Tutup modal
+            document.getElementById('preview-modal').style.display = 'none';
+
+            // Hapus file input agar tidak bisa memilih ulang foto lama (Anti-Album Block)
+            const fileInput = document.getElementById('karyawan-dokumentasi');
+            fileInput.value = '';
+
+            // Kirim event listener ke fungsi utama
+            const sendBtn = document.querySelector('.btn-preview-send');
+            sendBtn.innerText = "Mengirim...";
+            sendBtn.disabled = true; // Disable tombol sementara proses
+            sendBtn.style.background = "gray"; 
+
+            // Logic pengiriman: Cek jika field sudah lengkap (tanpa file, karena sudah dihapus)
+            // Kita perlu menetapai file yang disimpan (pendingFile) dan me-restore-nya sementara ke input untuk dikirim.
             
-            if (isComplete) {
-                const file = document.getElementById('karyawan-dokumentasi').files[0];
-                const nama = document.getElementById('karyawan-nama').value;
-                const jenis = document.getElementById('karyawan-jenis').value;
-                const area = document.getElementById('karyawan-area').value;
-                const shift = document.getElementById('karyawan-shift').value;
+            if(pendingFile) {
+                // Kembalikan file ke input untuk dikirim
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(pendingFile);
+                fileInput.files = dataTransfer.files;
+                pendingFile = null; // Kosongkan variabel sementara
+                
+                // Panggil logika utama
+                const fields = [
+                    document.getElementById('karyawan-tanggal'),
+                    document.getElementById('karyawan-nama'),
+                    document.getElementById('karyawan-jenis'),
+                    document.getElementById('karyawan-area'),
+                    document.getElementById('karyawan-shift'),
+                    document.getElementById('karyawan-dokumentasi')
+                ];
 
-                // TANGGAL OTOMATIS HARI INI
-                const tanggalObj = new Date();
-                const tanggal = tanggalObj.toISOString().split('T')[0];
-
-                const displayDate = formatDateIndo(tanggal);
-                const monthLabel = tanggalObj.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
-
-                generateAndSendImage('KARYAWAN', {
-                    title: 'LAPORAN KARYAWAN OUTSOURCING', 
-                    imageFile: file,
-                    reportDateStr: displayDate,
-                    data: [
-                        { label: 'Nama', value: nama, isBold: true },
-                        { label: 'Jabatan', value: jenis },
-                        { label: 'Shift', value: shift },
-                        { label: 'Area', value: area }
-                    ],
-                    historyData: {
-                        type: 'KARYAWAN',
-                        category: jenis,          
-                        subCategory: nama,         
-                        location: area,
-                        detail: `Shift: ${shift}`,
-                        date: displayDate,
-                        month: monthLabel
-                    }
+                // Cek validasi form (tanpa foto, karena file akan diisi ulang otomatis)
+                const isComplete = fields.every(f => {
+                    if (f.type === 'file') return f.files.length > 0;
+                    return f.value.trim() !== "";
                 });
 
-                resetEmployeeForm();
+                if (isComplete) {
+                    // Atur tanggal menjadi sekarang otomatis (Waktu pengambil foto)
+                    const tanggalObj = new Date();
+                    const tanggal = tanggalObj.toISOString().split('T')[0];
+                    document.getElementById('karyawan-tanggal').value = tanggal; // Update tanggal input supaya sesuai foto
+                    
+                    // Panggil fungsi kirim
+                    generateAndSendImage('KARYAWAN', {
+                        imageFile: fileInput.files[0],
+                        reportDateStr: formatDateIndo(tanggal),
+                        monthLabel: tanggalObj.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })
+                    });
+                    
+                    // Bersihkan file input setelah selesai
+                    fileInput.value = '';
+                    pendingFile = null;
+                    sendBtn.disabled = false;
+                    sendBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)"; 
+                    sendBtn.style.color = "white";
+                } else {
+                    showToast("❌ Mohon lengkapi formulir terlebih dah.", "error");
+                    sendBtn.disabled = false;
+                    sendBtn.style.background = "var(--primary-gradient)";
+                    sendBtn.style.color = "white";
+                }
+            } else {
+                // Jika form belum lengkap, tombol reset
+                sendBtn.innerText = "Tutup & Kirim";
+                sendBtn.disabled = true;
+                sendBtn.style.background = "gray";
+                sendBtn.style.color = "white";
             }
-        }
-
-        function resetEmployeeForm() {
-            document.getElementById('karyawan-nama').value = "";
-            document.getElementById('karyawan-jenis').value = "";
-            document.getElementById('karyawan-area').value = "";
-            document.getElementById('karyawan-shift').value = "";
-            document.getElementById('karyawan-dokumentasi').value = "";
         }
 
         // --- LOGIKA GENERATE GAMBAR ---
         function generateAndSendImage(type, params) {
-            showToast("⏳ AI Assistant: Sedang memproses laporan...", "info");
-
+            // Cek apakah ada image. Jangan proses jika tidak ada.
             const card = document.getElementById('report-card');
             const cardHeader = document.querySelector('.card-header-img');
             const cardTitle = document.getElementById('card-title');
@@ -1249,7 +1319,7 @@
             const formData = new FormData();
             formData.append('chat_id', TELEGRAM_CHAT_ID);
             formData.append('photo', blob, `laporan-${Date.now()}.png`);
-            formData.append('caption', `🤖 *AI Auto-Sent*\nLaporan tercatat otomatis pada: ${historyData.date}`); 
+            formData.append('caption', `📷 *AI Auto-Sent*\nLaporan tercatat otomatis pada: ${historyData.date}`); 
             formData.append('parse_mode', 'Markdown');
 
             fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
@@ -1266,11 +1336,22 @@
                     });
                 } else {
                     showToast("❌ Gagal: " + result.description, "error");
+                    // Reset tombol kirim jika gagal
+                    const sendBtn = document.querySelector('.btn-preview-send');
+                    sendBtn.disabled = false;
+                    sendBtn.innerText = "Tutup & Kirim";
+                    sendBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+                    document.getElementById('karyawan-dokumentasi').value = ''; // Reset file input
+                    document.getElementById('karyawan-dokumentasi').disabled = false; // Re-enable input
                 }
             })
             .catch(error => {
                 console.error(error);
                 showToast("❌ Error koneksi.", "error");
+                const sendBtn = document.querySelector('.btn-preview-send');
+                sendBtn.disabled = false;
+                sendBtn.innerText = "Tutup & Kirim";
+                sendBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
             });
         }
 
@@ -1330,10 +1411,10 @@
                 if(historyState.level >= 1) {
                     html += ` <span class="breadcrumb-separator">/</span> <span class="breadcrumb-item" onclick="historyBackTo(0); renderHistory();">${historyState.selectedCategory}</span>`;
                 }
-                if(historyState.level >= 2) {
+                if (historyState.level >= 2) {
                     html += ` <span class="breadcrumb-separator">/</span> <span class="breadcrumb-item" onclick="historyBackTo(1); renderHistory();">${historyState.selectedName}</span>`;
                 }
-                if(historyState.level >= 3) {
+                if (historyState.level >= 3) {
                     html += ` <span class="breadcrumb-separator">/</span> <span>${historyState.selectedDate}</span>`;
                 }
                 breadcrumb.innerHTML = html;
@@ -1357,7 +1438,7 @@
                     };
                     el.innerHTML = `
                         <div class="item-left">
-                            <div class="item-icon"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg></div>
+                            <div class="item-icon"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002 2v6a2 2 0 001-2 2z"></path></svg></div>
                             <div class="item-content"><h4>${cat}</h4></div>
                         </div>
                         <div class="item-count">${count} Orang</div>
@@ -1454,7 +1535,6 @@
             }
         }
 
-        // --- FUNGSI DELETE RECORD ---
         function deleteRecord(dateKey) {
             if(confirm("Apakah Anda yakin ingin menghapus laporan ini? Data akan hilang permanen.")) {
                 let history = JSON.parse(localStorage.getItem('rsud_history') || '[]');
@@ -1485,7 +1565,6 @@
             renderHistory();
         }
 
-        // --- FUNGSI CLEAR HISTORY (RESET DATA) ---
         function clearHistory() {
             if(confirm("Apakah Anda yakin ingin mengosongkan semua riwayat? Ini akan menghapus data lama agar sistem siap menunggu data baru.")) {
                 localStorage.removeItem('rsud_history');
